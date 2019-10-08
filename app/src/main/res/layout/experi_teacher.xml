@@ -170,13 +170,6 @@
                     android:src="@drawable/schoolprogram" />
 
                 <ImageView
-                    android:id="@+id/imageView19"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/setting" />
-
-                <ImageView
                     android:id="@+id/gps"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
@@ -192,6 +185,13 @@
                     android:layout_weight="1"
                     app:srcCompat="@drawable/ic_launcher_background"
                     tools:ignore="VectorDrawableCompat" />
+
+                <ImageView
+                    android:id="@+id/setting"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/setting" />
             </TableRow>
 
             <TableRow
@@ -210,19 +210,23 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="원 설정" />
+                    android:text="GPS" />
 
                 <TextView
                     android:id="@+id/textView10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="채팅" />
 
                 <TextView
                     android:id="@+id/textView11"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="원 설정" />
 
             </TableRow>
 
