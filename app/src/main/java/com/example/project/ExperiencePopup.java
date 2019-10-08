@@ -26,7 +26,6 @@ public class ExperiencePopup extends Activity {
         parent_experiBtn=findViewById(R.id.parent_experiBtn);  //체험 부모님 버튼
         teacher_experiBtn=findViewById(R.id.teacher_experiBtn); //체험 선생님 버튼
         director_experiBtn=findViewById(R.id.director_experiBtn); //체험 원장님 버튼
-
         //화면 비율에 따른 팝업창
         Display display=((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay(); //디스플레이 지정
         int width= (int) (display.getWidth() *0.9);   //기기 화면 넓이의 90퍼센트 만큼 width 변수에 값을 입력
@@ -48,13 +47,16 @@ public class ExperiencePopup extends Activity {
         switch (v.getId()){
             case R.id.parent_experiBtn: //학부모 체험하기가 눌려졌을때
 
+                Intent parentintent = new Intent(ExperiencePopup.this, ExperiTeacher.class);
+                startActivity(parentintent);
                 break;
             case R.id.teacher_experiBtn: //교사 체험하기가 눌려졌을때
                 Intent teacherintent = new Intent(ExperiencePopup.this, ExperiTeacher.class);
                 startActivity(teacherintent);
                 break;
             case R.id.director_experiBtn: //원장 체험하기가 눌려졌을때
-
+                Intent directorintent = new Intent(ExperiencePopup.this, ExperiTeacher.class);
+                startActivity(directorintent );
                 break;
         }
     }
