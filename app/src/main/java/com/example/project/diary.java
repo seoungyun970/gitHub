@@ -51,4 +51,10 @@ public class diary extends Activity implements View.OnClickListener {
 
         diarylistlayout.addView(diaryView);
     }
+
+    public void deleteClick(View target){
+        diaryView=(View) target.getParent();
+        diarylistlayout.removeView(diaryView);
+        diaryView=null;
+    }
 }
