@@ -14,10 +14,4 @@
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
     </style>
-
-    <style name="MainTheme">
-        <item name="windowNoTitle">false</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>\
-    </style>
 </resources>
