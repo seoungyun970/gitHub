@@ -20,11 +20,6 @@ public class LoginActivity extends Activity {
                 Intent memintent = new Intent(LoginActivity.this, MembershipPopup.class);
                 startActivity(memintent);
                 break;
-
-            case R.id.experiBtn: //체험하기 버튼
-                Intent experiintent = new Intent(LoginActivity.this, ExperiencePopup.class);
-                startActivity(experiintent);
-                break;
         }
     }
 }

@@ -44,7 +44,7 @@
                 android:id="@+id/doublecheckBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:background="@drawable/button_click_yellow"
+                android:background="@drawable/bt_yellow"
                 android:text="중복검사" />
         </LinearLayout>
 
@@ -171,6 +171,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_click_yellow"
+        android:background="@drawable/bt_yellow"
         android:text="확인" />
 </RelativeLayout>

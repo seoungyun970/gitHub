@@ -240,16 +240,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="회원가입"
-                    android:background="@drawable/button_click_yellow"/>
+                    android:background="@drawable/bt_yellow"
+                    android:text="회원가입" />
 
                 <Button
                     android:id="@+id/button2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="종료하기"
-                    android:background="@drawable/button_click_yellow"/>
+                    android:background="@drawable/bt_yellow"
+                    android:text="종료하기" />
             </TableRow>
         </TableLayout>
 
