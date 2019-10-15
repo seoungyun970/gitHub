@@ -14,4 +14,11 @@
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
     </style>
+
+    <style name="TeacherTheme">
+        <item name="windowNoTitle">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    </style>
+    <!--teacher_main 액션바 생성-->
 </resources>

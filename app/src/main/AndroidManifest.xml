@@ -59,8 +59,8 @@
             android:theme="@style/DialogTheme">
         </activity>
 
-        <activity android:name=".ExperiTeacher"
-            android:theme="@style/AppTheme">
+        <activity android:name=".TeacherMain"
+            android:theme="@style/TeacherTheme">
         </activity>
 
     </application>

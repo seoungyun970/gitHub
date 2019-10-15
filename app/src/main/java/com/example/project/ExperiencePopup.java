@@ -47,16 +47,13 @@ public class ExperiencePopup extends Activity {
         switch (v.getId()){
             case R.id.parent_experiBtn: //학부모 체험하기가 눌려졌을때
 
-                Intent parentintent = new Intent(ExperiencePopup.this, ExperiTeacher.class);
-                startActivity(parentintent);
                 break;
             case R.id.teacher_experiBtn: //교사 체험하기가 눌려졌을때
-                Intent teacherintent = new Intent(ExperiencePopup.this, ExperiTeacher.class);
+                Intent teacherintent = new Intent(ExperiencePopup.this, TeacherMain.class);
                 startActivity(teacherintent);
                 break;
             case R.id.director_experiBtn: //원장 체험하기가 눌려졌을때
-                Intent directorintent = new Intent(ExperiencePopup.this, ExperiTeacher.class);
-                startActivity(directorintent );
+
                 break;
         }
     }
