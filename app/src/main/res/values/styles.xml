@@ -15,7 +15,7 @@
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog"><!--팝업창 테마-->
     </style>
 
-    <style name="TeacherTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="TeacherTheme">
         <item name="windowNoTitle">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

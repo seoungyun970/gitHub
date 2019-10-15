@@ -38,10 +38,6 @@ public class TeacherMain extends Activity {
                 break;
         }
     }
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
