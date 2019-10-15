@@ -113,18 +113,21 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/reg_Parent"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="학부모" />
 
                 <RadioButton
+                    android:id="@+id/reg_Teacher"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="교사" />
 
                 <RadioButton
+                    android:id="@+id/reg_Head"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
