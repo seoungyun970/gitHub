@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
@@ -13,12 +14,14 @@ import androidx.annotation.RequiresApi;
 public class TeacherMain extends Activity {
     ImageView gps;
     ImageView diary;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_main);
         gps=findViewById(R.id.gps);
         diary=findViewById(R.id.diary);
+
     }
 
     public void onClick(View view) {
