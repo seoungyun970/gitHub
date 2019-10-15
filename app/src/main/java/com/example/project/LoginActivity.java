@@ -20,6 +20,13 @@ public class LoginActivity extends Activity {
                 Intent memintent = new Intent(LoginActivity.this, MembershipPopup.class);
                 startActivity(memintent);
                 break;
+
+            case R.id.naverBtn: //네이버 버튼
+
+                break;
+            case R.id.kakaoBtn: //카카오 버튼
+
+                break;
         }
     }
 }

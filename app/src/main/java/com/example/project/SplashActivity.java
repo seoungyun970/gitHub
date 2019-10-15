@@ -13,7 +13,7 @@ public class SplashActivity extends Activity {
             e.printStackTrace(); //에러 메세지의 발생 근원지를 찾아 단계별로 에러 출력
         }
 
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+        startActivity(new Intent(this, LoginActivity.class)); //로그인 액티비티 실행
+        finish(); //스플래쉬 액티비티 종료
     }
 }
