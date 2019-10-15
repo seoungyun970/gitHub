@@ -87,6 +87,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
         android:background="@drawable/rbt_yellow"
+
+        android:paddingLeft="50dp"
+        android:drawableLeft="@drawable/icon_naver"
+        android:drawablePadding="14dp"
+        android:gravity="left|center_vertical"
         android:text="네이버 계정으로 로그인" />
 
     <Button
@@ -97,6 +102,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:background="@drawable/rbt_yellow"
+
+        android:paddingLeft="50dp"
+        android:drawableLeft="@drawable/icon_kakaotalk"
+        android:drawablePadding="14dp"
+        android:gravity="left|center_vertical"
         android:text="카카오 계정으로 로그인" />
 
 </RelativeLayout>
