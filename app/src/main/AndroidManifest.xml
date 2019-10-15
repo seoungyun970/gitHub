@@ -55,9 +55,6 @@
             android:theme="@style/DialogTheme">
         </activity>
 
-        <activity android:name=".ExperiencePopup"
-            android:theme="@style/DialogTheme">
-        </activity>
 
         <activity android:name=".TeacherMain"
             android:theme="@style/TeacherTheme">
