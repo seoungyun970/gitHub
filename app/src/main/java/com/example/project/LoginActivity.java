@@ -21,9 +21,11 @@ public class LoginActivity extends Activity {
                 startActivity(memintent);
                 break;
 
-            case R.id.experiBtn: //체험하기 버튼
-                Intent experiintent = new Intent(LoginActivity.this, ExperiencePopup.class);
-                startActivity(experiintent);
+            case R.id.naverBtn: //네이버 버튼
+
+                break;
+            case R.id.kakaoBtn: //카카오 버튼
+
                 break;
         }
     }
