@@ -1,10 +1,16 @@
 package com.example.project;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
@@ -12,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -23,7 +30,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
 public class MembershipPopup extends Activity implements View.OnClickListener {
+    private static final int  PICK_FROM_CAMERA=0;
+    private static final int  PICK_FROM_ALBUM=1;
+    private static final int  CROP_FROM_CAMERA=2;
+
+    private static Uri mImageCaptureUri;
+    private ImageView profileImgBtn;
+
     FirebaseAuth firebaseAuth;
     DatabaseReference mDatabase;
     EditText register_id;
@@ -34,6 +52,8 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     RadioButton reg_Head;
     Button register_checkBtn;
     ProgressDialog progressDialog;
+
+
     /*
         ArrayAdapter<String> arrayAdapter;
         static ArrayList<String> arrayIndex =  new ArrayList<String>();
@@ -46,6 +66,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         String gender = "";
         String sort = "id";
     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +97,9 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         progressDialog = new ProgressDialog(this);
 
         register_checkBtn.setOnClickListener(this);
+
+        profileImgBtn=findViewById(R.id.profileImgBtn);
+        profileImgBtn.setOnClickListener(this);
     }
 /*
     public void setInsertMode(){
@@ -153,5 +177,109 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
             registerUser();
         }
 
+        if(view.getId()==R.id.profileImgBtn){
+            DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    doTakePhotoAction();
+                }
+            };
+
+            DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    doTakeAlbumAction();
+                }
+            };
+
+            DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            };
+
+            new AlertDialog.Builder(this)
+                    .setTitle("업로드할 이미지 선택")
+                    .setPositiveButton("사진 촬영",cameraListener)
+                    .setNeutralButton("앨범 선택",albumListener)
+                    .setNegativeButton("취소",cancelListener)
+                    .show();
+        }
     }
+    private void doTakePhotoAction(){ //카메라 촬영 후 이미지 가져오기
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        //임시로 사용할 파일의 경로 생성
+        String url="tmp_"+String.valueOf(System.currentTimeMillis())+".jpg";
+        mImageCaptureUri= Uri.fromFile(new File(Environment.getExternalStorageDirectory(),url));
+
+        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,mImageCaptureUri);
+
+        startActivityForResult(intent,PICK_FROM_CAMERA);
+    }
+    private void doTakeAlbumAction(){ //앨범에서 이미지 가져오기
+        //앨범 호출
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent,PICK_FROM_ALBUM);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode != RESULT_OK)
+            return;
+
+        switch (requestCode){
+            case CROP_FROM_CAMERA:
+            {
+                //크롭이 된 이후의 이미지를 넘겨 받음
+                //이미지뷰에 이미지를 보여준다거나 부가적인 작업 이후에
+                //임시 파일을 삭제
+
+                final Bundle extras = data.getExtras();
+
+                if (extras != null){
+                    Bitmap photo = extras.getParcelable("data"); //크롭된 비트맵
+                    profileImgBtn.setImageBitmap(photo); //이미지 뷰에 크롭된 비트맵을 보여줌
+                }
+
+                //임시 파일 삭제
+                File f = new File(mImageCaptureUri.getPath());
+                if(f.exists()){
+                    f.delete();
+                }
+                break;
+            }
+
+            case PICK_FROM_ALBUM:
+            {
+                //이후의 처리가 카메라와 같으므로 일단 break없이 진행
+                mImageCaptureUri=data.getData();
+            }
+
+            case PICK_FROM_CAMERA:
+            {
+                // 이미지를 가져온 이후의 리사이즈할 이미지 크기를 결정
+                // 이후 이미지 크롭 어플리케이션을 호출
+                Intent intent=new Intent("com.android.camera.action.CROP");
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                intent.setDataAndType(mImageCaptureUri,"image/*");
+
+                //CROP할 이미지를 270*250 크기로 저장
+                intent.putExtra("outputX",100); //크롭한 이미지의 x축 크기
+                intent.putExtra("outputY",100); //크롭한 이미지의 y축 크기
+                intent.putExtra("aspectX",1); //크롭 박스의 x축 비율
+                intent.putExtra("aspectY",1); //크롭 박스의 y축 비율
+                intent.putExtra("scale",true);
+                intent.putExtra("return-data",true);
+                startActivityForResult(intent,CROP_FROM_CAMERA); //CROP_FROM_CAMERA case 문 이동
+                break;
+            }
+
+        }
+    }
+
 }
