@@ -148,11 +148,10 @@
                 android:gravity="center"
                 android:text="프로필 사진" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/profileImgBtn"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/imgbtn_profile" />
+                android:layout_height="100dp"/>
         </LinearLayout>
 
     </LinearLayout>
