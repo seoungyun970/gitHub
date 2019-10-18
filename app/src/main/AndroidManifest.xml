@@ -58,6 +58,11 @@
         <activity android:name=".TeacherMain"
             android:theme="@style/TeacherTheme">
         </activity>
-
+        <activity android:name=".TeacherSetting"
+            android:theme="@style/TeacherTheme">
+        </activity>
+        <activity android:name=".TeacherManager"
+            android:theme="@style/TeacherTheme">
+        </activity>
     </application>
 </manifest>
