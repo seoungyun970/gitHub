@@ -10,6 +10,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -64,8 +65,7 @@
         <activity android:name=".TeacherSetting"
             android:theme="@style/TeacherTheme">
         </activity>
-        <activity android:name=".TeacherManager"
-            android:theme="@style/TeacherTheme">
+        <activity android:name=".TeacherManager">
         </activity>
     </application>
 </manifest>

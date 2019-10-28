@@ -36,4 +36,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.support:appcompat-v7:29.0.0'//원형 이미지 위젯 추가
     implementation 'com.android.support:design:29.0.0'
+    implementation 'gun0912.ted:tedpermission:2.2.2' // 권한 라이브러리
 }
