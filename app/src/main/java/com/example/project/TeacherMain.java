@@ -19,12 +19,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 public class TeacherMain extends Activity {
     ImageView gps;
     ImageView diary;
+    ImageView setting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_main);
         gps=findViewById(R.id.gps);
         diary=findViewById(R.id.diary);
+        setting=findViewById(R.id.setting);
     }
 
     public void onClick(View view) {
@@ -35,6 +37,10 @@ public class TeacherMain extends Activity {
                 break;
             case R.id.diary:
 
+                break;
+            case R.id.setting:
+                Intent intentSetting=new Intent(TeacherMain.this,TeacherSetting.class);
+                startActivity(intentSetting);
                 break;
         }
     }

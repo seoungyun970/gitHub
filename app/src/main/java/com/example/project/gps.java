@@ -1,20 +1,27 @@
 package com.example.project;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,22 +29,93 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+
+import java.util.List;
 
 public class gps extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap mMap;
     TextView txtResult=null;
+    double longitude;
+    double latitude;
+    double altitude;
+    String provider;
+    GpsTracker gpsTracker;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        txtResult=(TextView)findViewById(R.id.txtResult);
-        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-
         setContentView(R.layout.gps);
+        txtResult=(TextView)findViewById(R.id.txtResult);
+
+        // 권한 설정.
+        // https://gun0912.tistory.com/61
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(gps.this, "권한 거부\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        };
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage("돌보미 앱 사용을 위해선 다음과 같은 권한이 필요합니다.")
+                .setDeniedMessage("권한을 거부하시면 이용이 불가능합니다. [설정] > [권한] 에서 권한을 허용해주세요.")
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                .check();
+
         // SupportMapFragment을 통해 레이아웃에 만든 fragment의 ID를 참조하고 구글맵을 호출한다.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+//        while (true) {
+//            gpsTracker = new GpsTracker(this);
+//
+//            latitude = gpsTracker.getLatitude();
+//            longitude = gpsTracker.getLongitude();
+//        }
+
+//        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//
+//
+//
+//        // SupportMapFragment을 통해 레이아웃에 만든 fragment의 ID를 참조하고 구글맵을 호출한다.
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+//        if ( Build.VERSION.SDK_INT >= 23 &&
+//                ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+//            ActivityCompat.requestPermissions( gps.this, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
+//                    0 );
+//        }
+//        else{
+//            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//            provider = location.getProvider();
+//            longitude = location.getLongitude();
+//            latitude = location.getLatitude();
+//            altitude = location.getAltitude();
+//            txtResult.setText("위치정보 : " + provider + "\n" +
+//                    "위도 : " + longitude + "\n" +
+//                    "경도 : " + latitude + "\n" +
+//                    "고도  : " + altitude);
+//
+//            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+//                    1000,
+//                    1,
+//                    gpsLocationListener);
+//            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+//                    1000,
+//                    1,
+//                    gpsLocationListener);
+//        }
     }
 
     @Override
@@ -46,28 +124,37 @@ public class gps extends FragmentActivity implements OnMapReadyCallback {
 
         mMap = googleMap;
 
+        gpsTracker = new GpsTracker(this);
+
+        latitude = gpsTracker.getLatitude();
+        longitude = gpsTracker.getLongitude();
+
+        Log.i("위치", "lat:"+latitude+"lng:"+longitude);
+
         // 서울 여의도에 대한 위치 설정
-        LatLng seoul = new LatLng(35.896573, 128.620230);
+        LatLng seoul = new LatLng(latitude, longitude);
         // 구글 맵에 표시할 마커에 대한 옵션 설정
-        MarkerOptions makerOptions = new MarkerOptions();
-        makerOptions
+        MarkerOptions makerOptions = new MarkerOptions()
                 .position(seoul)
-                .title("원하는 위치(위도, 경도)에 마커를 표시했습니다.");
+                .title("test");
+//        makerOptions
+//                .position(seoul)
+//                .title("원하는 위치(위도, 경도)에 마커를 표시했습니다.");
 
         // 마커를 생성한다.
         mMap.addMarker(makerOptions);
 
-        //카메라를 여의도 위치로 옮긴다.
+        //카메라를 현재 위치로 옮긴다.
         mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
     }
     final LocationListener gpsLocationListener=new LocationListener(){
 
         @Override
         public void onLocationChanged(Location location) {
-            String provider = location.getProvider();
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
-            double altitude = location.getAltitude();
+            provider = location.getProvider();
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            altitude = location.getAltitude();
 
             txtResult.setText("위치정보 : " + provider + "\n" +
                     "위도 : " + longitude + "\n" +
