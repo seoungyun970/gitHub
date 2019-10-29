@@ -151,7 +151,9 @@
             <ImageView
                 android:id="@+id/profileImgBtn"
                 android:layout_width="100dp"
-                android:layout_height="100dp"/>
+                android:layout_height="100dp"
+                android:onClick="profilebtn"
+                android:src="@drawable/imgbtn_profile" />
         </LinearLayout>
 
     </LinearLayout>

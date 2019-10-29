@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/face"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:text="선생님 이름"
         android:textSize="30sp"
         android:textStyle="bold" />
