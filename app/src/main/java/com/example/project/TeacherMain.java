@@ -36,7 +36,8 @@ public class TeacherMain extends Activity {
                 startActivity(intent);
                 break;
             case R.id.diary:
-
+                Intent dintent=new Intent(TeacherMain.this,TeacherDiary.class);
+                startActivity(dintent);
                 break;
             case R.id.setting:
                 Intent intentSetting=new Intent(TeacherMain.this,TeacherSetting.class);
