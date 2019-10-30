@@ -36,13 +36,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         loginBtn = (Button)findViewById(R.id.loginBtn);
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
-
         loginBtn.setOnClickListener(this);
-
-
-
-
-
     }
     private void userLogin(){
         String email = login_id.getText().toString().trim();

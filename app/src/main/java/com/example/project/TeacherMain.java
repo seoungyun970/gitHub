@@ -20,6 +20,7 @@ public class TeacherMain extends Activity {
     ImageView gps;
     ImageView diary;
     ImageView setting;
+    ImageView teacherTmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,8 @@ public class TeacherMain extends Activity {
         gps=findViewById(R.id.gps);
         diary=findViewById(R.id.diary);
         setting=findViewById(R.id.setting);
+        teacherTmap=findViewById(R.id.teacherTmap);
+
     }
 
     public void onClick(View view) {
@@ -42,6 +45,10 @@ public class TeacherMain extends Activity {
             case R.id.setting:
                 Intent intentSetting=new Intent(TeacherMain.this,TeacherSetting.class);
                 startActivity(intentSetting);
+                break;
+            case R.id.teacherTmap:
+                Intent intentGps=new Intent(TeacherMain.this,TeacherTmap.class);
+                startActivity(intentGps);
                 break;
         }
     }
