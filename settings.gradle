@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':com.skt.Tmap_1.62'
 rootProject.name='Project'
