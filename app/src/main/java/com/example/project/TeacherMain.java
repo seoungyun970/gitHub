@@ -21,6 +21,7 @@ public class TeacherMain extends Activity {
     ImageView diary;
     ImageView setting;
     ImageView teacherTmap;
+    ImageView eatting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,7 @@ public class TeacherMain extends Activity {
         diary=findViewById(R.id.diary);
         setting=findViewById(R.id.setting);
         teacherTmap=findViewById(R.id.teacherTmap);
-
+        eatting=findViewById(R.id.eatting);
     }
 
     public void onClick(View view) {
@@ -50,6 +51,9 @@ public class TeacherMain extends Activity {
                 Intent intentGps=new Intent(TeacherMain.this,TeacherTmap.class);
                 startActivity(intentGps);
                 break;
+            case R.id.eatting:
+                Intent intentEatting=new Intent(TeacherMain.this,TeacherEatting.class);
+                startActivity(intentEatting);
         }
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

@@ -78,5 +78,8 @@
         <activity android:name=".TeacherTmap">
 
         </activity>
+        <activity android:name=".TeacherEatting">
+
+        </activity>
     </application>
 </manifest>
