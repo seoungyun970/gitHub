@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.Inflater;
 
 public class MembershipPopup extends Activity implements View.OnClickListener {
@@ -59,8 +60,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     Uri imageUri;
     Uri photoURI;
     Uri albumURI;
-
-    String mImageCaptureName; //이미지 이름
 
     private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_PHOTO = 2222;
@@ -316,6 +315,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         //50x50픽셀 미만은 편집할수 없다는 문구 처리 + 갤러리, 포토 둘다 호환하는 방법
         cropIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         cropIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
         cropIntent.setDataAndType(photoURI, "image/*");
 
         cropIntent.putExtra("outputX", 200);
@@ -325,8 +325,11 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
 
         cropIntent.putExtra("scale", true);
         cropIntent.putExtra("output", albumURI);//크랍된 이미지를 해당경로에 저장
+
         startActivityForResult(cropIntent, REQUEST_IMAGE_CROP);
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) { //선택한 사진 데이터 처리
@@ -413,6 +416,8 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                         Toast.makeText(MembershipPopup.this,"해당 권한을 활성화 하셔야 합니다.",Toast.LENGTH_SHORT).show();
                     }
                 }
+
+
                 break;
         }
     }
