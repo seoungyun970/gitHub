@@ -21,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     FirebaseAuth firebaseAuth;
-    DatabaseReference mDatabase;
     EditText login_id;
     EditText login_pw;
     Button loginBtn;
