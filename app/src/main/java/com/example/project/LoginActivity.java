@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,7 +29,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         login_id = (EditText)findViewById(R.id.login_id);
         login_pw = (EditText)findViewById(R.id.login_pw);
         loginBtn = (Button)findViewById(R.id.loginBtn);
@@ -38,12 +36,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         firebaseAuth = FirebaseAuth.getInstance();
 
         loginBtn.setOnClickListener(this);
-
-
-
-
-
     }
+
     private void userLogin(){
         String email = login_id.getText().toString().trim();
         String password = login_pw.getText().toString().trim();
@@ -103,6 +97,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             case R.id.kakaoBtn: //카카오 버튼
 
                 break;
+
         }
     }
 
