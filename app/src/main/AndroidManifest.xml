@@ -83,6 +83,9 @@
         <activity android:name=".TeacherTmap">
         </activity>
 
+        <activity android:name=".TeacherDiary">
+
+        </activity>
     </application>
 
 </manifest>
