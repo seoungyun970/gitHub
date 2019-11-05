@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Dolbomi</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_teacher_diary">TeacherDiary</string>
 </resources>
