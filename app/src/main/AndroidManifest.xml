@@ -81,5 +81,8 @@
         <activity android:name=".TeacherEatting">
 
         </activity>
+        <activity android:name=".TeacherEattingItem">
+
+        </activity>
     </application>
 </manifest>

@@ -1,10 +1,8 @@
 package com.example.project;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Location;
@@ -25,35 +23,38 @@ import androidx.core.app.ActivityCompat;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.skt.Tmap.TMapData;
-import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class TeacherTmap extends AppCompatActivity {
     TMapView tMapView;
     double latitude;
     double longitude;
     TextView time;
-
+    private static final String TAG = "MainActivity";
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_tmap);
         LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
-        time = findViewById(R.id.time);
+
         tMapView = new TMapView(this);
         tMapView.setSKTMapApiKey("3f208364-4dd5-40b5-8267-c2fe51d464c4");
         linearLayoutTmap.addView(tMapView);
         tMapView.setIconVisibility(true);   //현재위치로 표시될 아이콘을 표시할지 여부를 설정합니다
         setGps();
         tMapView.setZoom(17);
-
+        float []distance=new float[2];
+        float actual_distance;
+        Location.distanceBetween(latitude,longitude,35.857742,128.620717,distance);
+        actual_distance=distance[0];
+        System.out.println(distance);
+        Log.d(TAG, String.valueOf(distance));
 
         tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
@@ -114,6 +115,7 @@ public class TeacherTmap extends AppCompatActivity {
                         return null;
                     }
                 };
+
                 TMapPolyLine tMapPolyLine = new TMapData().findPathData(tMapPointStart, tMapPointEnd);
                 tMapPolyLine.setLineColor(Color.BLUE);
                 tMapPolyLine.setLineWidth(2);
@@ -125,6 +127,8 @@ public class TeacherTmap extends AppCompatActivity {
                     @Override
                     public void onFindPathData(TMapPolyLine tMapPolyLine) {
                         Log.d("test", "거리 :" + tMapPolyLine.getDistance());
+                        ((TextView)findViewById(R.id.tmaptextv)).setText("ㄱㅓㄹㅣ : "+tMapPolyLine.getDistance());
+
 
                     }
                 });
