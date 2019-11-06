@@ -33,6 +33,12 @@ public class TeacherDiary extends AppCompatActivity {
 
         mDiaryList=new ArrayList<>();
         mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
         //여기에 디비에서 불러오는거 작성해야댐 ㅇㅅㅇ!
 
         mLayouyManager = new LinearLayoutManager(this);
