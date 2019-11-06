@@ -15,6 +15,7 @@ public class TeacherMain extends Activity {
     ImageView diary;
     ImageView setting;
     ImageView teacherTmap;
+    ImageView teacherEatting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +24,7 @@ public class TeacherMain extends Activity {
         diary=findViewById(R.id.diary);
         setting=findViewById(R.id.setting);
         teacherTmap=findViewById(R.id.teacherTmap);
+        teacherEatting=findViewById(R.id.eatting);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -47,6 +49,10 @@ public class TeacherMain extends Activity {
             case R.id.teacherTmap:
                 Intent intentGps=new Intent(TeacherMain.this,TeacherTmap.class);
                 startActivity(intentGps);
+                break;
+            case R.id.eatting:
+                Intent intentEatting=new Intent(TeacherMain.this,TeacherEatting.class);
+                startActivity(intentEatting);
                 break;
         }
     }
