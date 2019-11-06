@@ -37,16 +37,11 @@ public class TeacherEattingItem extends AppCompatActivity implements TimePicker.
                 // TODO Auto-generated method stub
 
                 try {
-
+                    Locale locale=new Locale("ko","KR");
                     Date d = new SimpleDateFormat
-                            ("yyyy-MM-dd", Locale.getDefault()).parse(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+                            ("yyyy-MM-dd", locale.getDefault()).parse(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                     TextView nowDate=findViewById(R.id.nowDate);
                     nowDate.setText(String.valueOf(year)+"년 "+String.valueOf(monthOfYear)+"월 "+String.valueOf((dayOfMonth))+"일");
-
-
-
-
-
                 } catch (Exception e) {
 
                     // TODO: handle exception
@@ -66,9 +61,6 @@ public class TeacherEattingItem extends AppCompatActivity implements TimePicker.
         datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         datePickerDialog.show();
-
-
-
     }
 
 

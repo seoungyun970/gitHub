@@ -33,11 +33,11 @@ public class TeacherDiary extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.write_fab);
 
         mDiaryList=new ArrayList<>();
-        mDiaryList.add(new Diary("반갑습니다 여러분","안녕하세요","android"));
-        mDiaryList.add(new Diary("Hello","Hi","server"));
-        mDiaryList.add(new Diary("OK","Yes sir","java"));
-        mDiaryList.add(new Diary("안녕하세요","하이룽","php"));
-        mDiaryList.add(new Diary("ㅎㅅㅎ","ㅇㅅㅇ!!","css"));
+//        mDiaryList.add(new Diary("반갑습니다 여러분","안녕하세요","android"));
+//        mDiaryList.add(new Diary("Hello","Hi","server"));
+//        mDiaryList.add(new Diary("OK","Yes sir","java"));
+//        mDiaryList.add(new Diary("안녕하세요","하이룽","php"));
+//        mDiaryList.add(new Diary("ㅎㅅㅎ","ㅇㅅㅇ!!","css"));
 
         mLayouyManager = new LinearLayoutManager(this);
         mDiaryRecycleView.setLayoutManager(mLayouyManager);

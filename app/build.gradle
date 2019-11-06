@@ -42,4 +42,5 @@ dependencies {
     // 권한 라이브러리
     //
     implementation files('D:/DoItAndroid-master/1002/yun (2)/gitHub/.idea/libraries/com.skt.Tmap_1.62.jar')
+    implementation 'com.jakewharton:butterknife:8.6.0'
 }
