@@ -13,6 +13,7 @@
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog"><!--팝업창 테마-->
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="TeacherTheme">

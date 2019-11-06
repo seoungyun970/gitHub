@@ -88,7 +88,7 @@
         </activity>
 
         <activity android:name=".DiaryWriteActivity"
-            android:label="@string/write_teacjer_diary"/>
+            android:theme="@style/DialogTheme"/>
     </application>
 
 </manifest>

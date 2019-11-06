@@ -2,5 +2,4 @@
     <string name="app_name">Dolbomi</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_teacher_diary">알림장</string>
-    <string name="write_teacjer_diary">알림장 쓰기</string>
 </resources>
