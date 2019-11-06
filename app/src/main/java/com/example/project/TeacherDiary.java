@@ -1,7 +1,9 @@
 package com.example.project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.FirebaseDatabase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,11 +33,11 @@ public class TeacherDiary extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.write_fab);
 
         mDiaryList=new ArrayList<>();
-        mDiaryList.add(new Diary(null,"반갑습니다 여러분",null,"android"));
-        mDiaryList.add(new Diary(null,"Hello",null,"server"));
-        mDiaryList.add(new Diary(null,"OK",null,"java"));
-        mDiaryList.add(new Diary(null,"안녕하세요",null,"php"));
-        mDiaryList.add(new Diary(null,"ㅎㅅㅎ",null,"css"));
+        mDiaryList.add(new Diary("반갑습니다 여러분","안녕하세요","android"));
+        mDiaryList.add(new Diary("Hello","Hi","server"));
+        mDiaryList.add(new Diary("OK","Yes sir","java"));
+        mDiaryList.add(new Diary("안녕하세요","하이룽","php"));
+        mDiaryList.add(new Diary("ㅎㅅㅎ","ㅇㅅㅇ!!","css"));
 
         mLayouyManager = new LinearLayoutManager(this);
         mDiaryRecycleView.setLayoutManager(mLayouyManager);
@@ -46,7 +48,8 @@ public class TeacherDiary extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(TeacherDiary.this, DiaryWriteActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -59,7 +62,6 @@ public class TeacherDiary extends AppCompatActivity {
         public DiaryAdapter(List<Diary> mDiaryList) {
             this.mDiaryList = mDiaryList;
         }
-
         @Override
         public DiaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new DiaryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_diary,parent,false));

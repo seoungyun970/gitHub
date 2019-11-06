@@ -23,10 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".TeacherDiary"
-            android:label="@string/title_activity_teacher_diary"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -83,6 +80,15 @@
             android:theme="@style/TeacherTheme"></activity>
         <activity android:name=".TeacherManager"></activity>
         <activity android:name=".TeacherTmap"></activity>
+
+        <activity
+            android:name=".TeacherDiary"
+            android:label="@string/title_activity_teacher_diary">
+
+        </activity>
+
+        <activity android:name=".DiaryWriteActivity"
+            android:label="@string/write_teacjer_diary"/>
     </application>
 
 </manifest>
