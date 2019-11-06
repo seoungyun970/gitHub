@@ -27,17 +27,19 @@ public class TeacherDiary extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_diary);
-
         mDiaryRecycleView=findViewById(R.id.recycler_diary);
 
         FloatingActionButton fab = findViewById(R.id.write_fab);
 
         mDiaryList=new ArrayList<>();
-//        mDiaryList.add(new Diary("반갑습니다 여러분","안녕하세요","android"));
-//        mDiaryList.add(new Diary("Hello","Hi","server"));
-//        mDiaryList.add(new Diary("OK","Yes sir","java"));
-//        mDiaryList.add(new Diary("안녕하세요","하이룽","php"));
-//        mDiaryList.add(new Diary("ㅎㅅㅎ","ㅇㅅㅇ!!","css"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
+        //여기에 디비에서 불러오는거 작성해야댐 ㅇㅅㅇ!
 
         mLayouyManager = new LinearLayoutManager(this);
         mDiaryRecycleView.setLayoutManager(mLayouyManager);
@@ -71,6 +73,7 @@ public class TeacherDiary extends AppCompatActivity {
         public void onBindViewHolder(DiaryViewHolder holder, int position) {
             Diary data = mDiaryList.get(position);
             holder.mTitleTextView.setText(data.getTitle());
+            holder.mContentsView.setText(data.getContent());
             holder.mNameTextView.setText(data.getName());
         }
 
@@ -81,11 +84,12 @@ public class TeacherDiary extends AppCompatActivity {
 
         class DiaryViewHolder extends RecyclerView.ViewHolder{
             private TextView mTitleTextView;
+            private TextView mContentsView;
             private TextView mNameTextView;
 
             public DiaryViewHolder(View itemView) {
                 super(itemView);
-
+                mContentsView=itemView.findViewById(R.id.item_contents_text);
                 mTitleTextView=itemView.findViewById(R.id.item_title_text);
                 mNameTextView =itemView.findViewById(R.id.item_name_text);
             }

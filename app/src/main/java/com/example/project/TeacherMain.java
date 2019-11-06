@@ -1,27 +1,20 @@
 package com.example.project;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 public class TeacherMain extends Activity {
     ImageView gps;
     ImageView diary;
     ImageView setting;
     ImageView teacherTmap;
-    ImageView eatting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +23,11 @@ public class TeacherMain extends Activity {
         diary=findViewById(R.id.diary);
         setting=findViewById(R.id.setting);
         teacherTmap=findViewById(R.id.teacherTmap);
-        eatting=findViewById(R.id.eatting);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+            getActionBar().setBackgroundDrawable(getDrawable(R.color.colorPrimary));
+        }
     }
 
     public void onClick(View view) {
@@ -51,9 +48,6 @@ public class TeacherMain extends Activity {
                 Intent intentGps=new Intent(TeacherMain.this,TeacherTmap.class);
                 startActivity(intentGps);
                 break;
-            case R.id.eatting:
-                Intent intentEatting=new Intent(TeacherMain.this,TeacherEatting.class);
-                startActivity(intentEatting);
         }
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -70,4 +64,6 @@ public class TeacherMain extends Activity {
     private void applyColors() {
         getWindow().setStatusBarColor(Color.parseColor("#efc675"));
     }
+
+
 }
