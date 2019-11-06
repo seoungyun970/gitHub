@@ -7,12 +7,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class DiaryWriteActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mWriteTitleText;
     private EditText mWriteContentsText;
     private EditText mWriteNameText;
+    private String uid;
     private Diary mDiary;
 
     @Override
@@ -24,6 +27,8 @@ public class DiaryWriteActivity extends AppCompatActivity implements View.OnClic
         mWriteContentsText=findViewById(R.id.write_contents_text);
         mWriteNameText=findViewById(R.id.write_name_text);
         findViewById(R.id.write_upload_btn).setOnClickListener(this);
+
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
 
@@ -50,6 +55,7 @@ public class DiaryWriteActivity extends AppCompatActivity implements View.OnClic
         }
 
         mDiary= new Diary(
+                uid,
                 mWriteTitleText.getText().toString(),
                 mWriteContentsText.getText().toString(),
                 mWriteNameText.getText().toString());
