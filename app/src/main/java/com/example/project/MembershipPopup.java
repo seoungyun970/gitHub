@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
@@ -116,7 +118,9 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
                                 final String uid = task.getResult().getUser().getUid();
+                                UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(register_name.getText().toString()).build();
 
+                                task.getResult().getUser().updateProfile(userProfileChangeRequest);
                                 FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -127,7 +131,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                             user.username = register_name.getText().toString();
                                             user.profileImageUrl = imageUrl.getResult().toString();
                                             user.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                            FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     MembershipPopup.this.finish();
@@ -139,69 +143,11 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                 });
                             }
                         });
-
             }
-
         });
-
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == register_checkBtn) {
-            //TODO
-            //registerUser();
-        }
     }
 
 
-    //사용자등록
-   /*private void registerUser(){
-        //사용자가 입력하는 email, password를 가져온다.
-        final String email = register_id.getText().toString().trim();
-        String password = register_pw.getText().toString().trim();
-        //email과 password가 비었는지 아닌지를 체크 한다.
-        if(TextUtils.isEmpty(email)){
-            Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-        }
-
-        //email과 password가 제대로 입력되어 있다면 계속 진행된다.
-        progressDialog.setMessage("등록중입니다. 기다려 주세요...");
-        progressDialog.show();
-
-        //creating a new user
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-
-                        if(task.isSuccessful()){
-                            String email = register_id.getText().toString().trim();
-                            String pwd = register_pw.getText().toString().trim();
-                            String name = register_name.getText().toString().trim();
-
-                            mDatabase = FirebaseDatabase.getInstance().getReference("Users");
-                            User user = new User(email, name, pwd);
-                            mDatabase.child(name).setValue(user);
-
-                            Toast.makeText(MembershipPopup.this, "가입성공", Toast.LENGTH_SHORT).show();
-                            finish();
-
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                        } else {
-                            //에러발생시
-                            Toast.makeText(MembershipPopup.this, "가입실패", Toast.LENGTH_SHORT).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
-    }*/
 
 
    public void profilebtn(View view) { //프로필 선택사진 눌렸을때  앨범선택 사진촬영 알림창 표시
@@ -254,10 +200,11 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         startActivityForResult(aintent, PICK_FROM_ALBUM);
     }
 
-    /*@Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        profileImgBtn.setImageURI(data.getData());
+        imageUri = data.getData();
         if (requestCode != RESULT_OK)
             return;
 
@@ -315,7 +262,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
             }
         }
 
-    }*/
+    }
 
 
     // 비트맵을 저장하는 부분
@@ -344,13 +291,19 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     }
 
     @Override
+    public void onClick(View view) {
+
+    }
+
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == PICK_FROM_ALBUM && resultCode == RESULT_OK)
         {
             profileImgBtn.setImageURI(data.getData());
             imageUri = data.getData();
         }
-    }
+   */}
 
 
-}
+
+

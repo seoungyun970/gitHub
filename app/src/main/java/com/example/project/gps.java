@@ -1,35 +1,21 @@
 package com.example.project;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -49,7 +35,6 @@ public class gps extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps);
         txtResult=(TextView)findViewById(R.id.txtResult);
-
         // 권한 설정.
         // https://gun0912.tistory.com/61
         PermissionListener permissionlistener = new PermissionListener() {
@@ -79,10 +64,10 @@ public class gps extends FragmentActivity implements OnMapReadyCallback {
 
 //        while (true) {
 //            gpsTracker = new GpsTracker(this);
-//
 //            latitude = gpsTracker.getLatitude();
 //            longitude = gpsTracker.getLongitude();
 //        }
+        //실시간으로 위치 보이게 한다.
 
 //        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //
@@ -131,21 +116,27 @@ public class gps extends FragmentActivity implements OnMapReadyCallback {
 
         Log.i("위치", "lat:"+latitude+"lng:"+longitude);
 
-        // 서울 여의도에 대한 위치 설정
-        LatLng seoul = new LatLng(latitude, longitude);
+        // 현재 위치에 대한 위치 설정
+        LatLng myPosition = new LatLng(latitude, longitude);
         // 구글 맵에 표시할 마커에 대한 옵션 설정
         MarkerOptions makerOptions = new MarkerOptions()
-                .position(seoul)
-                .title("test");
+                .position(myPosition)
+                .title("차량위치");
 //        makerOptions
 //                .position(seoul)
 //                .title("원하는 위치(위도, 경도)에 마커를 표시했습니다.");
 
+        // 구글지도(지구) 에서의 zoom 레벨은 1~23 까지 가능합니다.
+        // 여러가지 zoom 레벨은 직접 테스트해보세요
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(17);
+        mMap.animateCamera(zoom);   // moveCamera 는 바로 변경하지만,
+        // animateCamera() 는 근거리에선 부드럽게 변경합니다
         // 마커를 생성한다.
         mMap.addMarker(makerOptions);
 
-        //카메라를 현재 위치로 옮긴다.
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
+        //카메라를 현재 위치로 옮긴다.,지도의 배율 표시
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition,17));
+
     }
     final LocationListener gpsLocationListener=new LocationListener(){
 

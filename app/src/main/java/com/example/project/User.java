@@ -5,4 +5,5 @@ public class User {
     public String profileImageUrl;
     public String username;
     public String uid;
+    public String pushToken;
 }

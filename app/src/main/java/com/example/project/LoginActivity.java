@@ -16,11 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     FirebaseAuth firebaseAuth;
-    DatabaseReference mDatabase;
     EditText login_id;
     EditText login_pw;
     Button loginBtn;
@@ -34,7 +32,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         loginBtn = (Button)findViewById(R.id.loginBtn);
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
-
         loginBtn.setOnClickListener(this);
     }
 

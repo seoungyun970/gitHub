@@ -7,12 +7,12 @@
 
     <FrameLayout
         android:id="@+id/teacherchat_framelayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/teacherchat_bottomnavigationview"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/teacherchat_bottomnavigationview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"></FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
