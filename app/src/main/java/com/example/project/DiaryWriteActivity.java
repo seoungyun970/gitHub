@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,5 +32,6 @@ public class DiaryWriteActivity extends AppCompatActivity {
         post.put("contents",mWriteContentsText.getText().toString());
         post.put("name",mWriteNameText.getText().toString());
 
+       // FirebaseDatabase.getInstance().getReference().child("Diary").setValue(Diary);
     }
 }
