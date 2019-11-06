@@ -72,6 +72,7 @@
             android:name=".MembershipPopup"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/DialogTheme"></activity>
+
         <activity
             android:name=".TeacherMain"
             android:theme="@style/TeacherTheme"></activity>

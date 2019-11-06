@@ -1,20 +1,14 @@
 package com.example.project;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 public class TeacherMain extends Activity {
     ImageView gps;
@@ -30,6 +24,10 @@ public class TeacherMain extends Activity {
         setting=findViewById(R.id.setting);
         teacherTmap=findViewById(R.id.teacherTmap);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+            getActionBar().setBackgroundDrawable(getDrawable(R.color.colorPrimary));
+        }
     }
 
     public void onClick(View view) {
@@ -66,4 +64,6 @@ public class TeacherMain extends Activity {
     private void applyColors() {
         getWindow().setStatusBarColor(Color.parseColor("#efc675"));
     }
+
+
 }
