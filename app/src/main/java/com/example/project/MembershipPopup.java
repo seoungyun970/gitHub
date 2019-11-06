@@ -318,8 +318,8 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
 
         cropIntent.setDataAndType(photoURI, "image/*");
 
-        cropIntent.putExtra("outputX", 200);
-        cropIntent.putExtra("outputY", 200);
+        cropIntent.putExtra("outputX", 300);
+        cropIntent.putExtra("outputY", 300);
         cropIntent.putExtra("aspectX", 1);
         cropIntent.putExtra("aspectY", 1);
 

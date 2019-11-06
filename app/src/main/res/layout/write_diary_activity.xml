@@ -4,26 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/write_title_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="제목"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"/>
+        android:orientation="vertical"
+        android:layout_margin="15dp">
 
-    <EditText
-        android:id="@+id/write_contents_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="내용"
-        android:background="@null"
-        android:textSize="18sp"/>
+        <EditText
+            android:id="@+id/write_title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목"
+            android:textSize="24sp"
+            android:textColor="@android:color/black"/>
 
-    <EditText
-        android:id="@+id/write_name_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:hint="이름"/>
+        <EditText
+            android:id="@+id/write_contents_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="내용"
+            android:background="@null"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/write_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:hint="이름"/>
+
+        <Button
+            android:id="@+id/write_upload_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="업로드"/>
+
+    </LinearLayout>
 </LinearLayout>
