@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#ECECEC">
+    android:layout_height="match_parent"
+    tools:context=".TeacherEatting">
+
+
+    <TextView
+        android:id="@+id/mTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="식단표를 작성해 주세요"
+        android:textSize="30sp" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/write_fab"
+        android:id="@+id/floatingActionButton"
+        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="@color/yellowDark"
+        android:clickable="true"
         app:srcCompat="@drawable/ic_edit"
         tools:ignore="VectorDrawableCompat" />
 
@@ -21,6 +33,5 @@
         android:id="@+id/recycler_diary"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</RelativeLayout>
 
-    
+</RelativeLayout>

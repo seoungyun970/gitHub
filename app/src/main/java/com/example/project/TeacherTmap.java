@@ -1,10 +1,8 @@
 package com.example.project;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Location;
@@ -13,7 +11,9 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,7 +23,6 @@ import androidx.core.app.ActivityCompat;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.skt.Tmap.TMapData;
-import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
@@ -35,19 +34,27 @@ public class TeacherTmap extends AppCompatActivity {
     TMapView tMapView;
     double latitude;
     double longitude;
+    TextView time;
+    private static final String TAG = "MainActivity";
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_tmap);
         LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
+
         tMapView = new TMapView(this);
         tMapView.setSKTMapApiKey("3f208364-4dd5-40b5-8267-c2fe51d464c4");
         linearLayoutTmap.addView(tMapView);
         tMapView.setIconVisibility(true);   //현재위치로 표시될 아이콘을 표시할지 여부를 설정합니다
         setGps();
-
-
+        tMapView.setZoom(17);
+        float []distance=new float[2];
+        float actual_distance;
+        Location.distanceBetween(latitude,longitude,35.857742,128.620717,distance);
+        actual_distance=distance[0];
+        System.out.println(distance);
+        Log.d(TAG, String.valueOf(distance));
 
         tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
@@ -81,8 +88,6 @@ public class TeacherTmap extends AppCompatActivity {
                 .setDeniedMessage("권한을 거부하시면 이용이 불가능합니다. [설정] > [권한] 에서 권한을 허용해주세요.")
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
                 .check();
-
-
     }
 
 
@@ -95,12 +100,14 @@ public class TeacherTmap extends AppCompatActivity {
                 tMapView.setLocationPoint(longitude, latitude);
                 tMapView.setCenterPoint(longitude, latitude);
 
+
             }
             TMapPoint tMapPointStart = new TMapPoint(latitude, longitude); // 현재위치(출발지)
             TMapPoint tMapPointEnd = new TMapPoint(35.857742, 128.620717); // 유치원
 
+
             try {
-                AsyncTask<String, Void, TeacherTmap> asyncTask = new AsyncTask<String, Void, TeacherTmap>(){
+                AsyncTask<String, Void, TeacherTmap> asyncTask = new AsyncTask<String, Void, TeacherTmap>() {
 
                     @Override
                     protected TeacherTmap doInBackground(String... url) {
@@ -108,34 +115,50 @@ public class TeacherTmap extends AppCompatActivity {
                         return null;
                     }
                 };
+
                 TMapPolyLine tMapPolyLine = new TMapData().findPathData(tMapPointStart, tMapPointEnd);
                 tMapPolyLine.setLineColor(Color.BLUE);
                 tMapPolyLine.setLineWidth(2);
                 tMapView.addTMapPolyLine("Line1", tMapPolyLine);
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
+                TMapData tMapData = new TMapData();
+                tMapData.findPathData(tMapPointStart, tMapPointEnd, new TMapData.FindPathDataListenerCallback() {
+                    @Override
+                    public void onFindPathData(TMapPolyLine tMapPolyLine) {
+                        Log.d("test", "거리 :" + tMapPolyLine.getDistance());
+                        ((TextView)findViewById(R.id.tmaptextv)).setText("ㄱㅓㄹㅣ : "+tMapPolyLine.getDistance());
+
+
+                    }
+                });
+
                 StrictMode.setThreadPolicy(policy);
 
                 //메인쓰레드 처리작업 비동기화 방식으로 변경
 
-            }catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
+
         @Override
         public void onStatusChanged(String s, int i, Bundle bundle) {
 
         }
+
         @Override
         public void onProviderEnabled(String s) {
 
         }
+
         @Override
         public void onProviderDisabled(String s) {
 
         }
     };
+
 
     public void setGps() {
         final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);

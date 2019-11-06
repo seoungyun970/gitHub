@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.project">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -14,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera2" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".TeacherDiary"
+            android:label="@string/title_activity_teacher_diary"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".chat.MessageActivity"></activity>
         <activity android:name=".TeacherChat" />
 
@@ -52,25 +55,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.project"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
         <activity android:name=".gps" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".MembershipPopup"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"></activity>
         <activity
             android:name=".TeacherMain"
-            android:theme="@style/TeacherTheme" />
+            android:theme="@style/TeacherTheme"></activity>
         <activity
             android:name=".TeacherSetting"
-            android:theme="@style/TeacherTheme" />
-        <activity android:name=".TeacherManager" />
-        <activity android:name=".TeacherDiary" />
+            android:theme="@style/TeacherTheme"></activity>
+        <activity android:name=".TeacherManager"></activity>
+        <activity android:name=".TeacherTmap"></activity>
+        <activity android:name=".TeacherEatting"></activity>
+        <activity android:name=".TeacherEattingItem"></activity>
+        <activity android:name=".DiaryWriteActivity"
+            android:theme="@style/DialogTheme"/>
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

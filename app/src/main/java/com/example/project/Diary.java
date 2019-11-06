@@ -6,8 +6,8 @@ public class Diary {
     private String content;
     private String name;
 
-    public Diary(String id, String title, String content, String name) {
-        this.id = id;
+    public Diary(String id,String title, String content, String name) {
+        this.id=id;
         this.title = title;
         this.content = content;
         this.name = name;
@@ -48,7 +48,7 @@ public class Diary {
     @Override
     public String toString() {
         return "Diary{" +
-                "id='" + id + '\'' +
+                "id="+id+'\''+
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", name='" + name + '\'' +
