@@ -75,16 +75,16 @@
 
         <activity
             android:name=".TeacherMain"
-            android:theme="@style/TeacherTheme"></activity>
+            android:theme="@style/TeacherTheme"  android:label="title_main" ></activity>
         <activity
             android:name=".TeacherSetting"
             android:theme="@style/TeacherTheme"></activity>
         <activity android:name=".TeacherManager"></activity>
-        <activity android:name=".TeacherTmap"></activity>
+        <activity android:name=".TeacherTmap"  android:label="@string/title_gps"></activity>
 
         <activity
             android:name=".TeacherDiary"
-            android:label="@string/title_activity_teacher_diary">
+            android:label="@string/title_diary">
 
         </activity>
 
@@ -92,6 +92,7 @@
         <activity android:name=".TeacherEattingItem"></activity>
         <activity android:name=".DiaryWriteActivity"
             android:theme="@style/DialogTheme"/>
+        <activity android:name=".TeacherNotice"  android:label="@string/title_notice"></activity>
     </application>
 
 </manifest>
