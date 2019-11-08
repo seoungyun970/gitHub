@@ -75,7 +75,7 @@
 
         <activity
             android:name=".TeacherMain"
-            android:theme="@style/TeacherTheme"  android:label="title_main" ></activity>
+            android:theme="@style/TeacherTheme"  android:label="@string/title_main" ></activity>
         <activity
             android:name=".TeacherSetting"
             android:theme="@style/TeacherTheme"></activity>

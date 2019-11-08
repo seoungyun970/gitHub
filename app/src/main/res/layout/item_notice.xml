@@ -20,12 +20,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/notice_menu"
+            android:id="@+id/notice_menu_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:gravity="center"
-            android:text="원 공지" />
+            android:text="공지" />
 
         <TextView
             android:id="@+id/notice_title_text"

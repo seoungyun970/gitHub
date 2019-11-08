@@ -22,7 +22,7 @@ public class TeacherNotice extends AppCompatActivity {
     private NoticeAdapter mNoticeAdapter;
     private List<Notice> mNoticeList;
 
-    LinearLayoutManager mLayouyManager;
+    LinearLayoutManager nLayouyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +34,13 @@ public class TeacherNotice extends AppCompatActivity {
 
         mNoticeList=new ArrayList<>();
 
-        mNoticeList.add(new Notice("원 관리",
+        mNoticeList.add(new Notice("원관리",
                 "특별환동 미술수업 시간 변경 안내",
                 "미술 선생님의 교육 일정으로 매주 금요일마다 진행되었던 특별활동 수업이 7월부터 매주 수요일로 변경되었습니다",
                 "2019-11-07"));
 
-        mLayouyManager = new LinearLayoutManager(this);
-        mNoticeRecycleView.setLayoutManager(mLayouyManager);
+        nLayouyManager = new LinearLayoutManager(this);
+        mNoticeRecycleView.setLayoutManager(nLayouyManager);
         mNoticeAdapter=new NoticeAdapter(mNoticeList);
         mNoticeRecycleView.setAdapter(mNoticeAdapter);
 
@@ -68,9 +68,10 @@ public class TeacherNotice extends AppCompatActivity {
         @Override
         public void onBindViewHolder(NoticeViewHolder holder, int position) {
             Notice data = mNoticeList.get(position);
+
             holder.mMenuTextView.setText(data.getNoticemenu());
             holder.mTitleTextView.setText(data.getTitle());
-            holder.mContentsView.setText(data.getContents());
+            holder.mContentsTextView.setText(data.getContents());
             holder.mDateTextView.setText(data.getDate());
         }
 
@@ -82,15 +83,15 @@ public class TeacherNotice extends AppCompatActivity {
         class NoticeViewHolder extends RecyclerView.ViewHolder{
             private TextView mMenuTextView;
             private TextView mTitleTextView;
-            private TextView mContentsView;
+            private TextView mContentsTextView;
             private TextView mDateTextView;
 
-            public NoticeViewHolder(View itemView) {
-                super(itemView);
-                mMenuTextView=findViewById(R.id.notice_menu);
-                mTitleTextView=findViewById(R.id.notice_title_text);
-                mContentsView=findViewById(R.id.notice_contents_text);
-                mDateTextView=findViewById(R.id.notice_date_text);
+            public NoticeViewHolder(View noticeView) {
+                super(noticeView);
+                mMenuTextView=(TextView)findViewById(R.id.notice_menu_text);
+                mTitleTextView=(TextView)findViewById(R.id.notice_title_text);
+                mContentsTextView=(TextView)findViewById(R.id.notice_contents_text);
+                mDateTextView=(TextView)findViewById(R.id.notice_date_text);
             }
         }
     }
