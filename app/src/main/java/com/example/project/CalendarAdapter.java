@@ -30,7 +30,7 @@ public class CalendarAdapter extends RecyclerView.Adapter {
         mCalendarList = calendarList;
         notifyDataSetChanged();
     }
-
+//????
     @Override
     public int getItemViewType(int position) { //뷰타입 나누기
         Object item = mCalendarList.get(position);

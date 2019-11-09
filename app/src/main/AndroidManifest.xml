@@ -84,7 +84,7 @@
 
         <activity
             android:name=".TeacherDiary"
-            android:label="@string/title_activity_teacher_diary">
+            >
 
         </activity>
 
