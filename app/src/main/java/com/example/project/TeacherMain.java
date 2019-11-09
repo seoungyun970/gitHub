@@ -16,6 +16,7 @@ public class TeacherMain extends Activity {
     ImageView setting;
     ImageView teacherTmap;
     ImageView teacherEatting;
+    ImageView calendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +26,7 @@ public class TeacherMain extends Activity {
         setting=findViewById(R.id.setting);
         teacherTmap=findViewById(R.id.teacherTmap);
         teacherEatting=findViewById(R.id.eatting);
-
+        calendar=findViewById(R.id.calendar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
             getActionBar().setBackgroundDrawable(getDrawable(R.color.colorPrimary));
@@ -53,6 +54,10 @@ public class TeacherMain extends Activity {
             case R.id.eatting:
                 Intent intentEatting=new Intent(TeacherMain.this,TeacherEatting.class);
                 startActivity(intentEatting);
+                break;
+            case R.id.calendar:
+                Intent intentCalendar=new Intent(TeacherMain.this,Teacher_Calendar.class);
+                startActivity(intentCalendar);
                 break;
         }
     }

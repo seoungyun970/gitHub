@@ -92,6 +92,7 @@
         <activity android:name=".TeacherEattingItem"></activity>
         <activity android:name=".DiaryWriteActivity"
             android:theme="@style/DialogTheme"/>
+        <activity android:name=".Teacher_Calendar"></activity>
     </application>
 
 </manifest>
