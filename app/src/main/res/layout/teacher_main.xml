@@ -49,10 +49,11 @@
                 android:src="@drawable/note" />
 
             <ImageView
-                android:id="@+id/imageView11"
+                android:id="@+id/notice"
                 android:layout_width="0dp"
                 android:layout_height="62dp"
                 android:layout_weight="1"
+                android:onClick="onClick"
                 android:src="@drawable/board" />
 
             <ImageView
