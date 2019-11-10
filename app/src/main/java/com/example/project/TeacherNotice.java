@@ -88,10 +88,10 @@ public class TeacherNotice extends AppCompatActivity {
 
             public NoticeViewHolder(View noticeView) {
                 super(noticeView);
-                mMenuTextView=(TextView)findViewById(R.id.notice_menu_text);
-                mTitleTextView=(TextView)findViewById(R.id.notice_title_text);
-                mContentsTextView=(TextView)findViewById(R.id.notice_contents_text);
-                mDateTextView=(TextView)findViewById(R.id.notice_date_text);
+                mMenuTextView=(TextView)noticeView.findViewById(R.id.notice_menu_text);
+                mTitleTextView=(TextView)noticeView.findViewById(R.id.notice_title_text);
+                mContentsTextView=(TextView)noticeView.findViewById(R.id.notice_contents_text);
+                mDateTextView=(TextView)noticeView.findViewById(R.id.notice_date_text);
             }
         }
     }
