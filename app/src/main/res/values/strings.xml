@@ -4,4 +4,6 @@
     <string name="title_diary">알림장</string>
     <string name="title_main">홈</string>
     <string name="title_notice">공지사항</string>
+    <string name="write_notice">공지사항 작성</string>
+    <string name="title_calendar">일정표</string>
 </resources>
