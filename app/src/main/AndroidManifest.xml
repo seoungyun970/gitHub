@@ -85,7 +85,6 @@
 
         <activity
             android:name=".TeacherDiary"
-            android:label="@string/title_activity_teacher_diary"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".chat.MessageActivity"></activity>
         <activity android:name=".TeacherChat" />
@@ -95,7 +94,6 @@
         <activity android:name=".DiaryWriteActivity"
             android:theme="@style/DialogTheme"/>
         <activity android:name=".TeacherNotice"  android:label="@string/title_notice"></activity>
-        <activity android:name=".Teacher_Calendar" android:label="@string/title_calendar"></activity>
         <activity android:name="NoticeWriteActivity" android:label="@string/write_notice"></activity>
 
         <service android:name=".MyFirebaseMessagingService">

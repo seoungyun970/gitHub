@@ -102,10 +102,6 @@ public class TeacherMain extends Activity {
                 Intent intentEatting=new Intent(TeacherMain.this,TeacherEatting.class);
                 startActivity(intentEatting);
                 break;
-            case R.id.calendar:
-                Intent intentCalendar=new Intent(TeacherMain.this,Teacher_Calendar.class);
-                startActivity(intentCalendar);
-                break;
             case R.id.notice:
                 Intent intentNotice=new Intent(TeacherMain.this,TeacherNotice.class);
                 startActivity(intentNotice);

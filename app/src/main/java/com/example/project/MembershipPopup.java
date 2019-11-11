@@ -107,7 +107,9 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         register_checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (register_id.getText().toString() == null || register_pw.getText().toString() == null || register_name.getText().toString() == null || imageUri == null) {
+                if (register_id.getText().toString() == null || register_pw.getText().toString() == null || register_name.getText().toString() == null || imageUri == null)
+                {
+                    Toast.makeText(getApplicationContext(), "가입실패", Toast.LENGTH_LONG).show();
                     return;
                 }
                 FirebaseAuth.getInstance()
@@ -133,6 +135,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                         FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
+                                                Toast.makeText(getApplicationContext(), "가입성공", Toast.LENGTH_LONG).show();
                                                 MembershipPopup.this.finish();
                                             }
                                         });
