@@ -22,7 +22,8 @@ public class TeacherChat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_chat);
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.teacherchat_bottomnavigationview);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.teacherchat_bottomnavigationview);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

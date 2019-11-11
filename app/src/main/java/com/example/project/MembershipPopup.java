@@ -145,7 +145,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
             }
         });
     }
-    }
+
 
 
 

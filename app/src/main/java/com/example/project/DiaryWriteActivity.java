@@ -70,14 +70,13 @@ public class DiaryWriteActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(this, "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
+        Diary diary = new Diary();
+        diary.title = mWriteTitleText.getText().toString();
+        diary.contents = mWriteContentsText.getText().toString();
+        diary.name = mWriteNameText.getText().toString();
 
-        mDiary= new Diary(
-                uid,
-                mWriteTitleText.getText().toString(),
-                mWriteContentsText.getText().toString(),
-                mWriteNameText.getText().toString());
-
-        FirebaseDatabase.getInstance().getReference().child("Diary").push().setValue(mDiary);
+        FirebaseDatabase.getInstance().getReference().child("Diary").push().setValue(diary);
         Toast.makeText(this,"알림장이 추가되었습니다.",Toast.LENGTH_SHORT).show();
+        DiaryWriteActivity.this.finish();
     }
 }

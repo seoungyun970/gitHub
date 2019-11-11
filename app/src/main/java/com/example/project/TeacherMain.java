@@ -1,5 +1,4 @@
 package com.example.project;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,12 +8,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class TeacherMain extends Activity {
     ImageView gps;
@@ -22,11 +24,10 @@ public class TeacherMain extends Activity {
     ImageView setting;
     ImageView teacherTmap;
     ImageView teacherEatting;
-    ImageView profile;
-    TextView tname;
-    FirebaseUser user;
-    FirebaseAuth firebaseAuth;
-    DatabaseReference mDatabase;
+    ImageView Userface;
+    TextView Username;
+    private String uid;
+    private String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,23 +36,54 @@ public class TeacherMain extends Activity {
         diary=findViewById(R.id.diary);
         setting=findViewById(R.id.setting);
         teacherTmap=findViewById(R.id.teacherTmap);
-        tname = (TextView)findViewById(R.id.teacherName);
-        profile = (ImageView)findViewById(R.id.face);
         teacherEatting=findViewById(R.id.eatting);
+        Userface=findViewById(R.id.face);
+        Username=findViewById(R.id.teacherName);
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Glide.with(this).load("https://firebasestorage.googleapis.com/v0/b/dolbomi1.appspot.com/o/userImages%2FKakaoTalk_20191110_175159882.jpg?alt=media&token=b2324ed4-cbe2-493d-a980-99d6c371f7fe").into(Userface);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
             getActionBar().setBackgroundDrawable(getDrawable(R.color.colorPrimary));
         }
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("username").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                Username.setText(value);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public TeacherMain() {
+
     }
 
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.gps:
-                Intent intent=new Intent(TeacherMain.this,gps.class);
+                Intent intent=new Intent(TeacherMain.this,TeacherChat.class);
                 startActivity(intent);
                 break;
             case R.id.diary:
@@ -86,4 +118,6 @@ public class TeacherMain extends Activity {
     private void applyColors() {
         getWindow().setStatusBarColor(Color.parseColor("#efc675"));
     }
+
+
 }

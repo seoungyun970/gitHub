@@ -100,8 +100,8 @@ public class PeopleFragment extends Fragment {
         private class CustomViewHolder extends RecyclerView.ViewHolder {
             public ImageView imageView;
             public TextView textView;
-            public CustomViewHolder(View view)
-            {
+
+            public CustomViewHolder(View view) {
                 super(view);
                 imageView = (ImageView)view.findViewById(R.id.frienditem_imageview);
                 textView = (TextView)view.findViewById(R.id.frienditem_textview);

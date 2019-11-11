@@ -107,15 +107,12 @@ public class MessageActivity extends AppCompatActivity {
                             editText.setText("");
                         }
                     });
-
                 }
-
-
             }
         });
         checkChatRoom();
-
     }
+    //알림보내기
     void sendGcm(){
         Gson gson = new Gson();
 
@@ -140,7 +137,6 @@ public class MessageActivity extends AppCompatActivity {
                      @Override
                      public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
-                         //ㅁ
                      }
 
                      @Override
@@ -157,7 +153,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot item : dataSnapshot.getChildren()){
                     Chat  chatModel = item.getValue(Chat.class);
-                    if(chatModel.users.containsKey(destinatonUid)){
+                    if(chatModel.users.containsKey(destinatonUid)) {
                         chatRoomUid = item.getKey();
                         button.setEnabled(true);
                         recyclerView.setLayoutManager(new LinearLayoutManager(MessageActivity.this));

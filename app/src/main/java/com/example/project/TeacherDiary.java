@@ -1,9 +1,15 @@
 package com.example.project;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,38 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherDiary extends AppCompatActivity {
-
-    private RecyclerView mDiaryRecycleView;
-
-    private DiaryAdapter mDiaryAdapter;
-    private List<Diary> mDiaryList;
-
-    LinearLayoutManager mLayouyManager;
+    private RecyclerView list_recyclerview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_diary);
-        mDiaryRecycleView=findViewById(R.id.recycler_diary);
-
+        list_recyclerview = (RecyclerView) findViewById(R.id.recycler_diary);
+        list_recyclerview.setLayoutManager(new LinearLayoutManager(TeacherDiary.this));
+        int child_case = 0;
+        list_recyclerview.setAdapter(new RecyclerViewAdapter(child_case));
         FloatingActionButton fab = findViewById(R.id.write_fab);
-
-        mDiaryList=new ArrayList<>();
-        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
-        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
-        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
-        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
-        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
-        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
-        mDiaryList.add(new Diary(null,"날짜 작성","준비물","수연쌤"));
-        //여기에 디비에서 불러오는거 작성해야댐 ㅇㅅㅇ!
-
-        mLayouyManager = new LinearLayoutManager(this);
-        mDiaryRecycleView.setLayoutManager(mLayouyManager);
-
-        mDiaryAdapter=new DiaryAdapter(mDiaryList);
-        mDiaryRecycleView.setAdapter(mDiaryAdapter);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,46 +39,66 @@ public class TeacherDiary extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
-    private class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder>{
+    class RecyclerViewAdapter extends RecyclerView.Adapter{
 
-        private List<Diary> mDiaryList;
+        //아래부분 static class 불러옴
+        List<Diary> diaries;
+        public RecyclerViewAdapter(int child_case) {
+            diaries = new ArrayList<>();
+            FirebaseDatabase.getInstance().getReference().child("Diary").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    diaries.clear();
 
-        public DiaryAdapter(List<Diary> mDiaryList) {
-            this.mDiaryList = mDiaryList;
+                    for(DataSnapshot item : dataSnapshot.getChildren()){
+                        diaries.add(item.getValue(Diary.class));
+                    }
+                    //메시지 갱신 위치
+                    notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
         }
+
         @Override
-        public DiaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new DiaryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_diary,parent,false));
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_diary,parent,false);
+
+            return new MessageVieHolder(view);
+
         }
 
         @Override
-        public void onBindViewHolder(DiaryViewHolder holder, int position) {
-            Diary data = mDiaryList.get(position);
-            holder.mTitleTextView.setText(data.getTitle());
-            holder.mContentsView.setText(data.getContent());
-            holder.mNameTextView.setText(data.getName());
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ((MessageVieHolder)holder).list_title.setText(diaries.get(position).title);
+            ((MessageVieHolder)holder).list_content.setText(diaries.get(position).contents);
+            ((MessageVieHolder)holder).list_name.setText(diaries.get(position).name);
+
         }
 
         @Override
         public int getItemCount() {
-            return mDiaryList.size();
+            return diaries.size();
         }
 
-        class DiaryViewHolder extends RecyclerView.ViewHolder{
-            private TextView mTitleTextView;
-            private TextView mContentsView;
-            private TextView mNameTextView;
+        private class MessageVieHolder extends RecyclerView.ViewHolder {
+            public TextView list_title;
+            public TextView list_content;
+            public TextView list_name;
 
-            public DiaryViewHolder(View itemView) {
-                super(itemView);
-                mContentsView=itemView.findViewById(R.id.item_contents_text);
-                mTitleTextView=itemView.findViewById(R.id.item_title_text);
-                mNameTextView =itemView.findViewById(R.id.item_name_text);
+
+            public MessageVieHolder(View view) {
+                super(view);
+                list_title = (TextView)view.findViewById(R.id.item_title_text);
+                list_content = (TextView)view.findViewById(R.id.item_contents_text);
+                list_name = (TextView)view.findViewById(R.id.item_name_text);
+
             }
         }
     }
-
 }
