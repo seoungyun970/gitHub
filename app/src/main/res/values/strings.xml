@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Dolbomi</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_teacher_diary">알림장</string>
+    <string name="title_gps">GPS</string>
+    <string name="title_diary">알림장</string>
+    <string name="title_main">홈</string>
+    <string name="title_notice">공지사항</string>
+    <string name="write_notice">공지사항 작성</string>
+    <string name="title_calendar">일정표</string>
 </resources>

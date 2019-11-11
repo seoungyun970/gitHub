@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/grade_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"/>
+
+        <EditText
+            android:id="@+id/notice_write_title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목을 작성해 주세요."
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/notice_write_content_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/text_content_rounded"
+            android:hint="원 공지는 원에 속한 모든 멤버가 함께볼 수 있고, 반공지는 해당반에 속한 멤버만 볼 수 있습니다."
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:maxLines="80"
+            android:minLines="20"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/notice_upload_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="업로드"
+        android:textColor="#ffffff"
+        android:background="@drawable/bt_yellow"/>
+
+</LinearLayout>

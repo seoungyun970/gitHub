@@ -127,9 +127,8 @@ public class TeacherTmap extends AppCompatActivity {
                     @Override
                     public void onFindPathData(TMapPolyLine tMapPolyLine) {
                         Log.d("test", "거리 :" + tMapPolyLine.getDistance());
-                        ((TextView)findViewById(R.id.tmaptextv)).setText("ㄱㅓㄹㅣ : "+tMapPolyLine.getDistance());
-
-
+                        ((TextView)findViewById(R.id.tmaptextv)).setText("총 거리 : "+String.format("%.2f",tMapPolyLine.getDistance()/1000)+"KM");
+                        ((TextView)findViewById(R.id.tmaptime)).setText("도착예정 시간: "+String.format("%.0f",tMapPolyLine.getDistance()/1000/60*50)+"분입니다.");
                     }
                 });
 
