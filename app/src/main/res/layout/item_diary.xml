@@ -49,12 +49,6 @@
             android:gravity="center"
             android:textSize="12sp"/>
 
-        <Button
-            android:id="@+id/delete_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="삭제" />
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

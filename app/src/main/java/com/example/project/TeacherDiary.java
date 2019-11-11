@@ -1,22 +1,22 @@
 package com.example.project;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +31,7 @@ public class TeacherDiary extends AppCompatActivity {
         list_recyclerview.setLayoutManager(new LinearLayoutManager(TeacherDiary.this));
         int child_case = 0;
         list_recyclerview.setAdapter(new RecyclerViewAdapter(child_case));
+
         FloatingActionButton fab = findViewById(R.id.write_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +41,7 @@ public class TeacherDiary extends AppCompatActivity {
             }
         });
     }
+
 
     class RecyclerViewAdapter extends RecyclerView.Adapter{
 

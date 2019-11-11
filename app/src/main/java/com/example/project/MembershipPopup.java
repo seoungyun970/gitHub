@@ -1,33 +1,27 @@
 package com.example.project;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,32 +29,26 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class MembershipPopup extends Activity implements View.OnClickListener {
+    private static final int PICK_FROM_CAMERA = 0;
+    private static final int PICK_FROM_ALBUM = 10;
+    private static final int CROP_FROM_IMAGE = 2;
 
-    String mCurrentPhotoPath; //실제 사진 파일 경로
-    ImageView profilebtn;
-
-    Uri imageUri;
-    Uri photoURI;
-    Uri albumURI;
-
-    private static final int MY_PERMISSION_CAMERA = 1111;
-    private static final int REQUEST_TAKE_PHOTO = 2222;
-    private static final int REQUEST_TAKE_ALBUM = 3333;
-    private static final int REQUEST_IMAGE_CROP = 4444;
+    private static Uri mImageCaptureUri;
+    private ImageView profileImgBtn;
+    private String absoultePath;
+    private Uri imageUri;
 
     FirebaseAuth firebaseAuth;
-    DatabaseReference mDatabase;
     EditText register_id;
     EditText register_pw;
     EditText register_name;
@@ -70,6 +58,10 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     Button register_checkBtn;
     ProgressDialog progressDialog;
 
+
+    ArrayAdapter<String> arrayAdapter;
+    static ArrayList<String> arrayIndex = new ArrayList<String>();
+    static ArrayList<String> arrayData = new ArrayList<String>();
 
 
     @Override
@@ -100,16 +92,22 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         reg_Head = (RadioButton) findViewById(R.id.reg_Head);
         register_checkBtn = (Button) findViewById(R.id.register_checkBtn);
         progressDialog = new ProgressDialog(this);
-
         register_checkBtn.setOnClickListener(this);
+        profileImgBtn = (ImageView) findViewById(R.id.profileImgBtn);
 
-        profilebtn = findViewById(R.id.profileImgBtn);
+        profileImgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                startActivityForResult(intent, PICK_FROM_ALBUM);
+            }
+        });
+
         register_checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (register_id.getText().toString() == null || register_pw.getText().toString() == null || register_name.getText().toString() == null || imageUri == null)
-                {
-                    Toast.makeText(getApplicationContext(), "가입실패", Toast.LENGTH_LONG).show();
+                if (register_id.getText().toString() == null || register_pw.getText().toString() == null || register_name.getText().toString() == null || imageUri == null) {
                     return;
                 }
                 FirebaseAuth.getInstance()
@@ -117,10 +115,8 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                         .addOnCompleteListener(MembershipPopup.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-
                                 final String uid = task.getResult().getUser().getUid();
                                 UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(register_name.getText().toString()).build();
-
                                 task.getResult().getUser().updateProfile(userProfileChangeRequest);
                                 FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                     @Override
@@ -135,7 +131,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                         FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Toast.makeText(getApplicationContext(), "가입성공", Toast.LENGTH_LONG).show();
                                                 MembershipPopup.this.finish();
                                             }
                                         });
@@ -150,31 +145,18 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     }
 
 
-
-
-
-    @Override
-    public void onClick(View view) {
-        if (view == register_checkBtn) {
-            //TODO
-
-        }
-    }
-
     public void profilebtn(View view) { //프로필 선택사진 눌렸을때  앨범선택 사진촬영 알림창 표시
-        checkPermission();
-
         DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                captureCamera();
+                doTakePhotoAction();
             }
         };
 
         DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                getAlbum();
+                doTakeAlbumAction();
             }
         };
 
@@ -184,7 +166,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                 dialog.dismiss();
             }
         };
-
         new AlertDialog.Builder(this)   //프로필 알림창 표시
                 .setTitle("업로드할 이미지 선택")
                 .setPositiveButton("사진 촬영", cameraListener)
@@ -193,192 +174,129 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                 .show();
     }
 
-    private void captureCamera() {
-        String state = Environment.getExternalStorageState();
-        //외장 메모리 검사
+    public void doTakePhotoAction() { //카메라 촬영 후 이미지 가져오기
 
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent cintent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-                    Log.e("captureCamera Error", ex.toString());
-                }
-                if (photoFile != null) {
-                    //getUriForFile의 두번째 인자는 Manifest provider의 authorites와 일치해야함
+        //임시로 사용할 파일의 경로 생성
+        String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
 
-                    Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
-                    imageUri = providerURI;
-
-                    // 인텐트에 전달할 때는 FileProvider의 Return값인 content://로만, providerURI의 값에 카메라 데이터를 넣어 보냄
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
-
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                }
-            }
-        } else {
-            Toast.makeText(this, "저장공간이 접근 불가능한 기기입니다", Toast.LENGTH_SHORT).show();
-            return;
-        }
-    }
-
-
-    public File createImageFile() throws IOException {
-        //Create an image file name
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + ".jpg";
-        File imageFile = null;
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "gyeom");
-
-        if (!storageDir.exists()) {
-            Log.i("mCurrentPhotoPath1", storageDir.toString());
-            storageDir.mkdir();
-        }
-
-        imageFile = new File(storageDir, imageFileName);
-        mCurrentPhotoPath = imageFile.getAbsolutePath();
-
-        return imageFile;
-    }
-
-    private void getAlbum() {
-        Log.i("getAlbum", "Call");
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, REQUEST_TAKE_ALBUM);
-    }
-
-    private void galleryAddPic() {
-        Log.i("galleryAddPic", "Call");
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        //해당 경로에 있는 파일을 객체화 (새로 파일을 만든다는 것)
-
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        sendBroadcast(mediaScanIntent);
-        Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+        cintent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+        startActivityForResult(cintent, PICK_FROM_CAMERA);
 
     }
 
-    public void cropImage() {
-        Log.i("cropImage", "Call");
-        Log.i("cropImage", "photoURI : " + photoURI + "/albumURI : " + albumURI);
-
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-
-        //50x50픽셀 미만은 편집할수 없다는 문구 처리 + 갤러리, 포토 둘다 호환하는 방법
-        cropIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        cropIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        cropIntent.setDataAndType(photoURI, "image/*");
-
-        cropIntent.putExtra("outputX", 200);
-        cropIntent.putExtra("outputY", 200);
-        cropIntent.putExtra("aspectX", 1);
-        cropIntent.putExtra("aspectY", 1);
-
-        cropIntent.putExtra("scale", true);
-        cropIntent.putExtra("output", albumURI);//크랍된 이미지를 해당경로에 저장
-
-        startActivityForResult(cropIntent, REQUEST_IMAGE_CROP);
+    public void doTakeAlbumAction() { //앨범에서 이미지 가져오기
+        //앨범 호출
+        Intent aintent = new Intent(Intent.ACTION_PICK);
+        aintent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(aintent, PICK_FROM_ALBUM);
     }
-
-
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) { //선택한 사진 데이터 처리
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        profileImgBtn.setImageURI(data.getData());
+        imageUri = data.getData();
+        if (requestCode != RESULT_OK)
+            return;
+
         switch (requestCode) {
-            case REQUEST_TAKE_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    try {
-                        Log.i("REQUEST_TAKE_PHOTO","OK");
-                        galleryAddPic();
 
-                        profilebtn.setImageURI(imageUri);
-                    } catch (Exception e) {
-                        Log.e("REQUEST_TAKE_PHOTO", e.toString());
-                    }
-                } else {
-                    Toast.makeText(MembershipPopup.this, "사진찍기를 취소하였습니다.", Toast.LENGTH_SHORT).show();
-                }
+            case PICK_FROM_ALBUM: {
+                //이후의 처리가 카메라와 같으므로 일단 break없이 진행
+                mImageCaptureUri = data.getData();
+                Log.d("Dolbomi", mImageCaptureUri.getPath().toString());
+            }
+
+            case PICK_FROM_CAMERA: {
+                // 이미지를 가져온 이후의 리사이즈할 이미지 크기를 결정
+                // 이후 이미지 크롭 어플리케이션을 호출
+                Intent intent = new Intent("com.android.camera.action.CROP");
+                intent.setDataAndType(mImageCaptureUri, "image/*");
+
+                intent.putExtra("outputX", 80); //크롭한 이미지의 x축 크기
+                intent.putExtra("outputY", 80); //크롭한 이미지의 y축 크기
+                intent.putExtra("aspectX", 1); //크롭 박스의 x축 비율
+                intent.putExtra("aspectY", 1); //크롭 박스의 y축 비율
+                intent.putExtra("scale", true);
+                intent.putExtra("return-data", true);
+                startActivityForResult(intent, CROP_FROM_IMAGE); //CROP_FROM_CAMERA case 문 이동
                 break;
+            }
 
-            case REQUEST_TAKE_ALBUM:
-                if (resultCode == Activity.RESULT_OK){
-                    if(data.getData() != null){
-                        try {
-                            File albumFile = null;
-                            albumFile=createImageFile();
-                            photoURI=data.getData();
-                            albumURI=Uri.fromFile(albumFile);
-                            cropImage();
-                        }catch (Exception e){
-                            Log.e("TAKE_ALBUM_SINGLE ERROR", e.toString());
-                        }
-                    }
+            case CROP_FROM_IMAGE: {
+                //크롭이 된 이후의 이미지를 넘겨 받음
+                //이미지뷰에 이미지를 보여준다거나 부가적인 작업 이후에
+                //임시 파일을 삭제
+
+                if (resultCode != RESULT_OK) {
+                    return;
                 }
-                break;
 
-            case REQUEST_IMAGE_CROP:
-                if(resultCode == Activity.RESULT_OK){
-                    galleryAddPic();
-                    profilebtn.setImageURI(albumURI);
+                final Bundle extras = data.getExtras();
+
+                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Dolbomi/" + System.currentTimeMillis() + ".jpg";
+
+                if (extras != null) {
+                    Bitmap photo = extras.getParcelable("data"); //크롭된 비트맵
+                    profileImgBtn.setImageBitmap(photo); //이미지 뷰에 크롭된 비트맵을 보여줌
+
+                    storeCropImage(photo, filePath); //크롭된 이미지를 외부저장소,앨범에 저장
+                    absoultePath = filePath;
+                    break;
                 }
-                break;
-        }
-    }
 
-    private void checkPermission(){
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) !=PackageManager.PERMISSION_GRANTED){
-            //처음 호출엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
-
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)||
-            (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CAMERA))){
-                new AlertDialog.Builder(this)
-                        .setTitle("알림")
-                        .setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 해당 권한을 직접 허용하셔야 합니다.")
-                        .setNeutralButton("설정", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent =new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                intent.setData(Uri.parse("package: "+getPackageName()));
-                                startActivity(intent);
-                            }
-                        })
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
-                        .setCancelable(false)
-                        .create()
-                        .show();
-            }else{
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},MY_PERMISSION_CAMERA);
+                //임시 파일 삭제
+                File f = new File(mImageCaptureUri.getPath());
+                if (f.exists()) {
+                    f.delete();
+                }
             }
         }
+
     }
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) { //권한 요청 결과
 
-        switch (requestCode){
-            case MY_PERMISSION_CAMERA:
-                for (int i=0;i<grantResults.length;i++){
-                    if (grantResults[i]<0){
-                        Toast.makeText(MembershipPopup.this,"해당 권한을 활성화 하셔야 합니다.",Toast.LENGTH_SHORT).show();
-                    }
-                }
+    // 비트맵을 저장하는 부분
 
+    private void storeCropImage(Bitmap bitmap, String filePath) {
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Dolbomi";
+        File directory_Dolbomi = new File(dirPath);
 
-                break;
+        if (!directory_Dolbomi.exists()) // Dolbomi디렉토리에 폴더가 없다면 (새로 이미지를 저장할 경우)
+            directory_Dolbomi.mkdir();
+
+        File copyFile = new File(filePath);
+        BufferedOutputStream out = null;
+
+        try {
+            copyFile.createNewFile();
+            out = new BufferedOutputStream(new FileOutputStream(copyFile));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(copyFile)));
+
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-}
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == PICK_FROM_ALBUM && resultCode == RESULT_OK)
+        {
+            profileImgBtn.setImageURI(data.getData());
+            imageUri = data.getData();
+        }
+   */}
+
+
+
