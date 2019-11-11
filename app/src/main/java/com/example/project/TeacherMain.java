@@ -25,6 +25,7 @@ public class TeacherMain extends Activity {
     ImageView teacherTmap;
     ImageView teacherEatting;
     ImageView Userface;
+    ImageView calendar;
     TextView Username;
     private String uid;
     private String url;
@@ -39,8 +40,8 @@ public class TeacherMain extends Activity {
         teacherEatting=findViewById(R.id.eatting);
         Userface=findViewById(R.id.face);
         Username=findViewById(R.id.teacherName);
+        calendar=findViewById(R.id.calendar);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Glide.with(this).load("https://firebasestorage.googleapis.com/v0/b/dolbomi1.appspot.com/o/userImages%2FKakaoTalk_20191110_175159882.jpg?alt=media&token=b2324ed4-cbe2-493d-a980-99d6c371f7fe").into(Userface);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -105,6 +106,10 @@ public class TeacherMain extends Activity {
             case R.id.notice:
                 Intent intentNotice=new Intent(TeacherMain.this,TeacherNotice.class);
                 startActivity(intentNotice);
+                break;
+            case R.id.calendar:
+                Intent intentCalendar=new Intent(TeacherMain.this,CustomCalendarActivity.class);
+                startActivity(intentCalendar);
                 break;
         }
     }

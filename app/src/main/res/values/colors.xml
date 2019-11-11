@@ -9,5 +9,6 @@
 
     <color name="whiteNormal">#ffffff</color>
     <color name="whiteDark">#EAEAEA</color>
+    <color name="green">@android:color/holo_green_dark</color>
 
 </resources>
