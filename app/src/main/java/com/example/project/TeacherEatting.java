@@ -1,31 +1,21 @@
 package com.example.project;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class TeacherEatting extends AppCompatActivity  {
     private RecyclerView mEattingRecycleView;
@@ -111,7 +101,7 @@ public class TeacherEatting extends AppCompatActivity  {
 
                 standardTime=itemView.findViewById(R.id.standardTime);
                 nowDate =itemView.findViewById(R.id.nowDate);
-                imageView=itemView.findViewById(R.id.imageView);
+                imageView=itemView.findViewById(R.id.first_eat_image);
                 imageView2=itemView.findViewById(R.id.imageView2);
                 imageView3=itemView.findViewById(R.id.imageView3);
                 eattingFirst=itemView.findViewById(R.id.eattingFirst);
