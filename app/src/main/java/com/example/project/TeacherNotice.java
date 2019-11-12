@@ -1,12 +1,21 @@
 package com.example.project;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,12 +28,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TeacherNotice extends AppCompatActivity {
     private RecyclerView list_recyclerview;
     FirebaseDatabase database;
     DatabaseReference noticedb;
-
-
 
     FirebaseRecyclerOptions<Notice> options;
     FirebaseRecyclerAdapter<Notice, NoticeViewHolder> adapter;
@@ -47,7 +57,6 @@ public class TeacherNotice extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         showTask();
     }
 
@@ -89,4 +98,91 @@ public class TeacherNotice extends AppCompatActivity {
         adapter.stopListening();
     }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getTitle().equals("수정")){
+            showUpdateDialog(adapter.getRef(item.getOrder()).getKey(),adapter.getItem(item.getOrder()));
+        }else if(item.getTitle().equals("삭제"))
+        {
+            deleteTask(adapter.getRef(item.getOrder()).getKey());
+            Toast.makeText(TeacherNotice.this, "삭제완료", Toast.LENGTH_SHORT).show();
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void deleteTask(String key) {
+        noticedb.child(key).removeValue();
+    }
+
+    private void showUpdateDialog(final String key, Notice item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("수정하기");
+        builder.setMessage("");
+        builder.setMessage("변경할 내용을 입력하세요.");
+
+        //수정시간
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분ss초");
+        Date time = new Date();
+        String time1 = format1.format(time);
+
+        View update_layout = LayoutInflater.from(this).inflate(R.layout.customnotice_layout,null);
+
+        final Spinner item_noticemenu_update = update_layout.findViewById(R.id.edit_update_spinner);
+        final EditText item_title_update = update_layout.findViewById(R.id.edit_update_title);
+        final EditText item_content_update = update_layout.findViewById(R.id.edit_update_content);
+        final TextView item_date_update = update_layout.findViewById(R.id.edit_update_date);
+
+        //숨길부분
+        final TextView item_menu_update = update_layout.findViewById(R.id.edit_update_menu);
+        item_menu_update.setVisibility(View.INVISIBLE);
+
+        //수정스피너
+        String[] str=getResources().getStringArray(R.array.notice_grade_array);
+        item_noticemenu_update.setPrompt("반을 선택해주세요.");
+        ArrayAdapter gradeAdapter= new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,str);
+        item_noticemenu_update.setAdapter(gradeAdapter);
+        item_noticemenu_update.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        item_menu_update.setText(item.getNoticemenu());
+        item_title_update.setText(item.getTitle());
+        item_content_update.setText(item.getContents());
+        item_date_update.setText(time1);
+
+
+        builder.setView(update_layout);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                String noticemenu = item_noticemenu_update.getSelectedItem().toString();
+                String title = item_title_update.getText().toString();
+                String content = item_content_update.getText().toString();
+                String date = item_date_update.getText().toString();
+
+                Notice notice = new Notice(noticemenu, title, content, date);
+                noticedb.child(key).setValue(notice);
+
+                Toast.makeText(TeacherNotice.this, "수정완료", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
 }

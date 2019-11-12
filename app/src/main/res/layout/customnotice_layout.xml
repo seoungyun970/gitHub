@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <Spinner
+        android:id="@+id/edit_update_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"
+        android:layout_margin="16dp"/>
 
     <EditText
         android:id="@+id/edit_update_title"
@@ -17,10 +23,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"/>
 
-    <EditText
+    <TextView
         android:id="@+id/edit_update_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/edit_update_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp" />
 
 </LinearLayout>
