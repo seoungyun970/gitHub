@@ -39,6 +39,7 @@ public class CustomCalendarView extends LinearLayout {
     SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy년 MM월"  ,Locale.KOREAN);
     SimpleDateFormat monthFormat=new SimpleDateFormat("MMMM",Locale.KOREAN);
     SimpleDateFormat yearFormate=new SimpleDateFormat("yyyy",Locale.KOREAN);
+    SimpleDateFormat eventDateFormate=new SimpleDateFormat("yyyy-MM-dd",Locale.KOREAN);
     MyGridAdpater myGridAdpater;
     AlertDialog alertDialog;
     List<Date> dates=new ArrayList<>();
@@ -78,7 +79,7 @@ public class CustomCalendarView extends LinearLayout {
                 AlertDialog.Builder builder=new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 final View addView=LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout,null);
-                final EditText EventName=addView.findViewById(R.id.events_id);
+                final EditText EventName=addView.findViewById(R.id.eventname);
                 final TextView EventTime=addView.findViewById(R.id.eventtime);
                 ImageButton SetTime=addView.findViewById(R.id.seteventtime);
                 Button AddEvent=addView.findViewById(R.id.addevent);
@@ -91,7 +92,7 @@ public class CustomCalendarView extends LinearLayout {
                         TimePickerDialog timePickerDialog=new TimePickerDialog(addView.getContext(), R.style.Theme_AppCompat_Dialog
                                 , new TimePickerDialog.OnTimeSetListener() {
                             @Override
-                            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 Calendar c=Calendar.getInstance();
                                 c.set(Calendar.HOUR_OF_DAY,hourOfDay);
                                 c.set(Calendar.MINUTE,minute);
@@ -104,7 +105,7 @@ public class CustomCalendarView extends LinearLayout {
                         timePickerDialog.show();
                     }
                 });
-                final String date=dateFormat.format(dates.get(position));
+                final String date=eventDateFormate.format(dates.get(position));
                 final String month=monthFormat.format(dates.get(position));
                 final String year=yearFormate.format(dates.get(position));
 
@@ -169,7 +170,7 @@ public class CustomCalendarView extends LinearLayout {
         eventsList.clear();
         dbOpenHelper=new DBOpenHelper(context);
         SQLiteDatabase database=dbOpenHelper.getReadableDatabase();
-        Cursor cursor=dbOpenHelper.readEventsperMonth(Month, year);
+        Cursor cursor=dbOpenHelper.ReadEventsperMonth(Month,year,database);
         while(cursor.moveToNext()){
             String event=cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
             String time=cursor.getString(cursor.getColumnIndex(DBStructure.TIME));

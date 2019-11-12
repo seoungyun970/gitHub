@@ -14,5 +14,6 @@ public class CustomCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         customCalendarView=(CustomCalendarView)findViewById(R.id.custom_calendar_view);
         setContentView(R.layout.calendar_layout_activity);
+
     }
 }
