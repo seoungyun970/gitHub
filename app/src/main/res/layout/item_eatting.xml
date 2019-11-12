@@ -51,7 +51,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/first_eat_image"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_weight="1"

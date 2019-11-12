@@ -102,7 +102,7 @@ public class TeacherEatting extends AppCompatActivity  {
 
                 standardTime=itemView.findViewById(R.id.standardTime);
                 nowDate =itemView.findViewById(R.id.nowDate);
-                imageView=itemView.findViewById(R.id.imageView);
+                imageView=itemView.findViewById(R.id.first_eat_image);
                 imageView2=itemView.findViewById(R.id.imageView2);
                 imageView3=itemView.findViewById(R.id.imageView3);
                 eattingFirst=itemView.findViewById(R.id.eattingFirst);

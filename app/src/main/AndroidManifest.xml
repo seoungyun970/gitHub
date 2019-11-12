@@ -94,7 +94,7 @@
         <activity android:name=".DiaryWriteActivity"
             android:theme="@style/DialogTheme"/>
         <activity android:name=".TeacherNotice"  android:label="@string/title_notice"></activity>
-        <activity android:name="NoticeWriteActivity" android:label="@string/write_notice"></activity>
+        <activity android:name="NoticeWriteActivity" android:label="@string/write_notice" android:windowSoftInputMode="adjustNothing"></activity>
 
 
         <activity android:name=".CustomCalendarActivity"></activity>
