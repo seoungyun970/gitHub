@@ -51,6 +51,13 @@
             android:textSize="12sp" />
         <!-- 맥스 라인 2는 내용 2줄넘게 작성시 뒤에 ... 표시
                  일립사이즈 end는 뒷 부분 글자 줄임표 표시-->
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="335dp"
+            app:srcCompat="@drawable/childicon1" />
+
         <TextView
             android:id="@+id/notice_date_text"
             android:layout_width="wrap_content"

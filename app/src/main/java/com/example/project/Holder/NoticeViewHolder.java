@@ -14,6 +14,7 @@ public class NoticeViewHolder extends RecyclerView.ViewHolder implements View.On
     public TextView mContentsTextView;
     public TextView mDateTextView;
 
+
     public NoticeViewHolder(View view) {
         super(view);
         mMenuTextView = (TextView)view.findViewById(R.id.notice_menu_text);

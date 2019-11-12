@@ -53,6 +53,7 @@ public class DiaryWriteActivity extends AppCompatActivity implements View.OnClic
         mWriteContentsText=findViewById(R.id.write_contents_text);
         mWriteNameText=findViewById(R.id.write_name_text);
 
+
         FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("username").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,7 +67,6 @@ public class DiaryWriteActivity extends AppCompatActivity implements View.OnClic
             }
         });
         findViewById(R.id.write_upload_btn).setOnClickListener(this);
-
     }
 
 

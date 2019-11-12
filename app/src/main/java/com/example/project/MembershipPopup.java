@@ -128,9 +128,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                         .addOnCompleteListener(MembershipPopup.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-
-
-
                                 final String uid = task.getResult().getUser().getUid();
                                 UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(register_name.getText().toString()).build();
                                 task.getResult().getUser().updateProfile(userProfileChangeRequest);
@@ -147,7 +144,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                         user.profileImageUrl = imageUrl.getResult().toString();
                                         user.job = rb.getText().toString();
                                         user.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
 
                                         FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -332,7 +328,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                     }
                 }
                 break;
-
             case REQUEST_IMAGE_CROP:
                 if(resultCode == Activity.RESULT_OK){
                     galleryAddPic();
@@ -341,7 +336,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
     private void checkPermission(){
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             //처음 호출엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
@@ -373,9 +367,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
             }
         }
     }
-
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) { //권한 요청 결과
-
         switch (requestCode){
             case MY_PERMISSION_CAMERA:
                 for (int i=0;i<grantResults.length;i++){
@@ -383,13 +375,9 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                         Toast.makeText(MembershipPopup.this,"해당 권한을 활성화 하셔야 합니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-
                 break;
         }
-
     }
-
     @Override
     public void onClick(View view) {
 
