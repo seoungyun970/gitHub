@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,20 +53,6 @@ public class TeacherMain extends Activity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
                 Username.setText(value);
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
             }
 
             @Override
@@ -110,6 +95,10 @@ public class TeacherMain extends Activity {
             case R.id.calendar:
                 Intent intentCalendar=new Intent(TeacherMain.this,CustomCalendarActivity.class);
                 startActivity(intentCalendar);
+                break;
+            case R.id.album:
+                Intent intentAlbum=new Intent(TeacherMain.this,TeacherAlbum.class);
+                startActivity(intentAlbum);
                 break;
         }
     }

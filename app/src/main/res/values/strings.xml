@@ -6,4 +6,7 @@
     <string name="title_notice">공지사항</string>
     <string name="write_notice">공지사항 작성</string>
     <string name="title_calendar">일정표</string>
+    <string name="title_eating">식단표</string>
+    <string name="title_album">앨범</string>
+    <string name="title_chat">채팅</string>
 </resources>

@@ -1,10 +1,14 @@
-package com.example.project;
+package com.example.project.Model;
 
 public class Notice {
-    private String noticemenu;
-    private String title;
-    private String contents;
-    private String date;
+    public String noticemenu;
+    public String title;
+    public String contents;
+    public String date;
+    public String noticeImageUrl;
+
+    public Notice() {
+    }
 
     public Notice(String noticemenu, String title, String contents, String date) {
         this.noticemenu = noticemenu;
@@ -45,13 +49,4 @@ public class Notice {
         this.date = date;
     }
 
-    @Override
-    public String toString() {
-        return "Notice{" +
-                "noticemenu='" + noticemenu + '\'' +
-                ", title='" + title + '\'' +
-                ", contents='" + contents + '\'' +
-                ", date='" + date + '\'' +
-                '}';
-    }
 }

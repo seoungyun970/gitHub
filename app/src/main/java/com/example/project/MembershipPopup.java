@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +31,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.project.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -41,9 +42,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,6 +65,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     EditText register_id;
     EditText register_pw;
     EditText register_name;
+    RadioGroup rgroup_job;
     RadioButton reg_Parent;
     RadioButton reg_Teacher;
     RadioButton reg_Head;
@@ -82,7 +82,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.join_membership_popup);
-
 
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         // 윈도우 매니저 객체 얻어오고 디스플레이 객체 얻어오기
@@ -104,17 +103,23 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         reg_Parent = (RadioButton) findViewById(R.id.reg_Parent);
         reg_Teacher = (RadioButton) findViewById(R.id.reg_Teacher);
         reg_Head = (RadioButton) findViewById(R.id.reg_Head);
+        rgroup_job = (RadioGroup)findViewById(R.id.rgroup_job);
         register_checkBtn = (Button) findViewById(R.id.register_checkBtn);
         progressDialog = new ProgressDialog(this);
         register_checkBtn.setOnClickListener(this);
         profilebtn = (ImageView) findViewById(R.id.profileImgBtn);
 
+
         register_checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (register_id.getText().toString() == null || register_pw.getText().toString() == null || register_name.getText().toString() == null || imageUri == null) {
+                    Toast.makeText(getApplicationContext(), "가입실패", Toast.LENGTH_LONG).show();
+
                     return;
                 }
+                progressDialog.setMessage("가입중입니다. 잠시 기다려 주세요...");
+                progressDialog.show();
                 FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(register_id.getText().toString(), register_pw.getText().toString())
                         .addOnCompleteListener(MembershipPopup.this, new OnCompleteListener<AuthResult>() {
@@ -128,14 +133,20 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                         Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
                                         while(!imageUrl.isComplete());
+                                        int id = rgroup_job.getCheckedRadioButtonId();
+                                        RadioButton rb = (RadioButton) findViewById(id);
                                         User user = new User();
                                         user.email = register_id.getText().toString();
                                         user.username = register_name.getText().toString();
                                         user.profileImageUrl = imageUrl.getResult().toString();
+                                        user.job = rb.getText().toString();
                                         user.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
                                         FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
+
+                                                Toast.makeText(getApplicationContext(), "가입성공", Toast.LENGTH_LONG).show();
                                                 MembershipPopup.this.finish();
                                             }
                                         });
@@ -289,6 +300,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO","OK");
                         galleryAddPic();
+
                         profilebtn.setImageURI(imageUri);
                     } catch (Exception e) {
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());
@@ -313,7 +325,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                     }
                 }
                 break;
-
             case REQUEST_IMAGE_CROP:
                 if(resultCode == Activity.RESULT_OK){
                     galleryAddPic();
@@ -322,9 +333,8 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
     private void checkPermission(){
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) !=PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             //처음 호출엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
 
             if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)||
@@ -350,29 +360,34 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                         .create()
                         .show();
             }else{
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},MY_PERMISSION_CAMERA);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},MY_PERMISSION_CAMERA);
             }
         }
     }
-
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) { //권한 요청 결과
-
         switch (requestCode){
             case MY_PERMISSION_CAMERA:
                 for (int i=0;i<grantResults.length;i++){
                     if (grantResults[i]<0){
-                        Toast.makeText(MembershipPopup.this,"해당 권한을 활성화 하셔야 합니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MembershipPopup.this,"해당 권한을 활성화 하셔야 합니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
         }
     }
-
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
 
     }
-}
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == PICK_FROM_ALBUM && resultCode == RESULT_OK)
+        {
+            profileImgBtn.setImageURI(data.getData());
+            imageUri = data.getData();
+        }
+   */}
 
 
 
