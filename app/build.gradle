@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'com.github.bumptech.glide:glide:4.10.0'// 권한 라이브러리
     implementation 'com.jakewharton:butterknife:8.6.0'
-    implementation files('D:/LeeJaeBum/gitHub/.idea/libraries/com.skt.Tmap_1.62.jar')
+    implementation files('D:/gitHub/.idea/libraries/com.skt.Tmap_1.62.jar')
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
