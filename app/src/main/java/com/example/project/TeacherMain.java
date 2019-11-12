@@ -24,6 +24,7 @@ public class TeacherMain extends Activity {
     ImageView teacherTmap;
     ImageView teacherEatting;
     ImageView Userface;
+    ImageView calendar;
     TextView Username;
     private String uid;
     private String url;
@@ -38,6 +39,7 @@ public class TeacherMain extends Activity {
         teacherEatting=findViewById(R.id.eatting);
         Userface=findViewById(R.id.face);
         Username=findViewById(R.id.teacherName);
+        calendar=findViewById(R.id.calendar);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -89,6 +91,10 @@ public class TeacherMain extends Activity {
             case R.id.notice:
                 Intent intentNotice=new Intent(TeacherMain.this,TeacherNotice.class);
                 startActivity(intentNotice);
+                break;
+            case R.id.calendar:
+                Intent intentCalendar=new Intent(TeacherMain.this,CustomCalendarActivity.class);
+                startActivity(intentCalendar);
                 break;
         }
     }
