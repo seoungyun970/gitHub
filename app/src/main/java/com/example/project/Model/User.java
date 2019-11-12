@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.Model;
 
 public class User {
     public String email;
@@ -6,4 +6,5 @@ public class User {
     public String username;
     public String uid;
     public String pushToken;
+    public String job;
 }

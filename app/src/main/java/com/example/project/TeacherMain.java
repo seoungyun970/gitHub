@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,7 +39,6 @@ public class TeacherMain extends Activity {
         Userface=findViewById(R.id.face);
         Username=findViewById(R.id.teacherName);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Glide.with(this).load("https://firebasestorage.googleapis.com/v0/b/dolbomi1.appspot.com/o/userImages%2FKakaoTalk_20191110_175159882.jpg?alt=media&token=b2324ed4-cbe2-493d-a980-99d6c371f7fe").into(Userface);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -53,20 +51,6 @@ public class TeacherMain extends Activity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
                 Username.setText(value);
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
             }
 
             @Override

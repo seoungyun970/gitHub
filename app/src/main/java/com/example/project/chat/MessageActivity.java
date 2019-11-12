@@ -18,10 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.project.Chat;
+import com.example.project.Model.Chat;
 import com.example.project.NotificationModel;
 import com.example.project.R;
-import com.example.project.User;
+import com.example.project.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;

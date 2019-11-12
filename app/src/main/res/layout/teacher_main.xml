@@ -225,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="GPS" />
+                android:text="채팅" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -233,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="채팅" />
+                android:text="@string/title_gps" />
 
             <TextView
                 android:id="@+id/textView11"
