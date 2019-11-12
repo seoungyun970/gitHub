@@ -96,6 +96,10 @@ public class TeacherMain extends Activity {
                 Intent intentCalendar=new Intent(TeacherMain.this,CustomCalendarActivity.class);
                 startActivity(intentCalendar);
                 break;
+            case R.id.album:
+                Intent intentAlbum=new Intent(TeacherMain.this,TeacherAlbum.class);
+                startActivity(intentAlbum);
+                break;
         }
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
