@@ -7,9 +7,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,16 +27,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class TeacherEattingItem extends AppCompatActivity implements TimePicker.OnTimeChangedListener{
@@ -79,6 +71,25 @@ public class TeacherEattingItem extends AppCompatActivity implements TimePicker.
                 try {
                     Locale locale=new Locale("ko","KR");
                     Date d = new SimpleDateFormat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            
                             ("yyyy-MM-dd", locale.getDefault()).parse(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                     TextView nowDate=findViewById(R.id.nowDate);
                     nowDate.setText(String.valueOf(year)+"년 "+String.valueOf(monthOfYear)+"월 "+String.valueOf((dayOfMonth))+"일");
