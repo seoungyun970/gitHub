@@ -16,8 +16,8 @@ public class AlbumImageActivity extends Activity {
 
         //----------------------------------------------------------------
         // 확대되는 이미지를 보여주기 위해 ImageView 뷰를 설정합니다.
-        ImageView imageView = (ImageView)findViewById(R.id.imageView);
-        setImage(imageView);
+      //  ImageView imageView = (ImageView)findViewById(R.id.imageView);
+     //   setImage(imageView);
     }
 
     private void setImage(ImageView imageView) {

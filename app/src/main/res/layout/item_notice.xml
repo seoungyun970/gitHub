@@ -53,7 +53,7 @@
                  일립사이즈 end는 뒷 부분 글자 줄임표 표시-->
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/noticebtn"
             android:layout_width="match_parent"
             android:layout_height="335dp"
             app:srcCompat="@drawable/childicon1" />

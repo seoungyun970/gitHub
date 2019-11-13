@@ -128,6 +128,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                 final String uid = task.getResult().getUser().getUid();
                                 UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(register_name.getText().toString()).build();
                                 task.getResult().getUser().updateProfile(userProfileChangeRequest);
+
                                 FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -150,9 +151,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                                 MembershipPopup.this.finish();
                                             }
                                         });
-
                                     }
-
                                 });
                             }
                         });

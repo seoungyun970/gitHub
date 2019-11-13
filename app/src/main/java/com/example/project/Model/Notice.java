@@ -10,11 +10,12 @@ public class Notice {
     public Notice() {
     }
 
-    public Notice(String noticemenu, String title, String contents, String date) {
+    public Notice(String noticemenu, String title, String contents, String date, String noticeImageUrl) {
         this.noticemenu = noticemenu;
         this.title = title;
         this.contents = contents;
         this.date = date;
+        this.noticeImageUrl = noticeImageUrl;
     }
 
     public String getNoticemenu() {
@@ -49,4 +50,11 @@ public class Notice {
         this.date = date;
     }
 
+    public String getNoticeImageUrl() {
+        return noticeImageUrl;
+    }
+
+    public void setNoticeImageUrl(String noticeImageUrl) {
+        this.noticeImageUrl = noticeImageUrl;
+    }
 }
