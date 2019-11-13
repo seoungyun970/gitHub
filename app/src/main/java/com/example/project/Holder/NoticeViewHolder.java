@@ -2,6 +2,7 @@ package com.example.project.Holder;
 
 import android.view.ContextMenu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ public class NoticeViewHolder extends RecyclerView.ViewHolder implements View.On
     public TextView mTitleTextView;
     public TextView mContentsTextView;
     public TextView mDateTextView;
+    public ImageView imageView;
 
 
     public NoticeViewHolder(View view) {
@@ -21,6 +23,7 @@ public class NoticeViewHolder extends RecyclerView.ViewHolder implements View.On
         mTitleTextView = (TextView)view.findViewById(R.id.notice_title_text);
         mContentsTextView = (TextView)view.findViewById(R.id.notice_contents_text);
         mDateTextView = (TextView)view.findViewById(R.id.notice_date_text);
+        imageView = (ImageView)view.findViewById(R.id.noticebtn);
 
         view.setOnCreateContextMenuListener(this);
     }

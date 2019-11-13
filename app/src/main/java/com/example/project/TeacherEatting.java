@@ -45,7 +45,6 @@ public class TeacherEatting extends AppCompatActivity  {
         mEattingRecycleView.setAdapter(mEattingAdapter);
 
         FloatingActionButton actionButton = findViewById(R.id.floatingActionButton);
-
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
