@@ -31,7 +31,6 @@ import java.util.TimeZone;
 public class CustomCalendarView extends LinearLayout {
     ImageButton NextButton,PreviousButton;
     TextView CurrentDate;
-
     GridView gridView;
     private static final  int MAX_CALENDAR_DAYS=42;
     Calendar calendar= Calendar.getInstance(Locale.KOREAN);
@@ -179,7 +178,6 @@ public class CustomCalendarView extends LinearLayout {
             String Year=cursor.getString(cursor.getColumnIndex(DBStructure.YEAR));
             Events events=new Events(event,time,date,month,Year);
             eventsList.add(events);
-
         }
         cursor.close();
         dbOpenHelper.close();
