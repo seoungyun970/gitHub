@@ -213,22 +213,30 @@ public class MessageActivity extends AppCompatActivity {
                     Map<String, Object> readUsersMap = new HashMap<>();
                     for (DataSnapshot item : dataSnapshot.getChildren()) {
                         String key = item.getKey();
-                        Chat.Comment comment = item.getValue(Chat.Comment.class);
-                        comment.readUsers.put(uid, true);
+                        Chat.Comment comment_origin= item.getValue(Chat.Comment.class);
+                        Chat.Comment comment_motify= item.getValue(Chat.Comment.class);
+                        comment_motify.readUsers.put(uid, true);
 
-                        readUsersMap.put(key, comment);
-                        comments.add(comment);
+                        readUsersMap.put(key, comment_motify);
+                        comments.add(comment_origin);
+                    }
+
+                    if(!comments.get(comments.size()-1).readUsers.containsKey(uid))
+                    {
+                        FirebaseDatabase.getInstance().getReference().child("chatrooms").child(chatRoomUid).child("comments")
+                                .updateChildren(readUsersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                notifyDataSetChanged();
+                                recyclerView.scrollToPosition(comments.size() - 1);
+                            }
+                        });
+                    }else {
+                        notifyDataSetChanged();
+                        recyclerView.scrollToPosition(comments.size() - 1);
                     }
 
 
-                    FirebaseDatabase.getInstance().getReference().child("chatrooms").child(chatRoomUid).child("comments")
-                            .updateChildren(readUsersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            notifyDataSetChanged();
-                            recyclerView.scrollToPosition(comments.size() - 1);
-                        }
-                    });
                     //메세지가 갱신
 
 

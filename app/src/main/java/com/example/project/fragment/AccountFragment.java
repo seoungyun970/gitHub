@@ -27,6 +27,7 @@ import java.util.Map;
 
 public class AccountFragment extends Fragment {
     TextView textView;
+    EditText editText;
     String uid;
     @Nullable
     @Override
@@ -57,10 +58,21 @@ public class AccountFragment extends Fragment {
     }
     void showDialog(Context context){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.dialog_comment,null);
         final  EditText editText = (EditText)view.findViewById(R.id.commentDialog_edittext);
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("comment").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                editText.setText(value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         builder.setView(view).setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
