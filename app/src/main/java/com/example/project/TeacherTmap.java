@@ -48,7 +48,7 @@ public class TeacherTmap extends AppCompatActivity {
         linearLayoutTmap.addView(tMapView);
         tMapView.setIconVisibility(true);   //현재위치로 표시될 아이콘을 표시할지 여부를 설정합니다
         setGps();
-        tMapView.setZoom(17);
+        tMapView.setZoom(23);
         float []distance=new float[2];
         float actual_distance;
         Location.distanceBetween(latitude,longitude,35.857742,128.620717,distance);

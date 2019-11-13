@@ -21,14 +21,20 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.project.Model.Notice;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +51,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
     String mCurrentPhotoPath; //실제 사진 파일 경로
     Uri photoURI;
     Uri albumURI;
+    Uri imageUri;
 
     private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_ALBUM = 3333;
@@ -88,10 +95,6 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
         String noticemenu = noticeWriteSpinner.getSelectedItem().toString();
         String title = noticeWriteTitleText.getText().toString().trim();
         String contents = noticeWriteContentsText.getText().toString().trim();
-        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분ss초");
-        Date time = new Date();
-        String time1 = format1.format(time);
-
 
 
         //제목, 내용, 이름이 비었는지 아닌지를 체크 한다.
@@ -108,17 +111,32 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
             return;
         }
 
-        Notice notice = new Notice();
-        notice.noticemenu = noticeWriteSpinner.getSelectedItem().toString();
-        notice.title = noticeWriteTitleText.getText().toString();
-        notice.contents = noticeWriteContentsText.getText().toString();
-        notice.date = time1;
+        FirebaseStorage.getInstance().getReference().child("noticeImages").child(uid).putFile(albumURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
+                while(!imageUrl.isComplete());
 
+                SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분ss초");
+                Date time = new Date();
+                String time1 = format1.format(time);
 
+                Notice notice = new Notice();
+                notice.noticemenu = noticeWriteSpinner.getSelectedItem().toString();
+                notice.title = noticeWriteTitleText.getText().toString();
+                notice.contents = noticeWriteContentsText.getText().toString();
+                notice.date = time1;
+                notice.noticeImageUrl = imageUrl.getResult().toString();
 
-        FirebaseDatabase.getInstance().getReference().child("Notice").push().setValue(notice);
-        Toast.makeText(this,"공지사항이 추가되었습니다.",Toast.LENGTH_SHORT).show();
-        NoticeWriteActivity.this.finish();
+                FirebaseDatabase.getInstance().getReference().child("Notice").push().setValue(notice).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "공지사항이 추가되었습니다.", Toast.LENGTH_LONG).show();
+                        NoticeWriteActivity.this.finish();
+                    }
+                });
+            }
+        });
     }
 
     public void albumBtn(View view){
@@ -211,9 +229,9 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
     public void onActivityResult(int requestCode, int resultCode, Intent data) { //선택한 사진 데이터 처리
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-
             case REQUEST_TAKE_ALBUM:
                 if (resultCode == Activity.RESULT_OK){
+
                     if(data.getData() != null){
                         try {
                             File albumFile = null;
@@ -221,6 +239,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                             photoURI=data.getData();
                             albumURI=Uri.fromFile(albumFile);
                             cropImage();
+
                         }catch (Exception e){
                             Log.e("TAKE_ALBUM_SINGLE ERROR", e.toString());
                         }

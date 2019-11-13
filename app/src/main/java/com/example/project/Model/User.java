@@ -7,4 +7,5 @@ public class User {
     public String uid;
     public String pushToken;
     public String job;
+    public String comment;
 }

@@ -31,7 +31,6 @@ public class MyGridAdpater extends ArrayAdapter {
 
     public MyGridAdpater(@NonNull Context context, List<Date> dates, Calendar currentDate,List<Events> events) {
         super(context, R.layout.single_cell_layout);
-
         this.dates=dates;
         this.currentDate=currentDate;
         this.events=events;
@@ -82,7 +81,7 @@ public class MyGridAdpater extends ArrayAdapter {
 
 
     private Date ConvertStringToDate(String eventDate){
-        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-ddd", Locale.ENGLISH);
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date =null;
         try {
             date=format.parse(eventDate);

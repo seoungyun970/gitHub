@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.project.Holder.NoticeViewHolder;
 import com.example.project.Model.Notice;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -67,11 +69,15 @@ public class TeacherNotice extends AppCompatActivity {
 
         adapter = new FirebaseRecyclerAdapter<Notice, NoticeViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull NoticeViewHolder holder, int i, @NonNull Notice notice) {
+            protected void onBindViewHolder(@NonNull final NoticeViewHolder holder, int i, @NonNull Notice notice) {
                 holder.mMenuTextView.setText(notice.getNoticemenu());
                 holder.mTitleTextView.setText(notice.getTitle());
                 holder.mContentsTextView.setText(notice.getContents());
                 holder.mDateTextView.setText(notice.getDate());
+                Glide.with(holder.itemView.getContext())
+                        .load(notice.noticeImageUrl)
+                        .apply(new RequestOptions())
+                        .into(holder.imageView);
             }
 
             @NonNull
@@ -144,12 +150,9 @@ public class TeacherNotice extends AppCompatActivity {
         item_noticemenu_update.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -170,8 +173,10 @@ public class TeacherNotice extends AppCompatActivity {
                 String content = item_content_update.getText().toString();
                 String date = item_date_update.getText().toString();
 
-                Notice notice = new Notice(noticemenu, title, content, date);
-                noticedb.child(key).setValue(notice);
+
+
+               // Notice notice = new Notice(noticemenu, title, content, date, noticeImageUrl);
+               // noticedb.child(key).setValue(notice);
 
                 Toast.makeText(TeacherNotice.this, "수정완료", Toast.LENGTH_SHORT).show();
             }
@@ -185,4 +190,5 @@ public class TeacherNotice extends AppCompatActivity {
         });
         builder.show();
     }
+
 }
