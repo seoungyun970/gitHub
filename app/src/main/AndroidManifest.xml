@@ -98,7 +98,6 @@
 
         <activity android:name=".CustomCalendarActivity"></activity>
         <activity android:name=".TeacherAlbum" android:label="@string/title_album"></activity>
-        <activity android:name=".AlbumImageActivity"></activity>
     </application>
 
 </manifest>
