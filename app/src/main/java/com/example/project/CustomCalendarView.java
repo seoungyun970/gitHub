@@ -3,8 +3,10 @@ package com.example.project;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +21,17 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TimeZone;
 
 public class CustomCalendarView extends LinearLayout {
@@ -121,8 +127,61 @@ public class CustomCalendarView extends LinearLayout {
                 alertDialog.show();
             }
         });
-    }
 
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String date=eventDateFormate.format(dates.get(i));
+                AlertDialog.Builder builder=new AlertDialog.Builder(context);
+                builder.setCancelable(true);
+                View showView=LayoutInflater.from(getContext()).inflate(R.layout.show_events_layout,null);
+
+                TextView Events=showView.findViewById(R.id.eventname);
+                TextView Time=showView.findViewById(R.id.eventtime);
+                TextView Date=showView.findViewById(R.id.eventdate);
+                RecyclerView recyclerView=showView.findViewById(R.id.EventsRV);
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(showView.getContext());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setHasFixedSize(true);
+                EventRecyclerAdapter eventRecylerAdapter=new EventRecyclerAdapter(showView.getContext()
+                        ,CollectEventByDate(date));
+                recyclerView.setAdapter(eventRecylerAdapter);
+                eventRecylerAdapter.notifyDataSetChanged();
+
+                builder.setView(showView);
+                alertDialog =builder.create();
+                alertDialog.show();
+                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        SetUpCalendar();
+                    }
+                });
+                return true;
+
+            }
+        });
+
+    }
+    private ArrayList<Events> CollectEventByDate(String date){
+        ArrayList<Events> arratList=new ArrayList<>();
+        dbOpenHelper=new DBOpenHelper(context);
+        SQLiteDatabase database=dbOpenHelper.getReadableDatabase();
+        Cursor cursor=dbOpenHelper.ReadEvents(date,database);
+        while (cursor.moveToNext()){
+            String event=cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
+            String time=cursor.getString(cursor.getColumnIndex(DBStructure.TIME));
+            String Date=cursor.getString(cursor.getColumnIndex(DBStructure.DATE));
+            String month=cursor.getString(cursor.getColumnIndex(DBStructure.MONTH));
+            String Year=cursor.getString(cursor.getColumnIndex(DBStructure.YEAR));
+            Events events=new Events(event,time,Date,month,Year);
+            arratList.add(events);
+        }
+        cursor.close();
+        dbOpenHelper.close();
+
+        return arratList;
+    }
     public CustomCalendarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
@@ -132,8 +191,9 @@ public class CustomCalendarView extends LinearLayout {
         SQLiteDatabase database=dbOpenHelper.getWritableDatabase();
         dbOpenHelper.SaveEvent(event,time,date,month,year,database);
         dbOpenHelper.close();
-        Toast.makeText(context,"Event saved",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"일정 저장",Toast.LENGTH_SHORT).show();
     }
+
     private void IntializeLayout(){
         LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view =inflater.inflate(R.layout.calendar_layout,this);

@@ -55,7 +55,6 @@ public class TeacherEatting extends AppCompatActivity  {
                         startActivity(actionButtonIntent);
                         break;
                 }
-
             }
         });
 
@@ -99,7 +98,6 @@ public class TeacherEatting extends AppCompatActivity  {
 
             public EattingViewHolder(View itemView) {
                 super(itemView);
-
                 standardTime=itemView.findViewById(R.id.standardTime);
                 nowDate =itemView.findViewById(R.id.nowDate);
                 imageView=itemView.findViewById(R.id.first_eat_image);
