@@ -113,7 +113,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         register_checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (register_id.getText().toString() == null || register_pw.getText().toString() == null || register_name.getText().toString() == null || imageUri == null) {
+                if (register_id.getText().toString() == null || register_pw.getText().toString() == null || register_name.getText().toString() == null || albumURI == null) {
                     Toast.makeText(getApplicationContext(), "가입실패", Toast.LENGTH_LONG).show();
 
                     return;
@@ -129,7 +129,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                 UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(register_name.getText().toString()).build();
                                 task.getResult().getUser().updateProfile(userProfileChangeRequest);
 
-                                FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(albumURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                         Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();

@@ -17,8 +17,12 @@
         app:srcCompat="@drawable/ic_edit"
         tools:ignore="VectorDrawableCompat" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_album"
+    <GridView
+        android:id="@+id/grid_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:numColumns="4"/>
 </RelativeLayout>

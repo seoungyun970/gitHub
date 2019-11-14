@@ -90,6 +90,11 @@ public class PeopleFragment extends Fragment {
                     startActivity(intent);
                 }
             });
+            if(users.get(position).comment != null) {
+                ((CustomViewHolder) holder).textView_comment.setText(users.get(position).comment);
+            }else {
+                ((CustomViewHolder) holder).textView_comment.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -100,11 +105,13 @@ public class PeopleFragment extends Fragment {
         private class CustomViewHolder extends RecyclerView.ViewHolder {
             public ImageView imageView;
             public TextView textView;
+            public TextView textView_comment;
 
             public CustomViewHolder(View view) {
                 super(view);
                 imageView = (ImageView)view.findViewById(R.id.frienditem_imageview);
                 textView = (TextView)view.findViewById(R.id.frienditem_textview);
+                textView_comment = (TextView)view.findViewById(R.id.frienditem_textview_comment);
             }
         }
     }

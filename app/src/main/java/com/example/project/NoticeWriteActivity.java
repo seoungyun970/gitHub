@@ -131,7 +131,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                 FirebaseDatabase.getInstance().getReference().child("Notice").push().setValue(notice).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "가입성공", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "공지사항이 추가되었습니다.", Toast.LENGTH_LONG).show();
                         NoticeWriteActivity.this.finish();
                     }
                 });

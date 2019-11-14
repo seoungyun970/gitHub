@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.project.fragment.AccountFragment;
 import com.example.project.fragment.ChatFragment;
 import com.example.project.fragment.PeopleFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,6 +35,9 @@ public class TeacherChat extends AppCompatActivity {
                         return true;
                      case R.id.action_chat:
                         getSupportFragmentManager().beginTransaction().replace(R.id.teacherchat_framelayout,new ChatFragment()).commit();
+                        return true;
+                    case R.id.action_account:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.teacherchat_framelayout,new AccountFragment()).commit();
                         return true;
                 }
                 return false;
