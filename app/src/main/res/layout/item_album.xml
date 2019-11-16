@@ -6,6 +6,5 @@
     <ImageView
         android:id="@+id/item_gridImage"
         android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:background="@drawable/imgbtn_profile" />
+        android:layout_height="90dp"/>
 </LinearLayout>

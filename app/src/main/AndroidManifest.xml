@@ -79,9 +79,9 @@
             android:label="@string/title_main"></activity>
         <activity
             android:name=".TeacherSetting"
-            android:theme="@style/TeacherTheme"></activity>
+            android:theme="@style/TeacherTheme" android:label="@string/title_setting"></activity>
         <activity android:name=".TeacherManager"></activity>
-        <activity android:name=".TeacherTmap"></activity>
+        <activity android:name=".TeacherTmap" android:label="@string/title_gps"></activity>
 
         <activity
             android:name=".TeacherDiary" android:label="@string/title_diary"></activity>
@@ -96,7 +96,7 @@
         <activity android:name="NoticeWriteActivity" android:label="@string/write_notice" android:windowSoftInputMode="adjustNothing"></activity>
 
 
-        <activity android:name=".CustomCalendarActivity"></activity>
+        <activity android:name=".CustomCalendarActivity" android:label="title_calendar"></activity>
         <activity android:name=".TeacherAlbum" android:label="@string/title_album"></activity>
     </application>
 
