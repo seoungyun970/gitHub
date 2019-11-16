@@ -27,12 +27,13 @@ public class TeacherAlbum extends AppCompatActivity implements View.OnClickListe
         list_gridArrayList=new ArrayList<Album>();
 
         list_gridArrayList.add(new Album(R.drawable.album));
-        list_gridArrayList.add(new Album(R.drawable.album));
-        list_gridArrayList.add(new Album(R.drawable.album));
-        list_gridArrayList.add(new Album(R.drawable.album));
-        list_gridArrayList.add(new Album(R.drawable.album));
-        list_gridArrayList.add(new Album(R.drawable.album));
-        list_gridArrayList.add(new Album(R.drawable.album));
+        list_gridArrayList.add(new Album(R.drawable.note));
+        list_gridArrayList.add(new Album(R.drawable.board));
+        list_gridArrayList.add(new Album(R.drawable.calendar));
+        list_gridArrayList.add(new Album(R.drawable.chat));
+        list_gridArrayList.add(new Album(R.drawable.food));
+        list_gridArrayList.add(new Album(R.drawable.school_bus));
+        list_gridArrayList.add(new Album(R.drawable.medicine));
 
         albumListAdapter=new AlbumListAdapter(TeacherAlbum.this,list_gridArrayList);
         mGridView.setAdapter(albumListAdapter);
