@@ -1,52 +1,56 @@
 package com.example.project;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.Model.Album;
 
 import java.util.ArrayList;
 
-public class TeacherAlbum extends AppCompatActivity implements View.OnClickListener{
-    GridView mGridView;
-    AlbumListAdapter albumListAdapter;
-    ArrayList<Album> list_gridArrayList;
+
+public class TeacherAlbum extends AppCompatActivity{
+
+    private ArrayList<ArrayList<Album>> allAlbumList = new ArrayList();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.teacher_album);
+        setContentView(R.layout.album_vertical);
 
-        findViewById(R.id.album_fab).setOnClickListener(this);
-        mGridView=(GridView) findViewById(R.id.grid_listview);
-        list_gridArrayList=new ArrayList<Album>();
 
-        list_gridArrayList.add(new Album(R.drawable.album));
-        list_gridArrayList.add(new Album(R.drawable.note));
-        list_gridArrayList.add(new Album(R.drawable.board));
-        list_gridArrayList.add(new Album(R.drawable.calendar));
-        list_gridArrayList.add(new Album(R.drawable.chat));
-        list_gridArrayList.add(new Album(R.drawable.food));
-        list_gridArrayList.add(new Album(R.drawable.school_bus));
-        list_gridArrayList.add(new Album(R.drawable.medicine));
+        RecyclerView view = findViewById(R.id.recyclerViewVertical);
+        VerticalAdapter verticalAdapter = new VerticalAdapter(this, allAlbumList);
 
-        albumListAdapter=new AlbumListAdapter(TeacherAlbum.this,list_gridArrayList);
-        mGridView.setAdapter(albumListAdapter);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(TeacherAlbum.this ,list_gridArrayList.get(position).toString(), Toast.LENGTH_LONG).show();
-            }
-        });
+        view.setHasFixedSize(true);
+        view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        view.setAdapter(verticalAdapter);
+
+        this.initializeData();
     }
+    public void initializeData()
+    {
+        ArrayList<Album> albumList1 = new ArrayList();
+        albumList1.add(new Album(R.drawable.album));
+        albumList1.add(new Album(R.drawable.board));
+        albumList1.add(new Album(R.drawable.calendar));
+        albumList1.add(new Album(R.drawable.chat));
+        albumList1.add(new Album(R.drawable.food));
+        albumList1.add(new Album(R.drawable.home));
+        albumList1.add(new Album(R.drawable.medicine));
+        albumList1.add(new Album(R.drawable.note));
+        albumList1.add(new Album(R.drawable.school_bus));
+        allAlbumList.add(albumList1);
 
-    @Override
-    public void onClick(View v) { //앨범 플로팅버튼 눌렸을 때
+        ArrayList<Album> albumList2 = new ArrayList();
+        albumList2.add(new Album(R.drawable.home));
+        allAlbumList.add(albumList2);
 
+        ArrayList<Album> albumList3 = new ArrayList();
+        albumList3.add(new Album(R.drawable.medicine));
+        albumList3.add(new Album(R.drawable.note));
+        albumList3.add(new Album(R.drawable.school_bus));
+        allAlbumList.add(albumList3);
     }
 }

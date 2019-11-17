@@ -89,14 +89,14 @@
         <activity android:name=".TeacherChat" android:label="@string/title_chat"/>
 
         <activity android:name=".TeacherEatting" android:label="@string/title_eating"></activity>
-        <activity android:name=".TeacherEattingItem"></activity>
+        <activity android:name=".TeacherEattingItem" android:label="@string/write_eating"></activity>
         <activity android:name=".DiaryWriteActivity"
             android:theme="@style/DialogTheme"/>
         <activity android:name=".TeacherNotice"  android:label="@string/title_notice"></activity>
         <activity android:name="NoticeWriteActivity" android:label="@string/write_notice" android:windowSoftInputMode="adjustNothing"></activity>
 
 
-        <activity android:name=".CustomCalendarActivity" android:label="title_calendar"></activity>
+        <activity android:name=".CustomCalendarActivity" android:label="@string/title_calendar"></activity>
         <activity android:name=".TeacherAlbum" android:label="@string/title_album"></activity>
     </application>
 

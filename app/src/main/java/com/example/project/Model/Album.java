@@ -1,17 +1,17 @@
 package com.example.project.Model;
 
 public class Album {
-    private int gridimage;
+    private int ResourceID;
 
-    public Album(int gridimage) {
-        this.gridimage = gridimage;
+    public Album(int resourceID) {
+        ResourceID = resourceID;
     }
 
-    public int getGridimage() {
-        return gridimage;
+    public int getResourceID() {
+        return ResourceID;
     }
 
-    public void setGridimage(int gridimage) {
-        this.gridimage = gridimage;
+    public void setResourceID(int resourceID) {
+        ResourceID = resourceID;
     }
 }
