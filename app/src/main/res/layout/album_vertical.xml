@@ -9,7 +9,8 @@
     <TextView
         android:id="@+id/album_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="날짜" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVertical"
