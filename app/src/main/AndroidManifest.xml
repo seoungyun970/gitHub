@@ -79,9 +79,9 @@
             android:label="@string/title_main"></activity>
         <activity
             android:name=".TeacherSetting"
-            android:theme="@style/TeacherTheme" android:label="@string/title_setting"></activity>
+            android:theme="@style/TeacherTheme"></activity>
         <activity android:name=".TeacherManager"></activity>
-        <activity android:name=".TeacherTmap" android:label="@string/title_gps"></activity>
+        <activity android:name=".TeacherTmap"></activity>
 
         <activity
             android:name=".TeacherDiary" android:label="@string/title_diary"></activity>
@@ -89,16 +89,16 @@
         <activity android:name=".TeacherChat" android:label="@string/title_chat"/>
 
         <activity android:name=".TeacherEatting" android:label="@string/title_eating"></activity>
-        <activity android:name=".EattingWriteActivity" android:label="@string/write_eating"></activity>
+        <activity android:name=".EattingWriteActivity"></activity>
         <activity android:name=".DiaryWriteActivity"
             android:theme="@style/DialogTheme"/>
         <activity android:name=".TeacherNotice"  android:label="@string/title_notice"></activity>
         <activity android:name="NoticeWriteActivity" android:label="@string/write_notice" android:windowSoftInputMode="adjustNothing"></activity>
 
 
-        <activity android:name=".CustomCalendarActivity" android:label="@string/title_calendar"></activity>
+        <activity android:name=".CustomCalendarActivity"></activity>
         <activity android:name=".TeacherAlbum" android:label="@string/title_album"></activity>
-        <activity android:name=".AttendanceActivity" android:label="@string/title_attendance" android:theme="@style/AppTheme"></activity>
+        <activity android:name=".AlbumWriteActivity"></activity>
         <activity android:name=".ItemAttendance"></activity>
     </application>
 
