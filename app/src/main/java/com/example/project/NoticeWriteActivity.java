@@ -3,6 +3,7 @@ package com.example.project;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -47,11 +48,13 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
     private EditText noticeWriteContentsText;
     private ImageView mWriteImageView;
     private String uid;
+    ProgressDialog progressDialog;
 
     String mCurrentPhotoPath; //실제 사진 파일 경로
+
     Uri photoURI;
     Uri albumURI;
-    Uri imageUri;
+    //Uri imageUri;
 
     private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_ALBUM = 3333;
@@ -69,12 +72,12 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
         mWriteImageView = findViewById(R.id.notice_write_image);
 
 
-        findViewById(R.id.notice_upload_btn).setOnClickListener(this);
 
         String[] str=getResources().getStringArray(R.array.notice_grade_array);
         noticeWriteSpinner.setPrompt("반을 선택해주세요.");
         ArrayAdapter gradeAdapter= new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,str);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        progressDialog = new ProgressDialog(this);
         noticeWriteSpinner.setAdapter(gradeAdapter);
         noticeWriteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -92,6 +95,9 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        progressDialog.setMessage("작성중입니다. 잠시 기다려 주세요...");
+        progressDialog.show();
+
         String noticemenu = noticeWriteSpinner.getSelectedItem().toString();
         String title = noticeWriteTitleText.getText().toString().trim();
         String contents = noticeWriteContentsText.getText().toString().trim();
@@ -117,7 +123,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                 Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
                 while(!imageUrl.isComplete());
 
-                SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분ss초");
+                SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
                 Date time = new Date();
                 String time1 = format1.format(time);
 

@@ -125,36 +125,44 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                         .addOnCompleteListener(MembershipPopup.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                final String uid = task.getResult().getUser().getUid();
-                                UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(register_name.getText().toString()).build();
-                                task.getResult().getUser().updateProfile(userProfileChangeRequest);
+                                if (task.isSuccessful()) {
+                                    final String uid = task.getResult().getUser().getUid();
+                                    UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(register_name.getText().toString()).build();
+                                    task.getResult().getUser().updateProfile(userProfileChangeRequest);
 
-                                FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(albumURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                        Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
-                                        while(!imageUrl.isComplete());
-                                        int id = rgroup_job.getCheckedRadioButtonId();
-                                        RadioButton rb = (RadioButton) findViewById(id);
-                                        User user = new User();
-                                        user.email = register_id.getText().toString();
-                                        user.username = register_name.getText().toString();
-                                        user.profileImageUrl = imageUrl.getResult().toString();
-                                        user.job = rb.getText().toString();
-                                        user.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                    FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(albumURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
+                                            while (!imageUrl.isComplete()) ;
+                                            int id = rgroup_job.getCheckedRadioButtonId();
+                                            RadioButton rb = (RadioButton) findViewById(id);
+                                            User user = new User();
+                                            user.email = register_id.getText().toString();
+                                            user.username = register_name.getText().toString();
+                                            user.profileImageUrl = imageUrl.getResult().toString();
+                                            user.job = rb.getText().toString();
+                                            user.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                                        FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
+                                            FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
 
-                                                Toast.makeText(getApplicationContext(), "가입성공", Toast.LENGTH_LONG).show();
-                                                MembershipPopup.this.finish();
-                                            }
-                                        });
-                                    }
-                                });
+                                                    Toast.makeText(getApplicationContext(), "가입성공", Toast.LENGTH_LONG).show();
+                                                    MembershipPopup.this.finish();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(), "가입실패", Toast.LENGTH_LONG).show();
+                                }
+
                             }
                         });
+
             }
         });
     }

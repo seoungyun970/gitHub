@@ -5,108 +5,102 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.project.Holder.EattingViewHolder;
 import com.example.project.Model.Eatting;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class TeacherEatting extends AppCompatActivity  {
-    private RecyclerView mEattingRecycleView;
+    private RecyclerView list_recyclerview;
+    FirebaseDatabase database;
+    DatabaseReference eattingdb;
 
-    private EattingAdapter mEattingAdapter;
-    private List<Eatting> mEattingList;
-
-    LinearLayoutManager mLayouyManagerEatting;
+    FirebaseRecyclerOptions<Eatting> options;
+    FirebaseRecyclerAdapter<Eatting, EattingViewHolder> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_eatting);
-        mEattingRecycleView=findViewById(R.id.recycler_diary);
-        mEattingList=new ArrayList<>();
 
-//        mEattingList.add(new Eatting("반갑습니다 여러분","","imageView","","","","",""));
-//        mEattingList.add(new Eatting("Hello","Hi","server"));
-//        mEattingList.add(new Eatting("OK","Yes sir","java"));
-//        mEattingList.add(new Eatting("안녕하세요","하이룽","php"));
-//        mEattingList.add(new Eatting("ㅎㅅㅎ","ㅇㅅㅇ!!","css"));
+        database = FirebaseDatabase.getInstance();
+        eattingdb = database.getReference("Eatting");
 
-        mLayouyManagerEatting = new LinearLayoutManager(this);
-        mEattingRecycleView.setLayoutManager(mLayouyManagerEatting);
-
-        mEattingAdapter=new EattingAdapter(mEattingList);
-        mEattingRecycleView.setAdapter(mEattingAdapter);
-
+        list_recyclerview = (RecyclerView) findViewById(R.id.recycler_eatting);
+        list_recyclerview.setLayoutManager(new LinearLayoutManager(TeacherEatting.this));
         FloatingActionButton actionButton = findViewById(R.id.floatingActionButton);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.floatingActionButton:
-                        Intent actionButtonIntent = new Intent(TeacherEatting.this,TeacherEattingItem.class);
+                        Intent actionButtonIntent = new Intent(TeacherEatting.this, EattingWriteActivity.class);
                         startActivity(actionButtonIntent);
-                        break;
                 }
             }
         });
+        showTask();
 
     }
-    private class EattingAdapter extends RecyclerView.Adapter<TeacherEatting.EattingAdapter.EattingViewHolder>{
-        private List<Eatting> mEattingList;
 
-        public EattingAdapter(List<Eatting> mEattingList) {
-            this.mEattingList = mEattingList;
-        }
-        @Override
-        public EattingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new EattingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_eatting,parent,false));
-        }
-        @Override
-        public void onBindViewHolder(EattingViewHolder holder, int position) {
-            Eatting data = mEattingList.get(position);
-            holder.standardTime.setText(data.getNowTime());
-            holder.nowDate.setText(data.getEattingTime());
-            holder.imageView.setImageResource(R.drawable.foodselect);
-            holder.imageView2.setImageResource(R.drawable.foodselect);
-            holder.imageView3.setImageResource(R.drawable.foodselect);
-            holder.eattingFirst.setText(data.getEattingFirst());
-            holder.eattingSecond.setText(data.getEattingSecond());
-            holder.eattingThrid.setText(data.getEattingThird());
-        }
-        @Override
-        public int getItemCount() {
-            return mEattingList.size();
-        }
+    private void showTask() {
+        options = new FirebaseRecyclerOptions.Builder<Eatting>()
+                .setQuery(eattingdb, Eatting.class)
+                .build();
 
-        class EattingViewHolder extends RecyclerView.ViewHolder{
-            private TextView standardTime;
-            private TextView nowDate;
-            private ImageView imageView;
-            private ImageView imageView2;
-            private ImageView imageView3;
-            private TextView eattingFirst;
-            private TextView eattingSecond;
-            private TextView eattingThrid;
-
-            public EattingViewHolder(View itemView) {
-                super(itemView);
-                standardTime=itemView.findViewById(R.id.standardTime);
-                nowDate =itemView.findViewById(R.id.nowDate);
-                imageView=itemView.findViewById(R.id.first_eat_image);
-                imageView2=itemView.findViewById(R.id.imageView2);
-                imageView3=itemView.findViewById(R.id.imageView3);
-                eattingFirst=itemView.findViewById(R.id.eattingFirst);
-                eattingSecond=itemView.findViewById(R.id.eattingSecond);
-                eattingThrid=itemView.findViewById(R.id.eattingThird);
-
+        adapter = new FirebaseRecyclerAdapter<Eatting, EattingViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull EattingViewHolder holder, int i, @NonNull Eatting eatting) {
+                holder.nowDate.setText(eatting.getNowtime());
+                Glide.with(holder.itemView.getContext())
+                        .load(eatting.firstImageUrl)
+                        .apply(new RequestOptions())
+                        .into(holder.first_eat_image);
+                Glide.with(holder.itemView.getContext())
+                        .load(eatting.secondImageUrl)
+                        .apply(new RequestOptions())
+                        .into(holder.second_eat_image);
+                Glide.with(holder.itemView.getContext())
+                        .load(eatting.thirdImageUrl)
+                        .apply(new RequestOptions())
+                        .into(holder.third_eat_image);
+                holder.eattingFirst.setText(eatting.getFirst());
+                holder.eattingSecond.setText(eatting.getSecond());
+                holder.eattingThrid.setText(eatting.getThird());
             }
-        }
+
+            @NonNull
+            @Override
+            public EattingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_eatting,parent,false);
+
+                return new EattingViewHolder(view);
+            }
+        };
+        list_recyclerview.setAdapter(adapter);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
 }

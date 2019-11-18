@@ -1,103 +1,80 @@
 package com.example.project.Model;
 
-import android.widget.ImageView;
-
 public class Eatting {
-    private String nowTime;
-    private String eattingTime;
-    private ImageView imageView1;
-    private ImageView imageView2;
-    private ImageView imageView3;
-    private String eattingFirst;
-    private String eattingSecond;
-    private String eattingThird;
+    public String nowtime;
+    public String firstImageUrl;
+    public String secondImageUrl;
+    public String thirdImageUrl;
+    public String first;
+    public String second;
+    public String third;
 
-    public Eatting(String nowTime, String eattingTime, ImageView imageView1, ImageView imageView2, ImageView imageView3, String eattingFirst, String eattingSecond, String eattingThird) {
-        this.nowTime = nowTime;
-        this.eattingTime = eattingTime;
-        this.imageView1 = imageView1;
-        this.imageView2 = imageView2;
-        this.imageView3 = imageView3;
-        this.eattingFirst = eattingFirst;
-        this.eattingSecond = eattingSecond;
-        this.eattingThird = eattingThird;
+    public Eatting() {
     }
 
-    public String getNowTime() {
-        return nowTime;
+    public Eatting(String nowtime, String firstImageUrl, String secondImageUrl, String thirdImageUrl, String first, String second, String third) {
+        this.nowtime = nowtime;
+        this.firstImageUrl = firstImageUrl;
+        this.secondImageUrl = secondImageUrl;
+        this.thirdImageUrl = thirdImageUrl;
+        this.first = first;
+        this.second = second;
+        this.third = third;
     }
 
-    public void setNowTime(String nowTime) {
-        this.nowTime = nowTime;
+    public String getNowtime() {
+        return nowtime;
     }
 
-    public String getEattingTime() {
-        return eattingTime;
+    public void setNowtime(String nowtime) {
+        this.nowtime = nowtime;
     }
 
-    public void setEattingTime(String eattingTime) {
-        this.eattingTime = eattingTime;
+    public String getFirstImageUrl() {
+        return firstImageUrl;
     }
 
-    public ImageView getImageView1() {
-        return imageView1;
+    public void setFirstImageUrl(String firstImageUrl) {
+        this.firstImageUrl = firstImageUrl;
     }
 
-    public void setImageView1(ImageView imageView1) {
-        this.imageView1 = imageView1;
+    public String getSecondImageUrl() {
+        return secondImageUrl;
     }
 
-    public ImageView getImageView2() {
-        return imageView2;
+    public void setSecondImageUrl(String secondImageUrl) {
+        this.secondImageUrl = secondImageUrl;
     }
 
-    public void setImageView2(ImageView imageView2) {
-        this.imageView2 = imageView2;
+    public String getThirdImageUrl() {
+        return thirdImageUrl;
     }
 
-    public ImageView getImageView3() {
-        return imageView3;
+    public void setThirdImageUrl(String thirdImageUrl) {
+        this.thirdImageUrl = thirdImageUrl;
     }
 
-    public void setImageView3(ImageView imageView3) {
-        this.imageView3 = imageView3;
+    public String getFirst() {
+        return first;
     }
 
-    public String getEattingFirst() {
-        return eattingFirst;
+    public void setFirst(String first) {
+        this.first = first;
     }
 
-    public void setEattingFirst(String eattingFirst) {
-        this.eattingFirst = eattingFirst;
+    public String getSecond() {
+        return second;
     }
 
-    public String getEattingSecond() {
-        return eattingSecond;
+    public void setSecond(String second) {
+        this.second = second;
     }
 
-    public void setEattingSecond(String eattingSecond) {
-        this.eattingSecond = eattingSecond;
+    public String getThird() {
+        return third;
     }
 
-    public String getEattingThird() {
-        return eattingThird;
-    }
-
-    public void setEattingThird(String eattingThird) {
-        this.eattingThird = eattingThird;
-    }
-
-    @Override
-    public String toString() {
-        return "Eatting{" +
-                "nowTime='" + nowTime + '\'' +
-                ", eattingTime='" + eattingTime + '\'' +
-                ", imageView1=" + imageView1 +
-                ", imageView2=" + imageView2 +
-                ", imageView3=" + imageView3 +
-                ", eattingFirst='" + eattingFirst + '\'' +
-                ", eattingSecond='" + eattingSecond + '\'' +
-                ", eattingThird='" + eattingThird + '\'' +
-                '}';
+    public void setThird(String third) {
+        this.third = third;
     }
 }

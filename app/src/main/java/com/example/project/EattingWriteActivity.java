@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,20 +13,32 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+
+import com.example.project.Model.Eatting;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,16 +47,28 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class TeacherEattingItem extends AppCompatActivity implements TimePicker.OnTimeChangedListener{
-    Button saveEating;
-    ImageView first_eat_image;
-    ImageView second_eat_image;
-    ImageView third_eat_image;
+public class EattingWriteActivity extends AppCompatActivity implements TimePicker.OnTimeChangedListener{
+    private ImageView first_eat_image;
+    private ImageView second_eat_image;
+    private ImageView third_eat_image;
+    private EditText eattingWritefirstText;
+    private EditText eattingWritesecondText;
+    private EditText eattingWritethirdText;
+    ProgressDialog progressDialog;
 
+    private Button saveEating;
+    private String uid;
+
+    //이미지 부분
     String mCurrentPhotoPath; //실제 사진 파일 경로
     Uri imageUri;
     Uri photoURI;
     Uri albumURI;
+    Uri albumURI1;
+    Uri albumURI2;
+    Uri albumURI3;
+
+
 
     private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_PHOTO = 2222;
@@ -54,20 +79,14 @@ public class TeacherEattingItem extends AppCompatActivity implements TimePicker.
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.teacher_eatting_item);
+        setContentView(R.layout.write_eatting_activity);
+
+        //시간부분
         Calendar c = Calendar.getInstance();
-        saveEating=findViewById(R.id.saveEating);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(TeacherEattingItem.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new DatePickerDialog.OnDateSetListener() {
-
-
-
+        DatePickerDialog datePickerDialog = new DatePickerDialog(EattingWriteActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new DatePickerDialog.OnDateSetListener() {
             @Override
-
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
                 // TODO Auto-generated method stub
-
                 try {
                     Locale locale=new Locale("ko","KR");
                     Date d = new SimpleDateFormat
@@ -75,29 +94,79 @@ public class TeacherEattingItem extends AppCompatActivity implements TimePicker.
                     TextView nowDate=findViewById(R.id.nowDate);
                     nowDate.setText(String.valueOf(year)+"년 "+String.valueOf(monthOfYear+1)+"월 "+String.valueOf((dayOfMonth))+"일");
                 } catch (Exception e) {
-
                     // TODO: handle exception
-
                     e.printStackTrace();
-
                 }
-
             }
-
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-
-
-
         datePickerDialog.getDatePicker().setCalendarViewShown(false);
-
         datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
         datePickerDialog.show();
 
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        eattingWritefirstText = (EditText) findViewById(R.id.eattingFirst);
+        eattingWritesecondText = (EditText) findViewById(R.id.eattingSecond);
+        eattingWritethirdText = (EditText) findViewById(R.id.eattingThird);
         first_eat_image = findViewById(R.id.first_eat_image);
         second_eat_image = findViewById(R.id.second_eat_image);
         third_eat_image = findViewById(R.id.third_eat_image);
+        saveEating = (Button)findViewById(R.id.saveEating);
+        progressDialog = new ProgressDialog(this);
 
+        saveEating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.setMessage("작성중입니다. 잠시 기다려 주세요...");
+                progressDialog.show();
+                String first = eattingWritefirstText.getText().toString().trim();
+                String second = eattingWritesecondText.getText().toString().trim();
+                String third = eattingWritethirdText.getText().toString().trim();
+
+                if (TextUtils.isEmpty(first)) {
+                    Toast.makeText(EattingWriteActivity.this, "아침메뉴를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(second)) {
+                    Toast.makeText(EattingWriteActivity.this, "아침메뉴를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(third)) {
+                    Toast.makeText(EattingWriteActivity.this, "저녁메뉴를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                FirebaseStorage.getInstance().getReference().child("eattingImages").child(uid).putFile(albumURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
+                        while(!imageUrl.isComplete());
+
+                        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+                        Date time = new Date();
+                        String time1 = format1.format(time);
+
+                        Eatting eatting = new Eatting();
+                        eatting.nowtime = time1;
+                        eatting.first = eattingWritefirstText.getText().toString();
+                        eatting.second = eattingWritesecondText.getText().toString();
+                        eatting.third = eattingWritethirdText.getText().toString();
+                        eatting.firstImageUrl = imageUrl.getResult().toString();
+                        eatting.secondImageUrl = imageUrl.getResult().toString();
+                        eatting.thirdImageUrl = imageUrl.getResult().toString();
+
+
+                        FirebaseDatabase.getInstance().getReference().child("Eatting").push().setValue(eatting).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getApplicationContext(), "식단표가 추가되었습니다.", Toast.LENGTH_LONG).show();
+                                EattingWriteActivity.this.finish();
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
     }
 
 
@@ -283,7 +352,7 @@ public class TeacherEattingItem extends AppCompatActivity implements TimePicker.
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());
                     }
                 } else {
-                    Toast.makeText(TeacherEattingItem.this, "사진찍기를 취소하였습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EattingWriteActivity.this, "사진찍기를 취소하였습니다.", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -312,7 +381,9 @@ public class TeacherEattingItem extends AppCompatActivity implements TimePicker.
                         second_eat_image.setImageURI(albumURI);
                     }else if(select_photo==3){
                         third_eat_image.setImageURI(albumURI);
+
                     }
+
                 }
                 break;
         }

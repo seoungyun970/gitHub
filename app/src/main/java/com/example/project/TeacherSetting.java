@@ -6,16 +6,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 public class TeacherSetting extends Activity {
+
+
     LinearLayout childManger;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +31,11 @@ public class TeacherSetting extends Activity {
                 Intent intent=new Intent(TeacherSetting.this,TeacherManager.class);
                 startActivity(intent);
                 break;
+            case R.id.signout:
+                Intent intent1=new Intent(TeacherSetting.this,LoginActivity.class);
+                Toast.makeText(getApplicationContext(), "로그아웃 되었습니다.", Toast.LENGTH_LONG).show();
+                startActivity(intent1);
+
         }
     }
 }
