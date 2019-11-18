@@ -64,6 +64,11 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
     Uri imageUri;
     Uri photoURI;
     Uri albumURI;
+    Uri albumURI1;
+    Uri albumURI2;
+    Uri albumURI3;
+
+
 
     private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_PHOTO = 2222;
@@ -136,18 +141,19 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                         Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
                         while(!imageUrl.isComplete());
 
-                        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일");
+                        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
                         Date time = new Date();
                         String time1 = format1.format(time);
 
                         Eatting eatting = new Eatting();
                         eatting.nowtime = time1;
-                        eatting.firstImageUrl = imageUrl.getResult().toString();
-                        eatting.secondImageUrl = imageUrl.getResult().toString();
-                        eatting.thirdImageUrl = imageUrl.getResult().toString();
                         eatting.first = eattingWritefirstText.getText().toString();
                         eatting.second = eattingWritesecondText.getText().toString();
                         eatting.third = eattingWritethirdText.getText().toString();
+                        eatting.firstImageUrl = imageUrl.getResult().toString();
+                        eatting.secondImageUrl = imageUrl.getResult().toString();
+                        eatting.thirdImageUrl = imageUrl.getResult().toString();
+
 
                         FirebaseDatabase.getInstance().getReference().child("Eatting").push().setValue(eatting).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -375,7 +381,9 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                         second_eat_image.setImageURI(albumURI);
                     }else if(select_photo==3){
                         third_eat_image.setImageURI(albumURI);
+
                     }
+
                 }
                 break;
         }
