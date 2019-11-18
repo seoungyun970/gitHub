@@ -10,7 +10,7 @@ public class Notice {
     public Notice() {
     }
 
-    public Notice(String noticemenu, String title, String contents, String date, String noticeImageUrl) {
+    public Notice(String noticemenu, String title, String contents, String date) {
         this.noticemenu = noticemenu;
         this.title = title;
         this.contents = contents;

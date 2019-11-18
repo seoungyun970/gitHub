@@ -1,33 +1,56 @@
 package com.example.project;
-
 import android.os.Bundle;
-import android.widget.GridView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class TeacherAlbum extends AppCompatActivity {
+import com.example.project.Model.Album;
 
-    private int[] imageIDs = new int[] {
-            R.drawable.schoolbus,
-            R.drawable.schoolprogram,
-            R.drawable.setting,
-            R.drawable.note,
-            R.drawable.medicine,
-            R.drawable.home,
-            R.drawable.food,
-            R.drawable.calendar,
-            R.drawable.board,
-            R.drawable.album
-    };
+import java.util.ArrayList;
+
+
+public class TeacherAlbum extends AppCompatActivity{
+
+    private ArrayList<ArrayList<Album>> allAlbumList = new ArrayList();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.teacher_album);
+        setContentView(R.layout.album_vertical);
 
-        GridView gridViewImages = (GridView)findViewById(R.id.imageGridview);
-        AlbumGridAdapter AlbumGridAdapter = new AlbumGridAdapter(this, imageIDs);
-        gridViewImages.setAdapter(AlbumGridAdapter);
+
+        RecyclerView view = findViewById(R.id.recyclerViewVertical);
+        VerticalAdapter verticalAdapter = new VerticalAdapter(this, allAlbumList);
+
+        view.setHasFixedSize(true);
+        view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        view.setAdapter(verticalAdapter);
+
+        this.initializeData();
+    }
+    public void initializeData()
+    {
+        ArrayList<Album> albumList1 = new ArrayList();
+        albumList1.add(new Album(R.drawable.album));
+        albumList1.add(new Album(R.drawable.board));
+        albumList1.add(new Album(R.drawable.calendar));
+        albumList1.add(new Album(R.drawable.chat));
+        albumList1.add(new Album(R.drawable.food));
+        albumList1.add(new Album(R.drawable.home));
+        albumList1.add(new Album(R.drawable.medicine));
+        albumList1.add(new Album(R.drawable.note));
+        albumList1.add(new Album(R.drawable.school_bus));
+        allAlbumList.add(albumList1);
+
+        ArrayList<Album> albumList2 = new ArrayList();
+        albumList2.add(new Album(R.drawable.home));
+        allAlbumList.add(albumList2);
+
+        ArrayList<Album> albumList3 = new ArrayList();
+        albumList3.add(new Album(R.drawable.medicine));
+        albumList3.add(new Album(R.drawable.note));
+        albumList3.add(new Album(R.drawable.school_bus));
+        allAlbumList.add(albumList3);
     }
 }

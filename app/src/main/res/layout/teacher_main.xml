@@ -33,7 +33,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/teacherName"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="25dp"
+        android:stretchColumns="*">
 
         <TableRow
             android:layout_width="match_parent"
@@ -118,18 +119,22 @@
                 android:src="@drawable/food" />
 
             <ImageView
-                android:id="@+id/imageView15"
+                android:id="@+id/gps"
                 android:layout_width="0dp"
                 android:layout_height="62dp"
                 android:layout_weight="1"
-                android:src="@drawable/medicine" />
+                android:onClick="onClick"
+                android:src="@drawable/chat"
+                tools:ignore="VectorDrawableCompat" />
 
             <ImageView
-                android:id="@+id/imageView16"
+                android:id="@+id/teacherTmap"
                 android:layout_width="0dp"
                 android:layout_height="62dp"
                 android:layout_weight="1"
-                android:src="@drawable/home" />
+                android:onClick="onClick"
+                android:src="@drawable/school_bus"
+                tools:ignore="VectorDrawableCompat" />
 
             <ImageView
                 android:id="@+id/imageView17"
@@ -155,14 +160,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="투약의뢰서" />
+                android:text="채팅" />
 
             <TextView
+                android:id="@+id/textView10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="귀가동의서" />
+                android:text="차량위치" />
 
             <TextView
                 android:layout_width="0dp"
@@ -177,34 +183,10 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView18"
-                android:layout_width="0dp"
-                android:layout_height="62dp"
-                android:layout_weight="1"
-                android:src="@drawable/schoolprogram" />
-
-            <ImageView
-                android:id="@+id/gps"
-                android:layout_width="0dp"
-                android:layout_height="62dp"
-                android:layout_weight="1"
-                android:onClick="onClick"
-                app:srcCompat="@drawable/ic_launcher_background"
-                tools:ignore="VectorDrawableCompat" />
-
-            <ImageView
-                android:id="@+id/teacherTmap"
-                android:layout_width="0dp"
-                android:layout_height="62dp"
-                android:layout_weight="1"
-                android:onClick="onClick"
-                app:srcCompat="@drawable/ic_launcher_background"
-                tools:ignore="VectorDrawableCompat" />
-
-            <ImageView
                 android:id="@+id/setting"
-                android:layout_width="0dp"
+                android:layout_width="24dp"
                 android:layout_height="62dp"
+                android:layout_column="4"
                 android:layout_weight="1"
                 android:onClick="onClick"
                 android:src="@drawable/setting" />
@@ -215,34 +197,13 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="교육프로그램" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="채팅" />
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/title_gps" />
-
-            <TextView
                 android:id="@+id/textView11"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="원 설정" />
+                android:text="원 설정"
+                android:layout_column="4"/>
 
         </TableRow>
 

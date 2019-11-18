@@ -54,9 +54,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     public Cursor ReadEventsperMonth(String month,String year,SQLiteDatabase database){
         String [] Projections={DBStructure.EVENT,DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR};
-        String Selection=DBStructure.MONTH+" =?and "+DBStructure.YEAR+" =? ";
+        String Selection=DBStructure.MONTH+"=?and "+DBStructure.YEAR+"=?";
         String [] SelectionArgs={month,year};
         return database.query(DBStructure.EVENT_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
+    }
+    public void deleteEvent(String event,String date,String time,SQLiteDatabase database){
+        String selection=DBStructure.EVENT+"=? and "+DBStructure.DATE+"=? and "+DBStructure.TIME+"=?";
+        String []selectcionArg={event,date,time};
+        database.delete(DBStructure.EVENT_TABLE_NAME,selection,selectcionArg);
+
     }
 
 }

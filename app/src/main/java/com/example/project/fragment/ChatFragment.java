@@ -37,7 +37,9 @@ import java.util.TreeMap;
 
 public class ChatFragment extends Fragment {
 
+
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class ChatFragment extends Fragment {
 
     class ChatRecyclerViewAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-        private List<Chat> chats = new ArrayList<>();
+        private List<Chat> chatModels = new ArrayList<>();
         private String uid;
         private ArrayList<String> destinationUsers = new ArrayList<>();
 
@@ -63,9 +65,9 @@ public class ChatFragment extends Fragment {
             FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    chats.clear();
+                    chatModels.clear();
                     for (DataSnapshot item :dataSnapshot.getChildren()){
-                        chats.add(item.getValue(Chat.class));
+                        chatModels.add(item.getValue(Chat.class));
                     }
                     notifyDataSetChanged();
                 }
@@ -94,10 +96,10 @@ public class ChatFragment extends Fragment {
 
 
             final CustomViewHolder customViewHolder = (CustomViewHolder)holder;
-            String destinationUid= null;
+            String destinationUid = null;
 
             // 일일 챗방에 있는 유저를 체크
-            for(String user: chats.get(position).users.keySet()){
+            for(String user: chatModels.get(position).users.keySet()){
                 if(!user.equals(uid)){
                     destinationUid = user;
                     destinationUsers.add(destinationUid);
@@ -111,7 +113,9 @@ public class ChatFragment extends Fragment {
                             .load(userModel.profileImageUrl)
                             .apply(new RequestOptions().circleCrop())
                             .into(customViewHolder.imageView);
+
                     customViewHolder.textView_title.setText(userModel.username);
+
                 }
 
                 @Override
@@ -122,35 +126,47 @@ public class ChatFragment extends Fragment {
 
             //메시지를 내림 차순으로 정렬 후 마지막 메세지의 키값을 가져옴
             Map<String,Chat.Comment> commentMap = new TreeMap<>(Collections.reverseOrder());
-            commentMap.putAll(chats.get(position).comments);
+            commentMap.putAll(chatModels.get(position).comments);
             String lastMessageKey = (String) commentMap.keySet().toArray()[0];
-            customViewHolder.textView_last_message.setText(chats.get(position).comments.get(lastMessageKey).message);
+            customViewHolder.textView_last_message.setText(chatModels.get(position).comments.get(lastMessageKey).message);
 
-            customViewHolder.itemView.setOnClickListener(new View.OnClickListener(){
-
+            customViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     Intent intent = new Intent(view.getContext(), MessageActivity.class);
-                    intent.putExtra("destinationUid", destinationUsers.get(position));
+                    intent.putExtra("destinationUid",destinationUsers.get(position));
+
 
                     ActivityOptions activityOptions = null;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(),R.anim.fromright,R.anim.toleft);
+                        activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright,R.anim.toleft);
                         startActivity(intent,activityOptions.toBundle());
                     }
-                }
 
+
+
+
+                }
             });
+
+
+            //TimeStamp
             simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-            long unixTime = (long)chats.get(position).comments.get(lastMessageKey).timestamp;
+            long unixTime = (long) chatModels.get(position).comments.get(lastMessageKey).timestamp;
             Date date = new Date(unixTime);
             customViewHolder.textView_timestamp.setText(simpleDateFormat.format(date));
+
+
+
+
+
 
         }
 
         @Override
         public int getItemCount() {
-            return chats.size();
+            return chatModels.size();
         }
 
         private class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -159,13 +175,14 @@ public class ChatFragment extends Fragment {
             public TextView textView_title;
             public TextView textView_last_message;
             public TextView textView_timestamp;
+
             public CustomViewHolder(View view) {
                 super(view);
 
                 imageView = (ImageView) view.findViewById(R.id.chatitem_imageview);
                 textView_title = (TextView)view.findViewById(R.id.chatitem_textview_title);
                 textView_last_message = (TextView)view.findViewById(R.id.chatitem_textview_lastMessage);
-                textView_timestamp = (TextView) view.findViewById(R.id.chatitem_texview_timestamp);
+                textView_timestamp = (TextView)view.findViewById(R.id.chatitem_textview_timestamp);
             }
         }
     }

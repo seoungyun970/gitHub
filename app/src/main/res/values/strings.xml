@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">Dolbomi</string>
-    <string name="title_gps">GPS</string>
+    <string name="title_gps">차량위치 정보 확인</string>
     <string name="title_diary">알림장</string>
     <string name="title_main">홈</string>
     <string name="title_notice">공지사항</string>
     <string name="write_notice">공지사항 작성</string>
     <string name="title_calendar">일정표</string>
     <string name="title_eating">식단표</string>
+    <string name="write_eating">식단표 작성</string>
     <string name="title_album">앨범</string>
     <string name="title_chat">채팅</string>
+    <string name="title_setting">원 설정</string>
 </resources>
