@@ -40,7 +40,7 @@ public class TeacherDiary extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         diarydb = database.getReference("Diary");
 
-        list_recyclerview = (RecyclerView) findViewById(R.id.recycler_diary);
+        list_recyclerview = (RecyclerView) findViewById(R.id.recycler_eatting);
         list_recyclerview.setLayoutManager(new LinearLayoutManager(TeacherDiary.this));
         FloatingActionButton fab = findViewById(R.id.write_fab);
         fab.setOnClickListener(new View.OnClickListener() {

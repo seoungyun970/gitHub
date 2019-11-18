@@ -49,9 +49,10 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
     private String uid;
 
     String mCurrentPhotoPath; //실제 사진 파일 경로
+
     Uri photoURI;
     Uri albumURI;
-    Uri imageUri;
+    //Uri imageUri;
 
     private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_ALBUM = 3333;
@@ -69,7 +70,6 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
         mWriteImageView = findViewById(R.id.notice_write_image);
 
 
-        findViewById(R.id.notice_upload_btn).setOnClickListener(this);
 
         String[] str=getResources().getStringArray(R.array.notice_grade_array);
         noticeWriteSpinner.setPrompt("반을 선택해주세요.");
