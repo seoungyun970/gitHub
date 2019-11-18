@@ -137,8 +137,9 @@
                 tools:ignore="VectorDrawableCompat" />
 
             <ImageView
-                android:id="@+id/imageView17"
+                android:id="@+id/attendance"
                 android:layout_width="0dp"
+                android:onClick="onClick"
                 android:layout_height="62dp"
                 android:layout_weight="1"
                 android:src="@drawable/schoolbus" />

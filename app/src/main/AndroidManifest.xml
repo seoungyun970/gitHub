@@ -98,6 +98,8 @@
 
         <activity android:name=".CustomCalendarActivity" android:label="@string/title_calendar"></activity>
         <activity android:name=".TeacherAlbum" android:label="@string/title_album"></activity>
+        <activity android:name=".AttendanceActivity" android:label="@string/title_attendance" android:theme="@style/AppTheme"></activity>
+        <activity android:name=".ItemAttendance"></activity>
     </application>
 
 </manifest>
