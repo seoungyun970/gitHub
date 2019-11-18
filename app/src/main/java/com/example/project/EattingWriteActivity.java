@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -53,6 +54,7 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
     private EditText eattingWritefirstText;
     private EditText eattingWritesecondText;
     private EditText eattingWritethirdText;
+    ProgressDialog progressDialog;
 
     private Button saveEating;
     private String uid;
@@ -104,10 +106,13 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
         second_eat_image = findViewById(R.id.second_eat_image);
         third_eat_image = findViewById(R.id.third_eat_image);
         saveEating = (Button)findViewById(R.id.saveEating);
+        progressDialog = new ProgressDialog(this);
 
         saveEating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.setMessage("작성중입니다. 잠시 기다려 주세요...");
+                progressDialog.show();
                 String first = eattingWritefirstText.getText().toString().trim();
                 String second = eattingWritesecondText.getText().toString().trim();
                 String third = eattingWritethirdText.getText().toString().trim();
@@ -138,6 +143,8 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                         Eatting eatting = new Eatting();
                         eatting.nowtime = time1;
                         eatting.firstImageUrl = imageUrl.getResult().toString();
+                        eatting.secondImageUrl = imageUrl.getResult().toString();
+                        eatting.thirdImageUrl = imageUrl.getResult().toString();
                         eatting.first = eattingWritefirstText.getText().toString();
                         eatting.second = eattingWritesecondText.getText().toString();
                         eatting.third = eattingWritethirdText.getText().toString();
@@ -145,7 +152,7 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                         FirebaseDatabase.getInstance().getReference().child("Eatting").push().setValue(eatting).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(getApplicationContext(), "공지사항이 추가되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "식단표가 추가되었습니다.", Toast.LENGTH_LONG).show();
                                 EattingWriteActivity.this.finish();
                             }
                         });

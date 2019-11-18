@@ -127,7 +127,7 @@ public class TeacherNotice extends AppCompatActivity {
         builder.setMessage("변경할 내용을 입력하세요.");
 
         //수정시간
-        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분ss초");
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
         Date time = new Date();
         String time1 = format1.format(time);
 
@@ -141,6 +141,8 @@ public class TeacherNotice extends AppCompatActivity {
         //숨길부분
         final TextView item_menu_update = update_layout.findViewById(R.id.edit_update_menu);
         item_menu_update.setVisibility(View.INVISIBLE);
+        final TextView item_url_update = update_layout.findViewById(R.id.edit_update_url);
+        item_url_update.setVisibility(View.INVISIBLE);
 
         //수정스피너
         String[] str=getResources().getStringArray(R.array.notice_grade_array);
@@ -160,6 +162,7 @@ public class TeacherNotice extends AppCompatActivity {
         item_menu_update.setText(item.getNoticemenu());
         item_title_update.setText(item.getTitle());
         item_content_update.setText(item.getContents());
+        item_url_update.setText(item.getNoticeImageUrl());
         item_date_update.setText(time1);
 
 
@@ -172,11 +175,11 @@ public class TeacherNotice extends AppCompatActivity {
                 String title = item_title_update.getText().toString();
                 String content = item_content_update.getText().toString();
                 String date = item_date_update.getText().toString();
+                String noticeImageUrl = item_url_update.getText().toString();
 
 
-
-               // Notice notice = new Notice(noticemenu, title, content, date, noticeImageUrl);
-               // noticedb.child(key).setValue(notice);
+                Notice notice = new Notice(noticemenu, title, content, date, noticeImageUrl);
+                noticedb.child(key).setValue(notice);
 
                 Toast.makeText(TeacherNotice.this, "수정완료", Toast.LENGTH_SHORT).show();
             }

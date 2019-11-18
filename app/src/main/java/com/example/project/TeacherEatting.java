@@ -102,4 +102,5 @@ public class TeacherEatting extends AppCompatActivity  {
         super.onStop();
         adapter.stopListening();
     }
+
 }
