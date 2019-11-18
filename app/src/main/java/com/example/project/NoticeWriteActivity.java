@@ -260,6 +260,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
     private void checkPermission(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             //처음 호출엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
