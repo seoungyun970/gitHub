@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class TeacherMain extends Activity {
+
     ImageView gps;
     ImageView diary;
     ImageView setting;
@@ -32,6 +33,7 @@ public class TeacherMain extends Activity {
     private String uid;
     private String url;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_main);
