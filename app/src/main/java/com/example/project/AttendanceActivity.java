@@ -1,18 +1,12 @@
 package com.example.project;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-
-import java.util.Calendar;
 
 public class AttendanceActivity extends Activity {
 
@@ -28,9 +22,10 @@ public class AttendanceActivity extends Activity {
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentDate=new Intent(AttendanceActivity.this,ItemAttendance.class);
+                Intent intentDate=new Intent(AttendanceActivity.this, TeacherAttendance.class);
                 startActivity(intentDate);
             }
+
         });
     }
 }

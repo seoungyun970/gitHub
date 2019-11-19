@@ -45,6 +45,8 @@ public class TeacherMain extends Activity {
         Username=findViewById(R.id.teacherName);
         calendar=findViewById(R.id.calendar);
         attendance=findViewById(R.id.attendance);
+
+
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase.getInstance().getReference().child("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
