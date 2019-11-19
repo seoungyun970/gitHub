@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,11 +29,14 @@ import androidx.core.content.ContextCompat;
 
 import com.example.project.Model.Notice;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
@@ -49,6 +51,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
     private ImageView mWriteImageView;
     private String uid;
     ProgressDialog progressDialog;
+
 
     String mCurrentPhotoPath; //실제 사진 파일 경로
 
@@ -95,55 +98,79 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        progressDialog.setMessage("작성중입니다. 잠시 기다려 주세요...");
-        progressDialog.show();
-
-        String noticemenu = noticeWriteSpinner.getSelectedItem().toString();
-        String title = noticeWriteTitleText.getText().toString().trim();
-        String contents = noticeWriteContentsText.getText().toString().trim();
-
-
-        //제목, 내용, 이름이 비었는지 아닌지를 체크 한다.
-        if (TextUtils.isEmpty(noticemenu)) {
-            Toast.makeText(this, "반을 선택해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(title)) {
-            Toast.makeText(this, "제목을 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(contents)) {
-            Toast.makeText(this, "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        FirebaseStorage.getInstance().getReference().child("noticeImages").child(uid).putFile(albumURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
-                while(!imageUrl.isComplete());
-
-                SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
-                Date time = new Date();
-                String time1 = format1.format(time);
-
-                Notice notice = new Notice();
-                notice.noticemenu = noticeWriteSpinner.getSelectedItem().toString();
-                notice.title = noticeWriteTitleText.getText().toString();
-                notice.contents = noticeWriteContentsText.getText().toString();
-                notice.date = time1;
-                notice.noticeImageUrl = imageUrl.getResult().toString();
-
-                FirebaseDatabase.getInstance().getReference().child("Notice").push().setValue(notice).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "공지사항이 추가되었습니다.", Toast.LENGTH_LONG).show();
-                        NoticeWriteActivity.this.finish();
-                    }
-                });
-            }
-        });
+        uploadFile();
     }
+    private void uploadFile() {
+        //업로드할 파일이 있으면 수행
+        if (albumURI != null) {
+            //업로드 진행 Dialog 보이기
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("업로드중...");
+            progressDialog.show();
+
+            //storage
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+
+            //Unique한 파일명을 만들자.
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+            Date now = new Date();
+            String filename = formatter.format(now) + ".png";
+            //storage 주소와 폴더 파일명을 지정해 준다.
+            StorageReference storageRef = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("noticeImages/" + filename);
+            //올라가거라...
+            storageRef.putFile(albumURI)
+                    //성공시
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
+                            while(!imageUrl.isComplete());
+
+                            SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+                            Date time = new Date();
+                            String time1 = format1.format(time);
+
+
+                            Notice notice = new Notice();
+                            notice.noticemenu = noticeWriteSpinner.getSelectedItem().toString();
+                            notice.title = noticeWriteTitleText.getText().toString();
+                            notice.contents = noticeWriteContentsText.getText().toString();
+                            notice.date = time1;
+                            notice.noticeImageUrl = imageUrl.getResult().toString();
+
+                            FirebaseDatabase.getInstance().getReference().child("Notice").push().setValue(notice).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getApplicationContext(), "공지사항이 추가되었습니다.", Toast.LENGTH_LONG).show();
+                                    NoticeWriteActivity.this.finish();
+                                }
+                            });
+
+                        }
+                    })
+                    //실패시
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    //진행중
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            @SuppressWarnings("VisibleForTests") //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
+                                    double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
+                            //dialog에 진행률을 퍼센트로 출력해 준다
+                            progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+                        }
+                    });
+        } else {
+            Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     public void albumBtn(View view){
         checkPermission();
@@ -235,6 +262,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
     public void onActivityResult(int requestCode, int resultCode, Intent data) { //선택한 사진 데이터 처리
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+
             case REQUEST_TAKE_ALBUM:
                 if (resultCode == Activity.RESULT_OK){
 
@@ -245,13 +273,13 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                             photoURI=data.getData();
                             albumURI=Uri.fromFile(albumFile);
                             cropImage();
-
                         }catch (Exception e){
                             Log.e("TAKE_ALBUM_SINGLE ERROR", e.toString());
                         }
                     }
                 }
                 break;
+
             case REQUEST_IMAGE_CROP:
                 if(resultCode == Activity.RESULT_OK){
                     galleryAddPic();
