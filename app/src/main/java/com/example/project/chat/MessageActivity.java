@@ -289,7 +289,7 @@ public class MessageActivity extends AppCompatActivity {
                 super(view);
                 textView_message = (TextView) view.findViewById(R.id.messageItem_textView_message);
                 textview_name = (TextView)view.findViewById(R.id.messageItem_textview_name);
-                imageView_profile = (ImageView)view.findViewById(R.id.messageItem_imageview_profile);
+                imageView_profile = (ImageView)view.findViewById(R.id.attendanceItem_imageview_profile);
                 linearLayout_destination = (LinearLayout)view.findViewById(R.id.messageItem_linearlayout_destination);
                 linearLayout_main = (LinearLayout)view.findViewById(R.id.messageItem_linearlayout_main);
                 textView_timestamp = (TextView)view.findViewById(R.id.messageItem_textview_timestamp);

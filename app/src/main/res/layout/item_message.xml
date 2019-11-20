@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/messageItem_imageview_profile"
+            android:id="@+id/attendanceItem_imageview_profile"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
