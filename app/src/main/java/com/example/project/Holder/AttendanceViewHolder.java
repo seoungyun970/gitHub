@@ -1,9 +1,7 @@
 package com.example.project.Holder;
 
 import android.content.Context;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -17,10 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.project.Model.User;
 import com.example.project.R;
-import com.example.project.TeacherMain;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -78,7 +72,7 @@ public class AttendanceViewHolder {
             public void onBindViewHolder(@NonNull UserItemView holder, int position) {
                 holder.bind(userList.get(position),mkeys.get(position));
                 Glide.with(holder.attendanceitem_imageview.getContext())
-                        .load("https://firebasestorage.googleapis.com/v0/b/dolbomi1.appspot.com/o/userImages%2F0zrb6JIAPgaNl3tlauQJ9ysUBzE3?alt=media&token=76836df0-f220-465f-bf94-7c27dc3116fe")
+                        .load(userList.get(position).profileImageUrl)
                         .apply(new RequestOptions())
                         .into(holder.attendanceitem_imageview);
             }

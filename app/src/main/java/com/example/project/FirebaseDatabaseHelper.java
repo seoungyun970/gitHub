@@ -25,8 +25,8 @@ public class FirebaseDatabaseHelper {
     public FirebaseDatabaseHelper(){
         mDatabase=FirebaseDatabase.getInstance();
         mReferenceBooks=mDatabase.getReference("users");
-
     }
+
     public void readUser(final DataStatus dataStatus){
         mReferenceBooks.addValueEventListener(new ValueEventListener() {
             @Override
