@@ -147,7 +147,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                             FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-
                                                     Toast.makeText(getApplicationContext(), "가입성공", Toast.LENGTH_LONG).show();
                                                     MembershipPopup.this.finish();
                                                 }

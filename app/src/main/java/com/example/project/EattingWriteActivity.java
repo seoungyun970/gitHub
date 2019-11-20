@@ -124,6 +124,8 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
 
     }
     private void uploadFile() {
+        final String key = FirebaseDatabase.getInstance().getReference().child("Eatting").push().getKey();
+        final Eatting eatting = new Eatting();
         //업로드할 파일이 있으면 수행
         if (albumURI != null) {
             //업로드 진행 Dialog 보이기
@@ -139,14 +141,53 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
             Date now = new Date();
             String filename = formatter.format(now) + ".png";
             //storage 주소와 폴더 파일명을 지정해 준다.
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eattingImages/" + filename);
+            StorageReference storageRef1 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eattingImages/").child("firstImages/" + filename);
+            final StorageReference storageRef2 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eattingImages/").child("secondImages/" + filename);
+            final StorageReference storageRef3 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eattingImages/").child("thirdImages/" + filename);
             //올라가거라...
-
-            storageRef.putFile(albumURI)
+            storageRef1.putFile(albumURI1)
                     //성공시
                     .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            storageRef2.putFile(albumURI2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    Task<Uri> imageUrl2 = task.getResult().getStorage().getDownloadUrl();
+                                    while(!imageUrl2.isComplete());
+
+                                    SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+                                    Date time = new Date();
+                                    String time1 = format1.format(time);
+
+                                    eatting.nowtime = time1;
+                                    eatting.first = eattingWritefirstText.getText().toString();
+                                    eatting.second = eattingWritesecondText.getText().toString();
+                                    eatting.third = eattingWritethirdText.getText().toString();
+                                    eatting.secondImageUrl = imageUrl2.getResult().toString();
+
+                                    FirebaseDatabase.getInstance().getReference().child("Eatting").child(key).setValue(eatting);
+                                }
+                            });
+                            storageRef3.putFile(albumURI3).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    Task<Uri> imageUrl3 = task.getResult().getStorage().getDownloadUrl();
+                                    while(!imageUrl3.isComplete());
+
+                                    SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+                                    Date time = new Date();
+                                    String time1 = format1.format(time);
+
+                                    eatting.nowtime = time1;
+                                    eatting.first = eattingWritefirstText.getText().toString();
+                                    eatting.second = eattingWritesecondText.getText().toString();
+                                    eatting.third = eattingWritethirdText.getText().toString();
+                                    eatting.thirdImageUrl = imageUrl3.getResult().toString();
+
+                                    FirebaseDatabase.getInstance().getReference().child("Eatting").child(key).setValue(eatting);
+                                }
+                            });
                             Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
                             while(!imageUrl.isComplete());
 
@@ -155,24 +196,21 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                             String time1 = format1.format(time);
 
 
-                            Eatting eatting = new Eatting();
                             eatting.nowtime = time1;
                             eatting.first = eattingWritefirstText.getText().toString();
                             eatting.second = eattingWritesecondText.getText().toString();
                             eatting.third = eattingWritethirdText.getText().toString();
                             eatting.firstImageUrl = imageUrl.getResult().toString();
-                            eatting.secondImageUrl = imageUrl.getResult().toString();
-                            eatting.thirdImageUrl = imageUrl.getResult().toString();
 
-                            FirebaseDatabase.getInstance().getReference().child("Eatting").push().setValue(eatting).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            FirebaseDatabase.getInstance().getReference().child("Eatting").child(key).setValue(eatting).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getApplicationContext(), "식단표가 추가되었습니다.", Toast.LENGTH_LONG).show();
                                     EattingWriteActivity.this.finish();
                                 }
                             });
-
                         }
+
                     })
                     //실패시
                     .addOnFailureListener(new OnFailureListener() {

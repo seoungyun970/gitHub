@@ -46,8 +46,6 @@ public class AttendanceViewHolder {
         }
 
         public void bind(User user, String key) {
-//            attendanceitem_imageview.setImageURI(user.getProfileImageUrl());
-
             attendanceitem_textview.setText(user.getUsername());
 
             this.key = key;
