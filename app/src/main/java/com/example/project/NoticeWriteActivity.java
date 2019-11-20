@@ -163,7 +163,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                             @SuppressWarnings("VisibleForTests") //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
                                     double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
                             //dialog에 진행률을 퍼센트로 출력해 준다
-                            progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+                            progressDialog.setMessage("진행률 " + ((int) progress) + "% ...");
                         }
                     });
         } else {
