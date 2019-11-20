@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,14 +56,6 @@ public class TeacherAlbum extends AppCompatActivity{
     {
         ArrayList<Album> albumList1 = new ArrayList();
         albumList1.add(new Album(R.drawable.album));
-        albumList1.add(new Album(R.drawable.board));
-        albumList1.add(new Album(R.drawable.calendar));
-        albumList1.add(new Album(R.drawable.chat));
-        albumList1.add(new Album(R.drawable.food));
-        albumList1.add(new Album(R.drawable.home));
-        albumList1.add(new Album(R.drawable.medicine));
-        albumList1.add(new Album(R.drawable.note));
-        albumList1.add(new Album(R.drawable.school_bus));
         allAlbumList.add(albumList1);
 
         ArrayList<Album> albumList2 = new ArrayList();
@@ -69,8 +63,6 @@ public class TeacherAlbum extends AppCompatActivity{
         allAlbumList.add(albumList2);
 
         ArrayList<Album> albumList3 = new ArrayList();
-        albumList3.add(new Album(R.drawable.medicine));
-        albumList3.add(new Album(R.drawable.note));
         albumList3.add(new Album(R.drawable.school_bus));
         allAlbumList.add(albumList3);
     }
@@ -125,15 +117,17 @@ public class TeacherAlbum extends AppCompatActivity{
                 {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
                     Date now = new Date();
-                    String filename = formatter.format(now) + ".png";
                     FirebaseStorage storage = FirebaseStorage.getInstance();
 
                     for(int i = 0; i < clipData.getItemCount(); i++)
                     {
-                        StorageReference storageRef1 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("albumImages/"+filename+i);
+                        String filename = formatter.format(now)+"_"+(i+1)+ ".png";
+                        StorageReference storageRef1 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("albumImages/"+filename);
                             Uri urione =  clipData.getItemAt(i).getUri();
                             storageRef1.putFile(urione);
                     } //포문end
+
+                    Toast.makeText(this, "사진업로드 성공", Toast.LENGTH_SHORT).show();
                 }
             }//리절트 ok end
         }//픽 리퀘스트 코드 end
