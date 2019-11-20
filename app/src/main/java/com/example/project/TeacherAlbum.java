@@ -1,8 +1,8 @@
 package com.example.project;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,8 +65,8 @@ public class TeacherAlbum extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.album_write: //추가 버튼이 클릭됬을 때
-                Intent awintent=new Intent(TeacherAlbum.this, AlbumWriteActivity.class); //앨범 사진추가 그리드뷰 실행
-                startActivity(awintent);
+               // Intent awintent=new Intent(TeacherAlbum.this, .class); //앨범 사진추가 그리드뷰 실행
+              //  startActivity(awintent);
                return true;
              default:
                 return super.onOptionsItemSelected(item);
