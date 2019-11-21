@@ -138,8 +138,8 @@ public class TeacherAlbum extends AppCompatActivity{
                     startActivityForResult(photoPickerIntent,PICTURE_REQUEST_CODE);
                 }
 
-               return true;
-             default:
+                return true;
+            default:
                 return super.onOptionsItemSelected(item);
         }
     }
@@ -168,8 +168,8 @@ public class TeacherAlbum extends AppCompatActivity{
                     {
                         String filename = formatter.format(now)+"_"+(i+1)+ ".png";
                         StorageReference storageRef1 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("albumImages/"+filename);
-                            Uri urione =  clipData.getItemAt(i).getUri();
-                            storageRef1.putFile(urione);
+                        Uri urione =  clipData.getItemAt(i).getUri();
+                        storageRef1.putFile(urione);
                     } //포문end
 
                     Toast.makeText(this, "사진업로드 성공", Toast.LENGTH_SHORT).show();

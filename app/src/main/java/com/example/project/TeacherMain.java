@@ -54,10 +54,10 @@ public class TeacherMain extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User userModel =  dataSnapshot.getValue(User.class);
-                Glide.with(TeacherMain.this)
-                        .load(userModel.profileImageUrl)
-                        .apply(new RequestOptions().circleCrop())
-                        .into(Userface);
+                    Glide.with(TeacherMain.this)
+                            .load(userModel.profileImageUrl)
+                            .apply(new RequestOptions().circleCrop())
+                            .into(Userface);
             }
 
             @Override

@@ -167,6 +167,7 @@ public class TeacherNotice extends AppCompatActivity {
 
 
         builder.setView(update_layout);
+
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
