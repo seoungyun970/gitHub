@@ -12,28 +12,33 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"/>
+
         <TextView
-            android:layout_marginLeft="10dp"
             android:id="@+id/attendanceitem_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="이름" />
+            android:layout_marginLeft="10dp"
+            android:text="이름"
+            android:textSize="40sp"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center|right">
+
             <LinearLayout
-                android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp">
 
                 <CheckBox
                     android:id="@+id/attendance_checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="true"
                     android:text="출석체크" />
             </LinearLayout>
         </LinearLayout>

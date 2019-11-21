@@ -101,6 +101,7 @@
         <activity android:name=".AlbumWriteActivity"></activity>
         <activity android:name=".TeacherAttendance"></activity>
         <activity android:name=".AttendanceActivity"></activity>
+        <activity android:name=".TeacherAttendanceResult"></activity>
     </application>
 
 </manifest>
