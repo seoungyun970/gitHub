@@ -170,5 +170,9 @@ public class TeacherTmap extends AppCompatActivity {
                 mLocationListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
 

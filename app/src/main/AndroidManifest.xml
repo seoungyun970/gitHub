@@ -11,8 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera2" />
 
     <application
@@ -98,7 +96,6 @@
 
         <activity android:name=".CustomCalendarActivity"></activity>
         <activity android:name=".TeacherAlbum" android:label="@string/title_album"></activity>
-        <activity android:name=".AlbumWriteActivity"></activity>
         <activity android:name=".TeacherAttendance"></activity>
         <activity android:name=".AttendanceActivity"></activity>
         <activity android:name=".TeacherAttendanceResult"></activity>

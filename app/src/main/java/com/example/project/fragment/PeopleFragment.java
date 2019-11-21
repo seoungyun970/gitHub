@@ -44,7 +44,7 @@ public class PeopleFragment extends Fragment {
         public PeopleFragmentRecyclerViewAdapter() {
             users = new ArrayList<>();
             final String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("users").orderByChild("username").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     users.clear();

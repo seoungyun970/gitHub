@@ -53,8 +53,8 @@ public class TeacherAttendance extends Activity {
     TextView attendanceitem_textview;
     Button attendance_save;
     CheckBox attendance_checkBox;
-            List<User> iusers = null;
-//    private List<Student> studentList;
+    List<User> iusers = null;
+    //    private List<Student> studentList;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
