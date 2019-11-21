@@ -1,70 +1,114 @@
 package com.example.project;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Gallery;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.project.Holder.EattingViewHolder;
-import com.example.project.Model.Album;
-import com.example.project.Model.Eatting;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 
 public class TeacherAlbum extends AppCompatActivity{
-    private ArrayList<ArrayList<Album>> allAlbumList = new ArrayList();
     final int PICTURE_REQUEST_CODE=1;
 
-    FirebaseDatabase database;
-    DatabaseReference albumdb;
-
-    FirebaseRecyclerOptions<Album> options;
-    FirebaseRecyclerAdapter<Album, EattingViewHolder> adapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.album_vertical);
+        setContentView(R.layout.teacher_album);
 
-        RecyclerView view = findViewById(R.id.recyclerViewVertical);
-        VerticalAdapter verticalAdapter = new VerticalAdapter(this, allAlbumList);
+        final int img[] = {
+                R.drawable.board,R.drawable.album,R.drawable.calendar,
+                R.drawable.food,R.drawable.home,R.drawable.medicine,
+                R.drawable.note,R.drawable.setting,R.drawable.schoolprogram
+        };
 
-        view.setHasFixedSize(true);
-        view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        view.setAdapter(verticalAdapter);
-        this.initializeData();
-    }
-    public void initializeData()
-    {
-        ArrayList<Album> albumList1 = new ArrayList();
-        albumList1.add(new Album(R.drawable.album));
-        allAlbumList.add(albumList1);
+        AlbumAdapter adapter = new AlbumAdapter(
+                getApplicationContext(), // 현재 화면의 제어권자
+                R.layout.item_album,
+                img);
 
-        ArrayList<Album> albumList2 = new ArrayList();
-        albumList2.add(new Album(R.drawable.home));
-        allAlbumList.add(albumList2);
+        // adapterView
+        Gallery g = (Gallery)findViewById(R.id.gallery1);
+        g.setAdapter(adapter);
 
-        ArrayList<Album> albumList3 = new ArrayList();
-        albumList3.add(new Album(R.drawable.school_bus));
-        allAlbumList.add(albumList3);
+        final ImageView iv = (ImageView)findViewById(R.id.imageView1);
+
+        g.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) { // 선택되었을 때 콜백메서드
+                iv.setImageResource(img[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+    }//onCreate end
+
+    class AlbumAdapter extends BaseAdapter {
+        Context context;
+        int layout;
+        int img[];
+        LayoutInflater inf;
+
+        public AlbumAdapter(Context context, int layout, int[] img) {
+            this.context = context;
+            this.layout = layout;
+            this.img = img;
+            inf = (LayoutInflater) context.getSystemService
+                    (Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() { // 보여줄 데이터의 총 개수 - 꼭 작성해야 함
+            return img.length;
+        }
+
+        @Override
+        public Object getItem(int position) { // 해당행의 데이터- 안해도 됨
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) { // 해당행의 유니크한 id - 안해도 됨
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // 보여줄 해당행의 row xml 파일의 데이터를 셋팅해서 뷰를 완성하는 작업
+            if (convertView == null) {
+                convertView = inf.inflate(layout, null);
+            }
+
+            ImageView iv = (ImageView)convertView.findViewById(R.id.imageView1);
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            iv.setLayoutParams(new Gallery.LayoutParams(300,400));
+            iv.setImageResource(img[position]);
+            return iv;
+        }
     }
 
     @Override
@@ -111,6 +155,7 @@ public class TeacherAlbum extends AppCompatActivity{
                 //ClipData 또는 Uri를 가져온다
                 Uri uri = data.getData();
                 ClipData clipData = data.getClipData();
+                //data.getClipdata() api 오류시 빌드그래들에서 defaultConfig{} 안 minSdkVersion 16으로 수정
 
                 //이미지 URI 를 이용하여 이미지뷰에 순서대로 세팅한다.
                 if(clipData!=null)
