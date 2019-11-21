@@ -130,7 +130,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
                                     UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(register_name.getText().toString()).build();
                                     task.getResult().getUser().updateProfile(userProfileChangeRequest);
 
-                                    FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(albumURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    FirebaseStorage.getInstance().getReference().child("userImages/").child(uid).putFile(albumURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                             Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();

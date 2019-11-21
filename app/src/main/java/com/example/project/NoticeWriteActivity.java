@@ -126,7 +126,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                             Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
                             while(!imageUrl.isComplete());
 
-                            SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+                            SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy/MM/dd HH:mm");
                             Date time = new Date();
                             String time1 = format1.format(time);
 

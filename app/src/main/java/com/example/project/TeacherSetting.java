@@ -17,16 +17,20 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class TeacherSetting extends Activity {
 
     final Context context = this;
     LinearLayout childManger;
-
+    String uid;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_setting);
+
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -77,6 +81,10 @@ public class TeacherSetting extends Activity {
                 DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        FirebaseStorage.getInstance().getReference().child("/userImages").child(uid).delete();
+
+
+
                         FirebaseAuth.getInstance().getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -89,7 +97,7 @@ public class TeacherSetting extends Activity {
                 };
                 new AlertDialog.Builder(this)   //프로필 알림창 표시
                         .setTitle("계정 삭제")
-                        .setMessage("삭제된 계정은 복구할 수 없습니다. 탈퇴하시겠습니까?")
+                        .setMessage("삭제된 계정은 복구할 수 없습니다.\n 탈퇴하시겠습니까?")
                         .setPositiveButton("확인", positiveListener)
                         .setNegativeButton("취소", cancelListener)
                         .show();
