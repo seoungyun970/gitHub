@@ -28,12 +28,16 @@ import com.example.project.Model.Diary;
 import com.example.project.Model.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -130,6 +134,26 @@ public class TeacherAttendance extends Activity {
                     }
 
                 }
+                FirebaseInstanceId.getInstance().getInstanceId()
+                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.w(TAG, "getInstanceId failed", task.getException());
+                                    return;
+                                }
+
+                                // Get new Instance ID token
+                                String token = task.getResult().getToken();
+
+                                // Log and toast
+                                String msg = getString(R.string.msg_token_fmt, token);
+                                Log.d(TAG, msg);
+
+                                Toast.makeText(TeacherAttendance.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
 
 //                Toast.makeText(TeacherAttendance.this,
 //                        "이름: \n" + data, Toast.LENGTH_LONG)
@@ -144,6 +168,15 @@ public class TeacherAttendance extends Activity {
 //                    TextView attendanceResult=findViewById(R.id.attendanceResult);
 //                    attendanceResult.setText(result+" ");
 //                }
+                String token = "cekjQJ8ZQd8:APA91bFfwcdk9DiRBItqMwfoqsKyEKvPvoIMaya302EctUwXgANpbwFG7ibifIqgPYWB2wMwZcKTA72gQooQnuWIhoPKWnDse4mz5amyCDAaaHxr7eokW5gl_3xAD-ostwM7DF-XqYHK";
+                String title = "제목입니다.";
+                String body = "본문입니다.";
+                try {
+                    String result = new PushMsgTask().execute(token, title, body).get();
+                    Log.i("통신결과값", result + " ");
+                } catch (Exception e) {
+                    Log.e("통신오류", e.toString());
+                }
             }
         });
     }

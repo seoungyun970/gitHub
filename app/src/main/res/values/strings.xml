@@ -12,4 +12,5 @@
     <string name="title_chat">채팅</string>
     <string name="title_setting">원 설정</string>
     <string name="title_attendance">출석부</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
 </resources>
