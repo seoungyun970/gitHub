@@ -33,7 +33,7 @@
                 android:layout_width="52dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="아이디" />
+                android:text="이메일" />
 
             <EditText
                 android:id="@+id/register_id"

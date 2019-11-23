@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DiaryWriteActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mWriteTitleText;
     private EditText mWriteContentsText;
-    private EditText mWriteNameText;
+    private TextView mWriteNameText;
     private Button mWritebtn;
     private String uid;
     private Diary mDiary;

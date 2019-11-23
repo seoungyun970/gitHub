@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -119,7 +120,7 @@ public class TeacherDiary extends AppCompatActivity {
 
         final EditText item_title_update = update_layout.findViewById(R.id.edit_update_title);
         final EditText item_content_update = update_layout.findViewById(R.id.edit_update_content);
-        final EditText item_name_update = update_layout.findViewById(R.id.edit_update_date);
+        final TextView item_name_update = update_layout.findViewById(R.id.edit_update_date);
 
         item_title_update.setText(item.getTitle());
         item_content_update.setText(item.getContents());
