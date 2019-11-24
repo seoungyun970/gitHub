@@ -16,7 +16,8 @@ import java.util.HashMap;
 
 public class PushMsgTask extends AsyncTask<String, Void, String> {
     String sendMsg, receiveMsg;
-    public final String API_KEY = "AAAAK4e5SaM:APA91bE9T5TR8QZw-0ojGZgDq40BV4VdTYJ0LZZWG4WzjL4uxS-4rX1kwdcQOPaE18-AJIdwyP0avm-52thgo3FMOVY_hiPpoJ4fhnuX8h_HgDxeRWyep_JzqG4sKYZNySyyo-xn7OMy";
+    public final String API_KEY = "AAAAK4e5SaM:APA91bFsjSQE6v1IGZ3Dx4EuGteIcNK1YoHSqR7Vul-wx_Mjqu1SI56UEgaCz0mpLBLNORSv6cNJWP2D5eBu1I6u-5_ScBj8AXSxtwxlrEiy9HVL-XIF4d64dPFgAkr90OigVk-gyD0X";
+
 
     @Override
     protected String doInBackground(String... strings) {
@@ -82,6 +83,9 @@ public class PushMsgTask extends AsyncTask<String, Void, String> {
 
         //jsp로부터 받은 리턴 값
         return receiveMsg;
+
+
     }
+
 
 }

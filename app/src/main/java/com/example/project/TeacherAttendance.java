@@ -2,7 +2,12 @@ package com.example.project;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +36,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,10 +45,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -59,6 +80,7 @@ public class TeacherAttendance extends Activity {
     CheckBox attendance_checkBox;
     List<User> iusers = null;
     //    private List<Student> studentList;
+    private  User UserModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,19 +136,12 @@ public class TeacherAttendance extends Activity {
         // set the adapter object to the Recyclerview
 //        list_recyclerview.setAdapter(mAdapter);
 
+
+
+
         attendance_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                String data = "";
-//                List<User> stList = ((AttendanceViewHolder) mAdapter)
-//                        .userList();
-//                for (int i = 0; i < stList.size(); i++) {
-//                    User singleStudent = stList.get(i);
-//                    if (attendance_checkBox.isSelected() == true) {
-//                        data = data + "\n" + singleStudent.getName().toString();
-//                    }
-//                }
                 for(int i=0;i<iusers.size();i++){
                     User checkBox=iusers.get(i);
                     if(checkBox.isCheckBox()==true){
@@ -155,19 +170,7 @@ public class TeacherAttendance extends Activity {
 
                         });
 
-//                Toast.makeText(TeacherAttendance.this,
-//                        "이름: \n" + data, Toast.LENGTH_LONG)
-//                        .show();
 
-//                Toast.makeText(view.getContext(),"Click on Checkbox: "
-//                +attendance_checkBox.isChecked(),Toast.LENGTH_LONG).show();
-//                String result="";
-//                for(int i=0;i< iusers.size();i++){
-//                    attendance_checkBox.setText(String.valueOf(iusers.get(i)));
-//                    result += attendance_checkBox.getText().toString();
-//                    TextView attendanceResult=findViewById(R.id.attendanceResult);
-//                    attendanceResult.setText(result+" ");
-//                }
                 String token = "cekjQJ8ZQd8:APA91bFfwcdk9DiRBItqMwfoqsKyEKvPvoIMaya302EctUwXgANpbwFG7ibifIqgPYWB2wMwZcKTA72gQooQnuWIhoPKWnDse4mz5amyCDAaaHxr7eokW5gl_3xAD-ostwM7DF-XqYHK";
                 String title = "제목입니다.";
                 String body = "본문입니다.";
@@ -178,6 +181,43 @@ public class TeacherAttendance extends Activity {
                     Log.e("통신오류", e.toString());
                 }
             }
+
+
         });
+//        sendGcm();
+
+
     }
+
+
+
+//    void sendGcm(){
+//        Gson gson=new Gson();
+//
+//        NotificationModel notificationModel =new NotificationModel();
+//        notificationModel.to=UserModel.pushToken;
+//        notificationModel.notification.title="돌보미";
+////        notificationModel.notification.text=editText.getText().toString();
+//
+//        RequestBody requestBody=RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
+//
+//        Request request=new Request.Builder().header("Authorization","key=AAAAK4e5SaM:APA91bE9T5TR8QZw-0ojGZgDq40BV4VdTYJ0LZZWG4WzjL4uxS-4rX1kwdcQOPaE18-AJIdwyP0avm-52thgo3FMOVY_hiPpoJ4fhnuX8h_HgDxeRWyep_JzqG4sKYZNySyyo-xn7OMy")
+//                .addHeader("Content-Type","application/json")
+//                .url("https://fcm.googleapis.com/fcm/send")
+//                .post(requestBody)
+//                .build();
+//        OkHttpClient okHttpClient=new OkHttpClient();
+//        okHttpClient.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//
+//            }
+//        });
+//    }
+
 }
