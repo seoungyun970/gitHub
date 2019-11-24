@@ -155,6 +155,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                             notice.contents = noticeWriteContentsText.getText().toString();
                             notice.date = time1;
                             notice.noticeImageUrl = imageUrl.getResult().toString();
+                            notice.name = noticeWriteNameText.getText().toString();
 
                             FirebaseDatabase.getInstance().getReference().child("Notice").push().setValue(notice).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

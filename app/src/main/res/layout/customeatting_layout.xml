@@ -1,55 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <Spinner
-        android:id="@+id/edit_update_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dialog"
-        android:layout_margin="16dp"/>
-
     <EditText
-        android:id="@+id/edit_update_title"
+        android:id="@+id/edit_update_first"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="제목" />
-
-    <TextView
-        android:id="@+id/edit_update_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="이름" />
-
+        android:hint="오전간식" />
     <EditText
-        android:id="@+id/edit_update_content"
+        android:id="@+id/edit_update_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="내용" />
+        android:hint="점심" />
+    <EditText
+        android:id="@+id/edit_update_third"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="저녁" />
 
     <TextView
         android:id="@+id/edit_update_dateeat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:hint="날짜" />
 
     <TextView
-        android:id="@+id/edit_update_menu"
+        android:id="@+id/edit_update_firsturl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="1dp" />
+        android:hint="오전간식사진" />
 
     <TextView
-        android:id="@+id/edit_update_url"
+        android:id="@+id/edit_update_secondurl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="1dp" />
+        android:hint="점심사진" />
 
+    <TextView
+        android:id="@+id/edit_update_thirdurl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="저녁사진" />
 </LinearLayout>

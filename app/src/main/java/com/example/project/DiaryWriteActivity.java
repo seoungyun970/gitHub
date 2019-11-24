@@ -99,6 +99,7 @@ public class DiaryWriteActivity extends AppCompatActivity implements View.OnClic
         diary.contents = mWriteContentsText.getText().toString();
         diary.name = mWriteNameText.getText().toString();
 
+
         FirebaseDatabase.getInstance().getReference().child("Diary").push().setValue(diary);
         Toast.makeText(this,"알림장이 추가되었습니다.",Toast.LENGTH_SHORT).show();
         DiaryWriteActivity.this.finish();
