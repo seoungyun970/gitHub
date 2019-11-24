@@ -184,7 +184,7 @@ public class TeacherEatting extends AppCompatActivity  {
                 String thirdurl = item_thirdurl_update.getText().toString();
 
 
-                Eatting eatting = new Eatting(first, second, thirl, firsturl, secondurl, thirdurl,date);
+                Eatting eatting = new Eatting(date, firsturl, secondurl, thirdurl, first, second,thirl);
                 eattingdb.child(key).setValue(eatting);
 
                 Toast.makeText(TeacherEatting.this, "수정완료", Toast.LENGTH_SHORT).show();
