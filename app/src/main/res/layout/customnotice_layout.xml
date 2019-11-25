@@ -34,7 +34,7 @@
         android:hint="내용" />
 
     <TextView
-        android:id="@+id/edit_update_dateeat"
+        android:id="@+id/edit_update_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

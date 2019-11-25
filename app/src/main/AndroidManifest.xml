@@ -11,7 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-feature android:name="android.hardware.camera2" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".NoticeDetail"></activity>
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -41,10 +43,9 @@
             android:resource="@drawable/childicon1" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
-<!--        <meta-data-->
-<!--            android:name="com.google.firebase.messaging.default_notification_channel_id"-->
-<!--            android:value="@string/default_notification_channel_id" />-->
+            android:resource="@color/colorAccent" /> <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_channel_id" -->
+        <!-- android:value="@string/default_notification_channel_id" /> -->
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -69,44 +70,53 @@
         <activity android:name=".gps" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MembershipPopup"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/DialogTheme"></activity>
-
+            android:theme="@style/DialogTheme" />
         <activity
             android:name=".TeacherMain"
-            android:theme="@style/TeacherTheme"
-            android:label="@string/title_main"></activity>
+            android:label="@string/title_main"
+            android:theme="@style/TeacherTheme" />
         <activity
             android:name=".TeacherSetting"
-            android:theme="@style/TeacherTheme"></activity>
-        <activity android:name=".TeacherManager"></activity>
-        <activity android:name=".TeacherTmap"></activity>
-
+            android:theme="@style/TeacherTheme" />
+        <activity android:name=".TeacherManager" />
+        <activity android:name=".TeacherTmap" />
         <activity
-            android:name=".TeacherDiary" android:label="@string/title_diary"></activity>
-        <activity android:name=".chat.MessageActivity" android:label="@string/title_chat"></activity>
-        <activity android:name=".TeacherChat" android:label="@string/title_chat"/>
-
-        <activity android:name=".TeacherEatting" android:label="@string/title_eating"></activity>
-        <activity android:name=".EattingWriteActivity"></activity>
-        <activity android:name=".DiaryWriteActivity"
-            android:theme="@style/DialogTheme"/>
-        <activity android:name=".TeacherNotice"  android:label="@string/title_notice"></activity>
-        <activity android:name="NoticeWriteActivity" android:label="@string/write_notice" android:windowSoftInputMode="adjustNothing"></activity>
-
-
-        <activity android:name=".CustomCalendarActivity"></activity>
-        <activity android:name=".TeacherAlbum" android:label="@string/title_album"></activity>
-        <activity android:name=".TeacherAttendance"></activity>
-        <activity android:name=".TeacherAttendanceResult"></activity>
-        <activity android:name=".AttendanceActivity"></activity>
-
+            android:name=".TeacherDiary"
+            android:label="@string/title_diary" />
+        <activity
+            android:name=".chat.MessageActivity"
+            android:label="@string/title_chat" />
+        <activity
+            android:name=".TeacherChat"
+            android:label="@string/title_chat" />
+        <activity
+            android:name=".TeacherEatting"
+            android:label="@string/title_eating" />
+        <activity android:name=".EattingWriteActivity" />
+        <activity
+            android:name=".DiaryWriteActivity"
+            android:theme="@style/DialogTheme" />
+        <activity
+            android:name=".TeacherNotice"
+            android:label="@string/title_notice" />
+        <activity
+            android:name=".NoticeWriteActivity"
+            android:label="@string/write_notice"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".CustomCalendarActivity" />
+        <activity
+            android:name=".TeacherAlbum"
+            android:label="@string/title_album" />
+        <activity android:name=".TeacherAttendance" />
+        <activity android:name=".TeacherAttendanceResult" />
+        <activity android:name=".AttendanceActivity" />
     </application>
 
 </manifest>

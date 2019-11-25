@@ -35,5 +35,6 @@ public class NoticeViewHolder extends RecyclerView.ViewHolder implements View.On
         menu.setHeaderTitle("선택하기");
         menu.add(0, 0 , getAdapterPosition(), "수정");
         menu.add(0, 1 , getAdapterPosition(), "삭제");
+        menu.add(0, 2 , getAdapterPosition(), "보기");
     }
 }
