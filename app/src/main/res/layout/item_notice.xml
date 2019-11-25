@@ -41,6 +41,13 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/notice_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="작성자" />
+
+        <TextView
             android:id="@+id/notice_contents_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

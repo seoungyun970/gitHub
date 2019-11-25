@@ -11,7 +11,7 @@ public class User {
     public String pushToken;
     public String job;
     public String comment;
-    public String chechBox;
+    public boolean checkBox;
 
     public User() {
     }
@@ -73,13 +73,11 @@ public class User {
         this.comment = comment;
     }
 
-    public String getChechBox() {
-        return chechBox;
+    public boolean isCheckBox() {
+        return checkBox;
     }
 
-    public void setChechBox(String chechBox) {
-        this.chechBox = chechBox;
+    public void setCheckBox(Boolean chechBox) {
+        this.checkBox = chechBox;
     }
-
-
 }

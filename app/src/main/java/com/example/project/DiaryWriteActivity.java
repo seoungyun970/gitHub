@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DiaryWriteActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mWriteTitleText;
     private EditText mWriteContentsText;
-    private EditText mWriteNameText;
+    private TextView mWriteNameText;
     private Button mWritebtn;
     private String uid;
     private Diary mDiary;
@@ -97,6 +98,7 @@ public class DiaryWriteActivity extends AppCompatActivity implements View.OnClic
         diary.title = mWriteTitleText.getText().toString();
         diary.contents = mWriteContentsText.getText().toString();
         diary.name = mWriteNameText.getText().toString();
+
 
         FirebaseDatabase.getInstance().getReference().child("Diary").push().setValue(diary);
         Toast.makeText(this,"알림장이 추가되었습니다.",Toast.LENGTH_SHORT).show();

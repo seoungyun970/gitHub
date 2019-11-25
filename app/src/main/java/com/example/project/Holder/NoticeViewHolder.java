@@ -12,6 +12,7 @@ import com.example.project.R;
 public class NoticeViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
     public TextView mMenuTextView;
     public TextView mTitleTextView;
+    public TextView mNameTextView;
     public TextView mContentsTextView;
     public TextView mDateTextView;
     public ImageView imageView;
@@ -21,6 +22,7 @@ public class NoticeViewHolder extends RecyclerView.ViewHolder implements View.On
         super(view);
         mMenuTextView = (TextView)view.findViewById(R.id.notice_menu_text);
         mTitleTextView = (TextView)view.findViewById(R.id.notice_title_text);
+        mNameTextView = (TextView)view.findViewById(R.id.notice_name_text);
         mContentsTextView = (TextView)view.findViewById(R.id.notice_contents_text);
         mDateTextView = (TextView)view.findViewById(R.id.notice_date_text);
         imageView = (ImageView)view.findViewById(R.id.noticebtn);

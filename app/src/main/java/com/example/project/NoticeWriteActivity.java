@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -47,6 +51,7 @@ import java.util.Date;
 public class NoticeWriteActivity  extends AppCompatActivity implements View.OnClickListener {
     private Spinner noticeWriteSpinner;
     private EditText noticeWriteTitleText;
+    private TextView noticeWriteNameText;
     private EditText noticeWriteContentsText;
     private ImageView mWriteImageView;
     private String uid;
@@ -71,15 +76,28 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
 
         noticeWriteSpinner=findViewById(R.id.grade_spinner);
         noticeWriteTitleText=findViewById(R.id.notice_write_title_text);
+        noticeWriteNameText = findViewById(R.id.notice_write_name_text);
         noticeWriteContentsText=findViewById(R.id.notice_write_content_text);
         mWriteImageView = findViewById(R.id.notice_write_image);
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("username").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                noticeWriteNameText.setText(value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         String[] str=getResources().getStringArray(R.array.notice_grade_array);
         noticeWriteSpinner.setPrompt("반을 선택해주세요.");
         ArrayAdapter gradeAdapter= new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,str);
-        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         progressDialog = new ProgressDialog(this);
         noticeWriteSpinner.setAdapter(gradeAdapter);
         noticeWriteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
@@ -137,6 +155,7 @@ public class NoticeWriteActivity  extends AppCompatActivity implements View.OnCl
                             notice.contents = noticeWriteContentsText.getText().toString();
                             notice.date = time1;
                             notice.noticeImageUrl = imageUrl.getResult().toString();
+                            notice.name = noticeWriteNameText.getText().toString();
 
                             FirebaseDatabase.getInstance().getReference().child("Notice").push().setValue(notice).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

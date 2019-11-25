@@ -16,19 +16,29 @@
         android:id="@+id/edit_update_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:hint="제목" />
+
+    <TextView
+        android:id="@+id/edit_update_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="이름" />
 
     <EditText
         android:id="@+id/edit_update_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:hint="내용" />
 
     <TextView
-        android:id="@+id/edit_update_date"
+        android:id="@+id/edit_update_dateeat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:hint="날짜" />
 
     <TextView
         android:id="@+id/edit_update_menu"

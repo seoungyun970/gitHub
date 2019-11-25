@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera2" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,7 +36,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/childicon1" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_channel_id"-->
+<!--            android:value="@string/default_notification_channel_id" />-->
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -97,7 +104,9 @@
         <activity android:name=".CustomCalendarActivity"></activity>
         <activity android:name=".TeacherAlbum" android:label="@string/title_album"></activity>
         <activity android:name=".TeacherAttendance"></activity>
+        <activity android:name=".TeacherAttendanceResult"></activity>
         <activity android:name=".AttendanceActivity"></activity>
+
     </application>
 
 </manifest>

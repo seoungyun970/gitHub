@@ -72,6 +72,7 @@ public class TeacherNotice extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull final NoticeViewHolder holder, int i, @NonNull Notice notice) {
                 holder.mMenuTextView.setText(notice.getNoticemenu());
                 holder.mTitleTextView.setText(notice.getTitle());
+                holder.mNameTextView.setText(notice.getName());
                 holder.mContentsTextView.setText(notice.getContents());
                 holder.mDateTextView.setText(notice.getDate());
                 Glide.with(holder.itemView.getContext())
@@ -135,6 +136,7 @@ public class TeacherNotice extends AppCompatActivity {
 
         final Spinner item_noticemenu_update = update_layout.findViewById(R.id.edit_update_spinner);
         final EditText item_title_update = update_layout.findViewById(R.id.edit_update_title);
+        final EditText item_name_update = update_layout.findViewById(R.id.edit_update_name);
         final EditText item_content_update = update_layout.findViewById(R.id.edit_update_content);
         final TextView item_date_update = update_layout.findViewById(R.id.edit_update_date);
 
@@ -161,6 +163,7 @@ public class TeacherNotice extends AppCompatActivity {
 
         item_menu_update.setText(item.getNoticemenu());
         item_title_update.setText(item.getTitle());
+        item_name_update.setText(item.getName());
         item_content_update.setText(item.getContents());
         item_url_update.setText(item.getNoticeImageUrl());
         item_date_update.setText(time1);
@@ -174,12 +177,13 @@ public class TeacherNotice extends AppCompatActivity {
 
                 String noticemenu = item_noticemenu_update.getSelectedItem().toString();
                 String title = item_title_update.getText().toString();
+                String name = item_name_update.getText().toString();
                 String content = item_content_update.getText().toString();
                 String date = item_date_update.getText().toString();
                 String noticeImageUrl = item_url_update.getText().toString();
 
 
-                Notice notice = new Notice(noticemenu, title, content, date, noticeImageUrl);
+                Notice notice = new Notice(noticemenu, title, name, content, date, noticeImageUrl);
                 noticedb.child(key).setValue(notice);
 
                 Toast.makeText(TeacherNotice.this, "수정완료", Toast.LENGTH_SHORT).show();
