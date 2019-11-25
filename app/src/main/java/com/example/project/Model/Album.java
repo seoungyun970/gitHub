@@ -1,17 +1,20 @@
 package com.example.project.Model;
 
 public class Album {
-    private int ResourceID;
+    public String albumImageUri;
 
-    public Album(int resourceID) {
-        ResourceID = resourceID;
+    public Album() {
     }
 
-    public int getResourceID() {
-        return ResourceID;
+    public Album(String albumImageUri) {
+        this.albumImageUri = albumImageUri;
     }
 
-    public void setResourceID(int resourceID) {
-        ResourceID = resourceID;
+    public String getAlbumImageUri() {
+        return albumImageUri;
+    }
+
+    public void setAlbumImageUri(String albumImageUri) {
+        this.albumImageUri = albumImageUri;
     }
 }

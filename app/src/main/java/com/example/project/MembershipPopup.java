@@ -190,7 +190,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
 
         new AlertDialog.Builder(this)   //프로필 알림창 표시
                 .setTitle("업로드할 이미지 선택")
-                .setPositiveButton("사진 촬영", cameraListener)
+                //.setPositiveButton("사진 촬영", cameraListener)
                 .setNeutralButton("앨범 선택", albumListener)
                 .setNegativeButton("취소", cancelListener)
                 .show();
