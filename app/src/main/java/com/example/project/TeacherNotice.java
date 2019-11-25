@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -60,6 +61,8 @@ public class TeacherNotice extends AppCompatActivity {
             }
         });
         showTask();
+
+
     }
 
     private void showTask() {
@@ -114,6 +117,11 @@ public class TeacherNotice extends AppCompatActivity {
             deleteTask(adapter.getRef(item.getOrder()).getKey());
             Toast.makeText(TeacherNotice.this, "삭제완료", Toast.LENGTH_SHORT).show();
         }
+        else if(item.getTitle().equals("보기"))
+        {
+            showTask();
+        }
+
         return super.onContextItemSelected(item);
     }
 
@@ -136,7 +144,7 @@ public class TeacherNotice extends AppCompatActivity {
 
         final Spinner item_noticemenu_update = update_layout.findViewById(R.id.edit_update_spinner);
         final EditText item_title_update = update_layout.findViewById(R.id.edit_update_title);
-        final EditText item_name_update = update_layout.findViewById(R.id.edit_update_name);
+        final TextView item_name_update = update_layout.findViewById(R.id.edit_update_name);
         final EditText item_content_update = update_layout.findViewById(R.id.edit_update_content);
         final TextView item_date_update = update_layout.findViewById(R.id.edit_update_date);
 
