@@ -20,14 +20,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.project.Holder.AlbumViewHolder;
+import com.example.project.Model.Album;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -37,86 +40,65 @@ import java.util.Date;
 public class TeacherAlbum extends AppCompatActivity{
     final int PICTURE_REQUEST_CODE=1;
 
+    private RecyclerView album_recyclerview;
+
     FirebaseDatabase database;
     DatabaseReference albumdb;
 
+    FirebaseRecyclerOptions<Album> options;
+    FirebaseRecyclerAdapter<Album, AlbumViewHolder> adapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_album);
 
-        final int img[] = {
-                R.drawable.board,R.drawable.album,R.drawable.calendar,
-                R.drawable.food,R.drawable.home,R.drawable.medicine,
-                R.drawable.note,R.drawable.setting,R.drawable.schoolprogram
-        };
+        database = FirebaseDatabase.getInstance();
+        albumdb = database.getReference("Album");
 
-        AlbumAdapter adapter = new AlbumAdapter(
-                getApplicationContext(), // 현재 화면의 제어권자
-                R.layout.item_album,
-                img);
+        album_recyclerview=(RecyclerView)findViewById(R.id.gallery1) ;
+        album_recyclerview.setLayoutManager(new LinearLayoutManager(TeacherAlbum.this));
 
-        Gallery g = (Gallery)findViewById(R.id.gallery1);
-        g.setAdapter(adapter);
-        final ImageView iv = (ImageView)findViewById(R.id.imageView1);
+        showTask();
 
-        g.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) { // 선택되었을 때 콜백메서드
-                iv.setImageResource(img[position]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
 
 
     }//onCreate end
 
-    class AlbumAdapter extends BaseAdapter {
-        Context context;
-        int layout;
-        int img[];
-        LayoutInflater inf;
+    private void showTask(){
+        options = new FirebaseRecyclerOptions.Builder<Album>()
+                .setQuery(albumdb, Album.class)
+                .build();
 
-        public AlbumAdapter(Context context, int layout, int[] img) {
-            this.context = context;
-            this.layout = layout;
-            this.img = img;
-            inf = (LayoutInflater) context.getSystemService
-                    (Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() { // 보여줄 데이터의 총 개수 - 꼭 작성해야 함
-            return img.length;
-        }
-
-        @Override
-        public Object getItem(int position) { // 해당행의 데이터- 안해도 됨
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) { // 해당행의 유니크한 id - 안해도 됨
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // 보여줄 해당행의 row xml 파일의 데이터를 셋팅해서 뷰를 완성하는 작업
-            if (convertView == null) {
-                convertView = inf.inflate(layout, null);
+        adapter=new FirebaseRecyclerAdapter<Album, AlbumViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull AlbumViewHolder holder, int i, @NonNull Album album) {
+                Glide.with(holder.mAlbumImageView.getContext())
+                        .load(album.albumImageUri)
+                        .apply(new RequestOptions())
+                        .into(holder.mAlbumImageView);
             }
 
-            ImageView iv = (ImageView)convertView.findViewById(R.id.imageView1);
-            iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            iv.setLayoutParams(new Gallery.LayoutParams(300,400));
-            iv.setImageResource(img[position]);
-            return iv;
-        }
+            @NonNull
+            @Override
+            public AlbumViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view=LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_album,parent,false);
+                return new AlbumViewHolder(view);
+            }
+        };
+        album_recyclerview.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     @Override
