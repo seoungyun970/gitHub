@@ -21,15 +21,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 public class TeacherAlbum extends AppCompatActivity{
     final int PICTURE_REQUEST_CODE=1;
+
+    FirebaseDatabase database;
+    DatabaseReference albumdb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,10 +56,8 @@ public class TeacherAlbum extends AppCompatActivity{
                 R.layout.item_album,
                 img);
 
-        // adapterView
         Gallery g = (Gallery)findViewById(R.id.gallery1);
         g.setAdapter(adapter);
-
         final ImageView iv = (ImageView)findViewById(R.id.imageView1);
 
         g.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -64,6 +71,7 @@ public class TeacherAlbum extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
 
     }//onCreate end
 
@@ -160,7 +168,7 @@ public class TeacherAlbum extends AppCompatActivity{
                 //이미지 URI 를 이용하여 이미지뷰에 순서대로 세팅한다.
                 if(clipData!=null)
                 {
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH");
                     Date now = new Date();
                     FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -170,6 +178,8 @@ public class TeacherAlbum extends AppCompatActivity{
                         StorageReference storageRef1 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("albumImages/"+filename);
                         Uri urione =  clipData.getItemAt(i).getUri();
                         storageRef1.putFile(urione);
+
+                        FirebaseDatabase.getInstance().getReference().child("Album").push().setValue(filename);
                     } //포문end
 
                     Toast.makeText(this, "사진업로드 성공", Toast.LENGTH_SHORT).show();
