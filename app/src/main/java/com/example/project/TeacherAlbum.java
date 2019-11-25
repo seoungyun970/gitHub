@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,10 +31,13 @@ import com.example.project.Holder.AlbumViewHolder;
 import com.example.project.Model.Album;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,7 +61,10 @@ public class TeacherAlbum extends AppCompatActivity{
         albumdb = database.getReference("Album");
 
         album_recyclerview=(RecyclerView)findViewById(R.id.gallery1) ;
-        album_recyclerview.setLayoutManager(new LinearLayoutManager(TeacherAlbum.this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(TeacherAlbum.this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        album_recyclerview.setLayoutManager(layoutManager);
 
         showTask();
 
@@ -147,6 +155,8 @@ public class TeacherAlbum extends AppCompatActivity{
                 ClipData clipData = data.getClipData();
                 //data.getClipdata() api 오류시 빌드그래들에서 defaultConfig{} 안 minSdkVersion 16으로 수정
 
+
+
                 //이미지 URI 를 이용하여 이미지뷰에 순서대로 세팅한다.
                 if(clipData!=null)
                 {
@@ -156,12 +166,24 @@ public class TeacherAlbum extends AppCompatActivity{
 
                     for(int i = 0; i < clipData.getItemCount(); i++)
                     {
+
                         String filename = formatter.format(now)+"_"+(i+1)+ ".png";
                         StorageReference storageRef1 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("albumImages/"+filename);
                         Uri urione =  clipData.getItemAt(i).getUri();
-                        storageRef1.putFile(urione);
 
-                        FirebaseDatabase.getInstance().getReference().child("Album").push().setValue(filename);
+                        storageRef1.putFile(urione).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                Task<Uri> imageUrl2 = task.getResult().getStorage().getDownloadUrl();
+                                while(!imageUrl2.isComplete());
+
+                                Album album = new Album();
+                                album.albumImageUri = imageUrl2.getResult().toString();
+                                FirebaseDatabase.getInstance().getReference().child("Album").push().setValue(album);
+
+                            }
+                        });
                     } //포문end
 
                     Toast.makeText(this, "사진업로드 성공", Toast.LENGTH_SHORT).show();

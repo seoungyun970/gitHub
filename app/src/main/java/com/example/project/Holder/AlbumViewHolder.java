@@ -10,7 +10,7 @@ public class AlbumViewHolder extends RecyclerView.ViewHolder {
 
     public AlbumViewHolder(View itemview){
         super(itemview);
-        mAlbumImageView=(ImageView)itemview.findViewById(R.id.album_imageView);
+        mAlbumImageView=(ImageView)itemview.findViewById(R.id.select_image);
 
     }
 }
