@@ -19,6 +19,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeacherMain extends Activity {
 
@@ -84,6 +88,14 @@ public class TeacherMain extends Activity {
 
             }
         });
+        passPushTokenToServer();
+    }
+    void passPushTokenToServer() {
+        String uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String token= FirebaseInstanceId.getInstance().getToken();
+        Map<String,Object> nap=new HashMap<>();
+        nap.put("pushToken",token);
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(nap);
     }
 
     public void onClick(View view) {
