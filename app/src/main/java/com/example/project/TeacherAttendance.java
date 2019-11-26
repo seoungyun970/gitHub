@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -171,7 +172,7 @@ public class TeacherAttendance extends Activity {
                         });
 
 
-                String token = "cekjQJ8ZQd8:APA91bFfwcdk9DiRBItqMwfoqsKyEKvPvoIMaya302EctUwXgANpbwFG7ibifIqgPYWB2wMwZcKTA72gQooQnuWIhoPKWnDse4mz5amyCDAaaHxr7eokW5gl_3xAD-ostwM7DF-XqYHK";
+                String token = "dZ1MAS9pOtM:APA91bEfn-N7Dk5BxaOZSJYiyLUmEvkr1DYzs9WD3lsbZgU9kG-ev0-9hx9D85UJDDxxJXf68JTa2nvJJlcSDWpuO8FhQUgci2rHPW1f5DmXt-q1vRe9UEIWvon-IoJgJ4DFvLVlcwtL";
                 String title = "제목입니다.";
                 String body = "본문입니다.";
                 try {
@@ -180,44 +181,28 @@ public class TeacherAttendance extends Activity {
                 } catch (Exception e) {
                     Log.e("통신오류", e.toString());
                 }
-            }
+//                PendingIntent pendingIntent=PendingIntent.getActivity(TeacherAttendance.this,0
+//                ,new Intent(getApplicationContext(),TeacherAttendance.class),
+//                        PendingIntent.FLAG_CANCEL_CURRENT
+//                );
+//                NotificationCompat.Builder builder=new NotificationCompat.Builder(TeacherAttendance.this)
+//                        .setSmallIcon(R.drawable.childicon1)
+//                        .setContentTitle("공지!")
+//                        .setContentText("출석")
+//                        .setDefaults(Notification.DEFAULT_VIBRATE)
+//                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//                        .setAutoCancel(true)
+//                        .setContentIntent(pendingIntent);
+//
+//                NotificationManager notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+//                notificationManager.notify(1,builder.build());
 
+            }
 
         });
 //        sendGcm();
 
 
     }
-
-
-
-//    void sendGcm(){
-//        Gson gson=new Gson();
-//
-//        NotificationModel notificationModel =new NotificationModel();
-//        notificationModel.to=UserModel.pushToken;
-//        notificationModel.notification.title="돌보미";
-////        notificationModel.notification.text=editText.getText().toString();
-//
-//        RequestBody requestBody=RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
-//
-//        Request request=new Request.Builder().header("Authorization","key=AAAAK4e5SaM:APA91bE9T5TR8QZw-0ojGZgDq40BV4VdTYJ0LZZWG4WzjL4uxS-4rX1kwdcQOPaE18-AJIdwyP0avm-52thgo3FMOVY_hiPpoJ4fhnuX8h_HgDxeRWyep_JzqG4sKYZNySyyo-xn7OMy")
-//                .addHeader("Content-Type","application/json")
-//                .url("https://fcm.googleapis.com/fcm/send")
-//                .post(requestBody)
-//                .build();
-//        OkHttpClient okHttpClient=new OkHttpClient();
-//        okHttpClient.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//
-//            }
-//        });
-//    }
 
 }
