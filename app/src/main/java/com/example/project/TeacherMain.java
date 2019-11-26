@@ -158,4 +158,8 @@ public class TeacherMain extends Activity {
         getWindow().setStatusBarColor(Color.parseColor("#efc675"));
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

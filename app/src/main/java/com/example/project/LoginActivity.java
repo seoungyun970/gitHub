@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.project.Parent.ParentMain;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -74,13 +75,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                     if(value.equals("교사"))
                                     {
                                         Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_LONG).show();
-                                        finish();
+                                        //finish();
                                         startActivity(new Intent(getApplicationContext(), TeacherMain.class));
                                     }
                                     //학부모용
                                     else if(value.equals("학부모"))
                                     {
-                                        Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_LONG).show();
+                                       // finish();
+                                        startActivity(new Intent(getApplicationContext(), ParentMain.class));
                                     }
                                 }
                                 @Override
