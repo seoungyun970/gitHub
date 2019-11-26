@@ -39,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="true"
+                    android:clickable="false"
                     android:text="출석체크" />
             </LinearLayout>
         </LinearLayout>
@@ -48,5 +49,5 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@android:color/darker_gray"></LinearLayout>
+        android:background="@android:color/darker_gray"/>
 </LinearLayout>

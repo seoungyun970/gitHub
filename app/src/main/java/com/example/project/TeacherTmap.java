@@ -111,10 +111,12 @@ public class TeacherTmap extends AppCompatActivity {
 
                     @Override
                     protected TeacherTmap doInBackground(String... url) {
-
+                        // 때력박는다.
                         return null;
                     }
                 };
+
+                asyncTask.execute().get(); // 쓰래드 run 같은 느낌
 
                 TMapPolyLine tMapPolyLine = new TMapData().findPathData(tMapPointStart, tMapPointEnd);
                 tMapPolyLine.setLineColor(Color.BLUE);

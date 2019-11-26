@@ -147,6 +147,17 @@ public class TeacherAttendance extends Activity {
                     User checkBox=iusers.get(i);
                     if(checkBox.isCheckBox()==true){
                         System.out.println(iusers.get(i).getUsername());
+//                        Log.d("이메일 : ", iusers.get(i).getEmail());
+                        Log.d("토큰 : ", iusers.get(i).getPushToken());
+                        String token = iusers.get(i).getPushToken();
+                        String title = "돌보미어린이집입니다.";
+                        String body = "아이가 출석을 완료했습니다.";
+                        try {
+                            String result = new PushMsgTask().execute(token, title, body).get();
+                            Log.i("통신결과값", result + " ");
+                        } catch (Exception e) {
+                            Log.e("통신오류", e.toString());
+                        }
                     }
 
                 }
@@ -172,15 +183,16 @@ public class TeacherAttendance extends Activity {
                         });
 
 
-                String token = "dZ1MAS9pOtM:APA91bEfn-N7Dk5BxaOZSJYiyLUmEvkr1DYzs9WD3lsbZgU9kG-ev0-9hx9D85UJDDxxJXf68JTa2nvJJlcSDWpuO8FhQUgci2rHPW1f5DmXt-q1vRe9UEIWvon-IoJgJ4DFvLVlcwtL";
-                String title = "제목입니다.";
-                String body = "본문입니다.";
-                try {
-                    String result = new PushMsgTask().execute(token, title, body).get();
-                    Log.i("통신결과값", result + " ");
-                } catch (Exception e) {
-                    Log.e("통신오류", e.toString());
-                }
+                //파이어베이스 pushtoken값 넣어줬음
+//                String token = "e_GyalRzCvc:APA91bEluQoubf9YAJqQyjofM_HDojx1UzgLvBsHQPJAFWjSjnSwUWmyBWL-Pejyumc-HW7PU3-teD4m_xyER5-hSQN0ubBbLCDYyD47TfuFzBlDsNidIqEiCXTJpk-UP-7q-ssDUexx";
+//                String title = "돌보미어린이집입니다.";
+//                String body = "아이가 출석을 완료했습니다.";
+//                try {
+//                    String result = new PushMsgTask().execute(token, title, body).get();
+//                    Log.i("통신결과값", result + " ");
+//                } catch (Exception e) {
+//                    Log.e("통신오류", e.toString());
+//                }
 //                PendingIntent pendingIntent=PendingIntent.getActivity(TeacherAttendance.this,0
 //                ,new Intent(getApplicationContext(),TeacherAttendance.class),
 //                        PendingIntent.FLAG_CANCEL_CURRENT
