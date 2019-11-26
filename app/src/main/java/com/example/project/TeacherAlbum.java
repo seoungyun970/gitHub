@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,8 @@ public class TeacherAlbum extends AppCompatActivity{
 
     FirebaseRecyclerOptions<Album> options;
     FirebaseRecyclerAdapter<Album, AlbumViewHolder> adapter;
+
+    public ImageView ex_image;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +67,30 @@ public class TeacherAlbum extends AppCompatActivity{
         album_recyclerview=(RecyclerView)findViewById(R.id.gallery1) ;
         LinearLayoutManager layoutManager = new LinearLayoutManager(TeacherAlbum.this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
         album_recyclerview.setLayoutManager(layoutManager);
 
+        album_recyclerview.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                if(e.getAction()==MotionEvent.ACTION_DOWN){
+                    View child=rv.findChildViewUnder(e.getX(),e.getY());
+                    ImageView tv=(ImageView)rv.getChildViewHolder(child).itemView.findViewById(R.id.select_image);
+                    ex_image.setImageDrawable(tv.getDrawable());
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+        ex_image=(ImageView)findViewById(R.id.ex_image);
         showTask();
 
 
@@ -142,6 +167,7 @@ public class TeacherAlbum extends AppCompatActivity{
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
