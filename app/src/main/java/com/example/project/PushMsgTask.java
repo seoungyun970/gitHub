@@ -23,10 +23,11 @@ public class PushMsgTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
         try {
             String str;
-            String token = strings[0];
+            String token=strings[0];
+            //String token = "dZ1MAS9pOtM:APA91bEfn-N7Dk5BxaOZSJYiyLUmEvkr1DYzs9WD3lsbZgU9kG-ev0-9hx9D85UJDDxxJXf68JTa2nvJJlcSDWpuO8FhQUgci2rHPW1f5DmXt-q1vRe9UEIWvon-IoJgJ4DFvLVlcwtL";
             String title = strings[1];
             String body = strings[2];
-            // 접속할 서버 주소 (이클립스에서 android.jsp 실행시 웹브라우저 주소)
+            // 접속할 서버 주소
             URL url = new URL("https://fcm.googleapis.com/fcm/send");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
