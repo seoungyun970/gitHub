@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +21,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class TeacherSetting extends Activity {
 
+    private static final int REQUEST_TAKE_ALBUM = 3333;
     final Context context = this;
     LinearLayout childManger;
     String uid;

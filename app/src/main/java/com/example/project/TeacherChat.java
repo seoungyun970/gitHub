@@ -43,8 +43,10 @@ public class TeacherChat extends AppCompatActivity {
                 return false;
             }
         });
+        passPushTokenToServer();
     }
     void passPushTokenToServer(){
+
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String token = FirebaseInstanceId.getInstance().getToken();
         Map<String,Object> map = new HashMap<>();
