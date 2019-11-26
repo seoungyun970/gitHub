@@ -16,6 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     FirebaseAuth firebaseAuth;
@@ -23,6 +27,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     EditText login_pw;
     Button loginBtn;
     ProgressDialog progressDialog;
+    private String uid;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +65,31 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()) {
+                            uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("job").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    String value = dataSnapshot.getValue(String.class);
+                                    //교사용
+                                    if(value.equals("교사"))
+                                    {
+                                        Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_LONG).show();
+                                        finish();
+                                        startActivity(new Intent(getApplicationContext(), TeacherMain.class));
+                                    }
+                                    //학부모용
+                                    else if(value.equals("학부모"))
+                                    {
+                                        Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_LONG).show();
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), TeacherMain.class));
+                                }
+                            });
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
-
                         }
                     }
                 });
