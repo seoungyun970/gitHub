@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -62,7 +61,6 @@ public class TeacherNotice extends AppCompatActivity {
         });
         showTask();
 
-
     }
 
     private void showTask() {
@@ -110,7 +108,8 @@ public class TeacherNotice extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if(item.getTitle().equals("수정")){
+        if(item.getTitle().equals("수정"))
+        {
             showUpdateDialog(adapter.getRef(item.getOrder()).getKey(),adapter.getItem(item.getOrder()));
         }else if(item.getTitle().equals("삭제"))
         {
@@ -119,7 +118,7 @@ public class TeacherNotice extends AppCompatActivity {
         }
         else if(item.getTitle().equals("보기"))
         {
-            showTask();
+
         }
 
         return super.onContextItemSelected(item);
@@ -136,7 +135,7 @@ public class TeacherNotice extends AppCompatActivity {
         builder.setMessage("변경할 내용을 입력하세요.");
 
         //수정시간
-        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy/MM/dd HH:mm");
         Date time = new Date();
         String time1 = format1.format(time);
 
@@ -168,14 +167,12 @@ public class TeacherNotice extends AppCompatActivity {
             }
         });
 
-
         item_menu_update.setText(item.getNoticemenu());
         item_title_update.setText(item.getTitle());
         item_name_update.setText(item.getName());
         item_content_update.setText(item.getContents());
         item_url_update.setText(item.getNoticeImageUrl());
         item_date_update.setText(time1);
-
 
         builder.setView(update_layout);
 
@@ -206,5 +203,4 @@ public class TeacherNotice extends AppCompatActivity {
         });
         builder.show();
     }
-
 }

@@ -10,14 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
 public class TeacherSetting extends Activity {
@@ -83,8 +80,6 @@ public class TeacherSetting extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseStorage.getInstance().getReference().child("/userImages").child(uid).delete();
 
-
-
                         FirebaseAuth.getInstance().getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -95,6 +90,7 @@ public class TeacherSetting extends Activity {
                         });
                     }
                 };
+
                 new AlertDialog.Builder(this)   //프로필 알림창 표시
                         .setTitle("계정 삭제")
                         .setMessage("삭제된 계정은 복구할 수 없습니다.\n 탈퇴하시겠습니까?")
