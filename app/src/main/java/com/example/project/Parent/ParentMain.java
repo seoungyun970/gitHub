@@ -1,21 +1,25 @@
-package com.example.project;
+package com.example.project.Parent;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.project.CustomCalendarActivity;
 import com.example.project.Model.User;
+import com.example.project.R;
+import com.example.project.TeacherChat;
+import com.example.project.TeacherTmap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,45 +30,42 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TeacherMain extends Activity {
+public class ParentMain extends Activity {
 
     ImageView gps;
     ImageView diary;
-    ImageView setting;
     ImageView teacherTmap;
     ImageView teacherEatting;
     ImageView Userface;
     ImageView calendar;
     ImageView attendance;
     TextView Username;
-
     private String uid;
     private String url;
-    @Override
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.teacher_main);
-        gps=findViewById(R.id.gps);
-        diary=findViewById(R.id.diary);
-        setting=findViewById(R.id.setting);
-        teacherTmap=findViewById(R.id.teacherTmap);
-        teacherEatting=findViewById(R.id.eatting);
-        Userface=findViewById(R.id.face);
-        Username=findViewById(R.id.teacherName);
-        calendar=findViewById(R.id.calendar);
-        attendance=findViewById(R.id.attendance);
+        setContentView(R.layout.parent_main);
+        gps = findViewById(R.id.gps);
+        diary = findViewById(R.id.diary);
+        teacherTmap = findViewById(R.id.teacherTmap);
+        teacherEatting = findViewById(R.id.eatting);
+        Userface = findViewById(R.id.face);
+        Username = findViewById(R.id.teacherName);
+        calendar = findViewById(R.id.calendar);
+        attendance = findViewById(R.id.attendance);
 
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase.getInstance().getReference().child("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User userModel =  dataSnapshot.getValue(User.class);
-                    Glide.with(TeacherMain.this)
-                            .load(userModel.profileImageUrl)
-                            .apply(new RequestOptions().circleCrop())
-                            .into(Userface);
+                User userModel = dataSnapshot.getValue(User.class);
+                Glide.with(ParentMain.this)
+                        .load(userModel.profileImageUrl)
+                        .apply(new RequestOptions().circleCrop())
+                        .into(Userface);
             }
 
             @Override
@@ -92,57 +93,49 @@ public class TeacherMain extends Activity {
             }
         });
         passPushTokenToServer();
-
     }
 
     void passPushTokenToServer() {
-        String uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String token= FirebaseInstanceId.getInstance().getToken();
-        Map<String,Object> nap=new HashMap<>();
-        nap.put("pushToken",token);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Map<String, Object> nap = new HashMap<>();
+        nap.put("pushToken", token);
         FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(nap);
     }
 
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.gps:
-                Intent intent=new Intent(TeacherMain.this,TeacherChat.class);
+                Intent intent = new Intent(ParentMain.this, TeacherChat.class);
                 startActivity(intent);
                 break;
             case R.id.diary:
-                Intent dintent=new Intent(TeacherMain.this,TeacherDiary.class);
+                Intent dintent = new Intent(ParentMain.this, ParentDiary.class);
                 startActivity(dintent);
                 break;
-            case R.id.setting:
-                Intent intentSetting=new Intent(TeacherMain.this,TeacherSetting.class);
-                startActivity(intentSetting);
-                break;
             case R.id.teacherTmap:
-                Intent intentGps=new Intent(TeacherMain.this,TeacherTmap.class);
+                Intent intentGps = new Intent(ParentMain.this, TeacherTmap.class);
                 startActivity(intentGps);
                 break;
             case R.id.eatting:
-                Intent intentEatting=new Intent(TeacherMain.this,TeacherEatting.class);
+                Intent intentEatting = new Intent(ParentMain.this, ParentEatting.class);
                 startActivity(intentEatting);
                 break;
             case R.id.notice:
-                Intent intentNotice=new Intent(TeacherMain.this,TeacherNotice.class);
+                Intent intentNotice = new Intent(ParentMain.this, ParentNotice.class);
                 startActivity(intentNotice);
                 break;
             case R.id.calendar:
-                Intent intentCalendar=new Intent(TeacherMain.this,CustomCalendarActivity.class);
+                Intent intentCalendar = new Intent(ParentMain.this, ParentCustomCalendarActivity.class);
                 startActivity(intentCalendar);
                 break;
             case R.id.album:
-                Intent intentAlbum=new Intent(TeacherMain.this,TeacherAlbum.class);
+                Intent intentAlbum = new Intent(ParentMain.this, ParentAlbum.class);
                 startActivity(intentAlbum);
-                break;
-            case R.id.attendance:
-                Intent intentAttendance=new Intent(TeacherMain.this, AttendanceActivity.class);
-                startActivity(intentAttendance);
                 break;
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

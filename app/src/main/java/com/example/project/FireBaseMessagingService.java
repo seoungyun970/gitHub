@@ -33,6 +33,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 //        Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
+        //포그라운드일때
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
@@ -80,6 +81,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(title)
                         .setContentText(messageBody)
+                        .setSmallIcon(R.drawable.childicon1)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);

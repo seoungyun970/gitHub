@@ -37,20 +37,16 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/childicon1" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/childicon1" />
-    <!-- <meta-data -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/childicon1" />
+        <!-- <meta-data -->
         <!-- android:name="com.google.firebase.messaging.default_notification_channel_id" -->
         <!-- android:value="@string/default_notification_channel_id" /> -->
         <activity
@@ -136,6 +132,23 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+        <activity
+            android:name=".Parent.ParentMain"
+            android:label="@string/title_main"
+            android:theme="@style/TeacherTheme" />
+        <activity
+            android:name=".Parent.ParentDiary"
+            android:label="@string/title_diary" />
+        <activity
+            android:name=".Parent.ParentEatting"
+            android:label="@string/title_eating" />
+        <activity
+            android:name=".Parent.ParentAlbum"
+            android:label="@string/title_album" />
+        <activity
+            android:name=".Parent.ParentNotice"
+            android:label="@string/title_notice" />
+        <activity android:name=".Parent.ParentCustomCalendarActivity" />
     </application>
 
 </manifest>

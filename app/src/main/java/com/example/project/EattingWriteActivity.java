@@ -124,7 +124,7 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
 
     }
     private void uploadFile() {
-        final String key = FirebaseDatabase.getInstance().getReference().child("Eatting").push().getKey();
+        final String key = FirebaseDatabase.getInstance().getReference().child("Eating").push().getKey();
         final Eatting eatting = new Eatting();
         //업로드할 파일이 있으면 수행
         if (albumURI != null) {
@@ -141,9 +141,9 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
             Date now = new Date();
             String filename = formatter.format(now) + ".png";
             //storage 주소와 폴더 파일명을 지정해 준다.
-            StorageReference storageRef1 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eattingImages/").child("firstImages/" + filename);
-            final StorageReference storageRef2 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eattingImages/").child("secondImages/" + filename);
-            final StorageReference storageRef3 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eattingImages/").child("thirdImages/" + filename);
+            StorageReference storageRef1 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eatingImages/").child("firstImages/" + filename);
+            final StorageReference storageRef2 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eatingImages/").child("secondImages/" + filename);
+            final StorageReference storageRef3 = storage.getReferenceFromUrl("gs://dolbomi1.appspot.com/").child("eatingImages/").child("thirdImages/" + filename);
             //올라가거라...
             storageRef1.putFile(albumURI1)
                     //성공시
@@ -156,7 +156,7 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                                     Task<Uri> imageUrl2 = task.getResult().getStorage().getDownloadUrl();
                                     while(!imageUrl2.isComplete());
 
-                                    SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+                                    SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy.MM.dd 식단표");
                                     Date time = new Date();
                                     String time1 = format1.format(time);
 
@@ -175,7 +175,7 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                                     Task<Uri> imageUrl3 = task.getResult().getStorage().getDownloadUrl();
                                     while(!imageUrl3.isComplete());
 
-                                    SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+                                    SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy.MM.dd 식단표");
                                     Date time = new Date();
                                     String time1 = format1.format(time);
 
@@ -185,13 +185,13 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                                     eatting.third = eattingWritethirdText.getText().toString();
                                     eatting.thirdImageUrl = imageUrl3.getResult().toString();
 
-                                    FirebaseDatabase.getInstance().getReference().child("Eatting").child(key).setValue(eatting);
+                                    FirebaseDatabase.getInstance().getReference().child("Eating").child(key).setValue(eatting);
                                 }
                             });
                             Task<Uri> imageUrl = task.getResult().getStorage().getDownloadUrl();
                             while(!imageUrl.isComplete());
 
-                            SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+                            SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy.MM.dd 식단표");
                             Date time = new Date();
                             String time1 = format1.format(time);
 
@@ -202,7 +202,7 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                             eatting.third = eattingWritethirdText.getText().toString();
                             eatting.firstImageUrl = imageUrl.getResult().toString();
 
-                            FirebaseDatabase.getInstance().getReference().child("Eatting").child(key).setValue(eatting).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            FirebaseDatabase.getInstance().getReference().child("Eating").child(key).setValue(eatting).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getApplicationContext(), "식단표가 추가되었습니다.", Toast.LENGTH_LONG).show();

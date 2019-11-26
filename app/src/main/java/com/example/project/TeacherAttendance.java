@@ -178,6 +178,7 @@ public class TeacherAttendance extends Activity {
                                 Log.d(TAG, msg);
 
                                 Toast.makeText(TeacherAttendance.this, msg, Toast.LENGTH_SHORT).show();
+                                System.out.println(token);
                             }
 
                         });
