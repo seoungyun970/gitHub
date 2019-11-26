@@ -43,7 +43,7 @@ public class TeacherEatting extends AppCompatActivity  {
         setContentView(R.layout.teacher_eatting);
 
         database = FirebaseDatabase.getInstance();
-        eattingdb = database.getReference("Eatting");
+        eattingdb = database.getReference("Eating");
 
         list_recyclerview = (RecyclerView) findViewById(R.id.recycler_eatting);
         list_recyclerview.setLayoutManager(new LinearLayoutManager(TeacherEatting.this));
@@ -134,7 +134,7 @@ public class TeacherEatting extends AppCompatActivity  {
         builder.setMessage("변경할 내용을 입력하세요.");
 
         //수정시간
-        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy/MM/dd HH:mm");
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy.MM.dd 식단표");
         Date time = new Date();
         String time1 = format1.format(time);
 

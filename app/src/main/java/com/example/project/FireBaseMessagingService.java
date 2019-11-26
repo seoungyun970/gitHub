@@ -33,6 +33,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 //        Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
+        //포그라운드일때
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 

@@ -3,7 +3,6 @@ package com.example.project;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -38,14 +37,6 @@ public class TeacherMain extends Activity {
     ImageView attendance;
     TextView Username;
 
-    String mCurrentPhotoPath;
-    Uri photoURI;
-    Uri albumURI;
-
-    private static final int MY_PERMISSION_CAMERA = 1111;
-    private static final int REQUEST_TAKE_PHOTO = 2222;
-    private static final int REQUEST_TAKE_ALBUM = 3333;
-    private static final int REQUEST_IMAGE_CROP = 4444;
     private String uid;
     private String url;
     @Override
