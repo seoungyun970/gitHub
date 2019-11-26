@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.project.Parent.ParentMain;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -82,9 +83,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
 
         switch (v.getId()){
-            case R.id.loginBtn: //로그인 버튼
-
-                break;
             case R.id.signupBtn: //회원가입 버튼
                 Intent memintent = new Intent(LoginActivity.this, MembershipPopup.class);
                 startActivity(memintent);
