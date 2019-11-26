@@ -39,7 +39,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 
@@ -48,8 +47,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MembershipPopup extends Activity implements View.OnClickListener {
     String mCurrentPhotoPath; //실제 사진 파일 경로
@@ -79,7 +76,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     ArrayAdapter<String> arrayAdapter;
     static ArrayList<String> arrayIndex = new ArrayList<String>();
     static ArrayList<String> arrayData = new ArrayList<String>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +107,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         progressDialog = new ProgressDialog(this);
         register_checkBtn.setOnClickListener(this);
         profilebtn = (ImageView) findViewById(R.id.profileImgBtn);
-
 
         register_checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,8 +164,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         });
     }
 
-
-
     public void profilebtn(View view) { //프로필 선택사진 눌렸을때  앨범선택 사진촬영 알림창 표시
         checkPermission();
 
@@ -197,7 +190,7 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
 
         new AlertDialog.Builder(this)   //프로필 알림창 표시
                 .setTitle("업로드할 이미지 선택")
-                .setPositiveButton("사진 촬영", cameraListener)
+                //.setPositiveButton("사진 촬영", cameraListener)
                 .setNeutralButton("앨범 선택", albumListener)
                 .setNegativeButton("취소", cancelListener)
                 .show();

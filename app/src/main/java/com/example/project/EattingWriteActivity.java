@@ -166,7 +166,7 @@ public class EattingWriteActivity extends AppCompatActivity implements TimePicke
                                     eatting.third = eattingWritethirdText.getText().toString();
                                     eatting.secondImageUrl = imageUrl2.getResult().toString();
 
-                                    FirebaseDatabase.getInstance().getReference().child("Eatting").child(key).setValue(eatting);
+                                    FirebaseDatabase.getInstance().getReference().child("Eating").child(key).setValue(eatting);
                                 }
                             });
                             storageRef3.putFile(albumURI3).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {

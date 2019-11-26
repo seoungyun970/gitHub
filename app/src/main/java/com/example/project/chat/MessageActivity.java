@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.project.Model.Chat;
 import com.example.project.Model.User;
-import com.example.project.NotificationModel;
+import com.example.project.Model.NotificationModel;
 import com.example.project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -132,8 +132,8 @@ public class MessageActivity extends AppCompatActivity {
 
         Request request = new Request.Builder()
                 .header("Content-Type","application/json")
-                .addHeader("Authorization","key=AIzaSyDNFs9vhpZQzQ3VeMXojsAJIId2Z7aj_Xk")
-                .url("https://gcm-http.googleapis.com/gcm/send")
+                .addHeader("Authorization","key=AIzaSyAVIyBKVPVxpUupoh9qjZx6qYTfnJaosJ8")
+                .url(" https://fcm.googleapis.com/fcm/send")
                 .post(requestBody)
                 .build();
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -151,7 +151,6 @@ public class MessageActivity extends AppCompatActivity {
 
 
     }
-
     void  checkChatRoom(){
 
         FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {

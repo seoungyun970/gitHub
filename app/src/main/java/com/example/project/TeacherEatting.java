@@ -2,16 +2,12 @@ package com.example.project;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.FeatureInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.project.Holder.EattingViewHolder;
 import com.example.project.Model.Eatting;
-import com.example.project.Model.Notice;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -139,7 +134,7 @@ public class TeacherEatting extends AppCompatActivity  {
         builder.setMessage("변경할 내용을 입력하세요.");
 
         //수정시간
-        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분");
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy/MM/dd HH:mm");
         Date time = new Date();
         String time1 = format1.format(time);
 
