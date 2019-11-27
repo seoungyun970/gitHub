@@ -211,7 +211,6 @@ public class TeacherAlbum extends AppCompatActivity{
                             }
                         });
                     } //포문end
-
                     Toast.makeText(this, "사진업로드 성공", Toast.LENGTH_SHORT).show();
                 }
             }//리절트 ok end

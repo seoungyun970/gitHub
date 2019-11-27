@@ -68,7 +68,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
     RadioGroup rgroup_job;
     RadioButton reg_Parent;
     RadioButton reg_Teacher;
-    RadioButton reg_Head;
     Button register_checkBtn;
     ProgressDialog progressDialog;
 
@@ -101,7 +100,6 @@ public class MembershipPopup extends Activity implements View.OnClickListener {
         register_name = (EditText) findViewById(R.id.register_name);
         reg_Parent = (RadioButton) findViewById(R.id.reg_Parent);
         reg_Teacher = (RadioButton) findViewById(R.id.reg_Teacher);
-        reg_Head = (RadioButton) findViewById(R.id.reg_Head);
         rgroup_job = (RadioGroup)findViewById(R.id.rgroup_job);
         register_checkBtn = (Button) findViewById(R.id.register_checkBtn);
         progressDialog = new ProgressDialog(this);
