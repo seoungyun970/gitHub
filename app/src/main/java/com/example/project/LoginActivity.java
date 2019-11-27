@@ -39,8 +39,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         loginBtn.setOnClickListener(this);
-
-
     }
 
     private void userLogin(){
@@ -113,10 +111,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 startActivity(memintent);
                 break;
 
-            case R.id.naverBtn: //네이버 버튼
-
-                break;
-            case R.id.kakaoBtn: //카카오 버튼
+            case R.id.facebookBtn: //네이버 버튼
 
                 break;
 

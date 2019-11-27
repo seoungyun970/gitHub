@@ -119,7 +119,9 @@
             android:label="@string/title_album" />
         <activity android:name=".TeacherAttendance" />
         <activity android:name=".TeacherAttendanceResult" />
-        <activity android:name=".AttendanceActivity" />
+        <activity android:name=".AttendanceActivity"
+            android:theme="@style/TeacherTheme"
+            android:label="@string/title_attendance"/>
 <!--        <service-->
 <!--            android:name=".MyFirebaseInstanceIDService">-->
 <!--            <intent-filter>-->
