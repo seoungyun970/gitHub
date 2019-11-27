@@ -147,7 +147,7 @@ public class TeacherAttendance extends Activity {
                     User checkBox=iusers.get(i);
                     if(checkBox.isCheckBox()==true){
                         System.out.println(iusers.get(i).getUsername());
-//                        Log.d("이메일 : ", iusers.get(i).getEmail());
+                        Log.d("이메일 : ", iusers.get(i).getEmail());
                         Log.d("토큰 : ", iusers.get(i).getPushToken());
                         String token = iusers.get(i).getPushToken();
                         String title = "돌보미어린이집입니다.";
