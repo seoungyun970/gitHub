@@ -31,7 +31,7 @@ public class ParentEatting extends AppCompatActivity {
         setContentView(R.layout.parent_eatting);
 
         database = FirebaseDatabase.getInstance();
-        eattingdb = database.getReference("Eatting");
+        eattingdb = database.getReference("Eating");
 
         list_recyclerview = (RecyclerView) findViewById(R.id.parent_recycler_eatting);
         list_recyclerview.setLayoutManager(new LinearLayoutManager(ParentEatting.this));
