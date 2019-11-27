@@ -1,6 +1,7 @@
 package com.example.project;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -27,8 +28,13 @@ import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class TeacherTmap extends AppCompatActivity {
     TMapView tMapView;
@@ -102,39 +108,50 @@ public class TeacherTmap extends AppCompatActivity {
 
 
             }
-            TMapPoint tMapPointStart = new TMapPoint(latitude, longitude); // 현재위치(출발지)
-            TMapPoint tMapPointEnd = new TMapPoint(35.857742, 128.620717); // 유치원
+            final TMapPoint tMapPointStart = new TMapPoint(latitude, longitude); // 현재위치(출발지)
+            final TMapPoint tMapPointEnd = new TMapPoint(35.857742, 128.620717); // 유치원
 
 
             try {
                 AsyncTask<String, Void, TeacherTmap> asyncTask = new AsyncTask<String, Void, TeacherTmap>() {
 
+                    @SuppressLint("WrongThread")
                     @Override
                     protected TeacherTmap doInBackground(String... url) {
                         // 때력박는다.
+                        TMapPolyLine tMapPolyLine = null;
+                        try {
+                            tMapPolyLine = new TMapData().findPathData(tMapPointStart, tMapPointEnd);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ParserConfigurationException e) {
+                            e.printStackTrace();
+                        } catch (SAXException e) {
+                            e.printStackTrace();
+                        }
+                        tMapPolyLine.setLineColor(Color.BLUE);
+                        tMapPolyLine.setLineWidth(2);
+                        tMapView.addTMapPolyLine("Line1", tMapPolyLine);
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+                        TMapData tMapData = new TMapData();
+                        tMapData.findPathData(tMapPointStart, tMapPointEnd, new TMapData.FindPathDataListenerCallback() {
+                            @Override
+                            public void onFindPathData(TMapPolyLine tMapPolyLine) {
+                                Log.d("test", "거리 :" + tMapPolyLine.getDistance());
+                                ((TextView)findViewById(R.id.tmaptextv)).setText("총 거리 : "+String.format("%.2f",tMapPolyLine.getDistance()/1000)+"KM");
+                                ((TextView)findViewById(R.id.tmaptime)).setText("도착예정 시간: "+String.format("%.0f",tMapPolyLine.getDistance()/1000/60*50)+"분입니다.");
+                            }
+                        });
+
+                        StrictMode.setThreadPolicy(policy);
                         return null;
                     }
                 };
 
                 asyncTask.execute().get(); // 쓰래드 run 같은 느낌
 
-                TMapPolyLine tMapPolyLine = new TMapData().findPathData(tMapPointStart, tMapPointEnd);
-                tMapPolyLine.setLineColor(Color.BLUE);
-                tMapPolyLine.setLineWidth(2);
-                tMapView.addTMapPolyLine("Line1", tMapPolyLine);
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
-                TMapData tMapData = new TMapData();
-                tMapData.findPathData(tMapPointStart, tMapPointEnd, new TMapData.FindPathDataListenerCallback() {
-                    @Override
-                    public void onFindPathData(TMapPolyLine tMapPolyLine) {
-                        Log.d("test", "거리 :" + tMapPolyLine.getDistance());
-                        ((TextView)findViewById(R.id.tmaptextv)).setText("총 거리 : "+String.format("%.2f",tMapPolyLine.getDistance()/1000)+"KM");
-                        ((TextView)findViewById(R.id.tmaptime)).setText("도착예정 시간: "+String.format("%.0f",tMapPolyLine.getDistance()/1000/60*50)+"분입니다.");
-                    }
-                });
-
-                StrictMode.setThreadPolicy(policy);
 
                 //메인쓰레드 처리작업 비동기화 방식으로 변경
 
@@ -162,6 +179,7 @@ public class TeacherTmap extends AppCompatActivity {
 
 
     public void setGps() {
+
         final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
