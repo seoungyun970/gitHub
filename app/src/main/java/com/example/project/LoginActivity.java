@@ -39,8 +39,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         loginBtn.setOnClickListener(this);
-
-
     }
 
     private void userLogin(){
