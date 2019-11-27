@@ -137,9 +137,6 @@ public class TeacherAttendance extends Activity {
         // set the adapter object to the Recyclerview
 //        list_recyclerview.setAdapter(mAdapter);
 
-
-
-
         attendance_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -210,12 +207,10 @@ public class TeacherAttendance extends Activity {
 //                NotificationManager notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 //                notificationManager.notify(1,builder.build());
 
+                Intent intent=new Intent(TeacherAttendance.this, TeacherMain.class);
+                startActivity(intent);
             }
-
         });
 //        sendGcm();
-
-
     }
-
 }
