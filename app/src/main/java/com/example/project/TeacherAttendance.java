@@ -176,7 +176,7 @@ public class TeacherAttendance extends Activity {
                                 String msg = getString(R.string.msg_token_fmt, token);
                                 Log.d(TAG, msg);
 
-                                Toast.makeText(TeacherAttendance.this, msg, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TeacherAttendance.this, "알림을 보냈습니다.", Toast.LENGTH_SHORT).show();
                                 System.out.println(token);
                             }
 
