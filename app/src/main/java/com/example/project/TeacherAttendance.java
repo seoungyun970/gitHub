@@ -91,8 +91,10 @@ public class TeacherAttendance extends Activity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
         attendanceitem_textview=findViewById(R.id.attendanceitem_textview);
         attendance_save=findViewById(R.id.attendance_save);
+
         datePickerDialog = new DatePickerDialog(TeacherAttendance.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override

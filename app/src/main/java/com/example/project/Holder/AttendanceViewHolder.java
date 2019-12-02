@@ -24,8 +24,7 @@ public class AttendanceViewHolder {
 
     private Context mContext;
     private UserAdapter userAdapter;
-
-
+    private String parent="학부모";
 
     public void setConfig(RecyclerView recyclerView,Context context,List<User> users,List<String> keys){
         mContext=context;
@@ -49,7 +48,6 @@ public class AttendanceViewHolder {
 
         public void bind(User user, String key) {
             attendanceitem_textview.setText(user.getUsername());
-
             this.key = key;
         }
 
@@ -61,35 +59,32 @@ public class AttendanceViewHolder {
             public UserAdapter(List<User> userList, List<String> mkeys) {
                 this.userList = userList;
                 this.mkeys = mkeys;
-
-
             }
 
             @NonNull
             @Override
             public UserItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
                 return new UserItemView(parent);
             }
 
             @Override
             public void onBindViewHolder(@NonNull UserItemView holder, int position) {
                 final int pos = position;
-                holder.attendance_checkBox.setChecked(userList.get(position).isCheckBox());
-                holder.attendance_checkBox.setTag(userList.get(position));
-                holder.bind(userList.get(position),mkeys.get(position));
-                Glide.with(holder.attendanceitem_imageview.getContext())
-                        .load(userList.get(position).profileImageUrl)
-                        .apply(new RequestOptions())
-                        .into(holder.attendanceitem_imageview);
-                holder.attendance_checkBox.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        CheckBox attendance_checkBox = (CheckBox) view;
-                        User contact = (User) attendance_checkBox.getTag();
-                        contact.setCheckBox(attendance_checkBox.isChecked());
-                        userList.get(pos).setCheckBox(attendance_checkBox.isChecked());
-                    }
-                });
+                    holder.attendance_checkBox.setChecked(userList.get(position).isCheckBox());
+                    holder.attendance_checkBox.setTag(userList.get(position));
+                    holder.bind(userList.get(position),mkeys.get(position));
+                    Glide.with(holder.attendanceitem_imageview.getContext())
+                            .load(userList.get(position).profileImageUrl)
+                            .apply(new RequestOptions())
+                            .into(holder.attendanceitem_imageview);
+                    holder.attendance_checkBox.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            CheckBox attendance_checkBox = (CheckBox) view;
+                            User contact = (User) attendance_checkBox.getTag();
+                            contact.setCheckBox(attendance_checkBox.isChecked());
+                            userList.get(pos).setCheckBox(attendance_checkBox.isChecked());
+                        }
+                    });
             }
 
             @Override
@@ -100,11 +95,5 @@ public class AttendanceViewHolder {
         public List<User> userList() {
             return userList;
         }
-        }
-
-
-
-
-
-
+    }
 }
