@@ -110,11 +110,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 Intent memintent = new Intent(LoginActivity.this, MembershipPopup.class);
                 startActivity(memintent);
                 break;
-
-            case R.id.facebookBtn: //카카오 버튼
-
-                break;
-
         }
     }
 
