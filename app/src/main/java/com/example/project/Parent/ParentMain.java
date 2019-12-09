@@ -134,6 +134,11 @@ public class ParentMain extends Activity {
                 Intent intentAlbum = new Intent(ParentMain.this, ParentAlbum.class);
                 startActivity(intentAlbum);
                 break;
+
+            case R.id.setting:
+                Intent se = new Intent(ParentMain.this, ParentSetting.class);
+                startActivity(se);
+                break;
         }
     }
 

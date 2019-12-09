@@ -151,6 +151,8 @@
             android:name=".Parent.ParentNotice"
             android:label="@string/title_notice" />
         <activity android:name=".Parent.ParentCustomCalendarActivity" />
+        <activity android:name=".Parent.ParentSetting"
+            android:theme="@style/TeacherTheme"></activity>
     </application>
 
 </manifest>
