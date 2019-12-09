@@ -39,8 +39,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         loginBtn.setOnClickListener(this);
-
-
     }
 
     private void userLogin(){
@@ -112,8 +110,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 Intent memintent = new Intent(LoginActivity.this, MembershipPopup.class);
                 startActivity(memintent);
                 break;
-
-
 
         }
     }
